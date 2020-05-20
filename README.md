@@ -18,3 +18,18 @@
 1. `wiby` will create a JSON file (`wiby-v2.1.0.json`) which contains the links of dependent PRs that have been opened.
 1. `wiby result` will loop through the run file (`wiby-v2.1.0.json`) and interact with the GitHub Checks API to determine whether the tests have passed.
    - `wiby result` is a separate command as it is expected that tests will take some time to complete.
+
+# wiby.json
+
+Draft `wiby.json`
+
+```json
+{
+    "express": "all",
+    "express-session": "rc"
+    ...
+}
+```
+
+- all: wiby will open PRs in all cases
+- rc: wiby will open PRs on release candidates that the module will be automatically upgraded to only.
