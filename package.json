@@ -1,0 +1,29 @@
+{
+  "name": "wiby",
+  "version": "0.1.0",
+  "description": "Will I Break You?",
+  "bin": {
+    "wiby":"bin/wiby.js"
+  },
+  "main": "bin/wiby.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkgjs/wiby.git"
+  },
+  "author": "@pkgjs",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/pkgjs/wiby/issues"
+  },
+  "homepage": "https://github.com/pkgjs/wiby#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "tap": "^14.10.7"
+  }
+}
