@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "description": "Will I Break You?",
   "bin": {
-    "wiby":"bin/wiby.js"
+    "wiby": "bin/wiby.js"
   },
   "main": "bin/wiby.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "lint": "./node_modules/standard/bin/cmd.js",
     "test": "tap"
   },
   "repository": {
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/pkgjs/wiby#readme",
   "dependencies": {},
   "devDependencies": {
+    "standard": "^14.3.4",
     "tap": "^14.10.7"
   }
 }
