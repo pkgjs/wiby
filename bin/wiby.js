@@ -1,12 +1,26 @@
 #!/usr/bin/env node
 
+require('dotenv').config()
 const test = require('../lib/test')
 const result = require('../lib/result')
 
-if (process.argv[2] === 'test') {
-  test()
+const args = require('yargs')
+  .option('test', {
+    alias: 't',
+    describe: 'Test your dependents'
+  })
+  .option('result', {
+    alias: 'r',
+    describe: 'Get the result of your tests'
+  })
+  .argv
+
+if (args.test) {
+  test(args.test)
 }
 
-if (process.argv[2] === 'result') {
+if (args.result) {
   result()
 }
+
+// Usage: wiby --test URL

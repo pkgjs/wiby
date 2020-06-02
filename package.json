@@ -23,7 +23,13 @@
     "url": "https://github.com/pkgjs/wiby/issues"
   },
   "homepage": "https://github.com/pkgjs/wiby#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@octokit/graphql": "^4.5.0",
+    "@octokit/rest": "^17.9.2",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0",
+    "yargs": "^15.3.1"
+  },
   "devDependencies": {
     "standard": "^14.3.4",
     "tap": "^14.10.7"
