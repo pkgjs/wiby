@@ -1,0 +1,19 @@
+{
+  "name": "do-you-pass",
+  "version": "1.0.0",
+  "description": "Does i-should-pass pass?",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Andrew Hughes",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/andrewhughes101/do-you-pass",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewhughes101/do-you-pass.git"
+  },
+  "dependencies": {
+    "i-should-pass": "^1.0.0"
+  }
+}
