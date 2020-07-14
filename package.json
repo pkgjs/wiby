@@ -27,6 +27,7 @@
     "@octokit/graphql": "^4.5.0",
     "@octokit/rest": "^17.9.2",
     "dotenv": "^8.2.0",
+    "git-url-parse": "^11.1.2",
     "node-fetch": "^2.6.0",
     "yargs": "^15.3.1"
   },
