@@ -3,7 +3,6 @@ const fs = require('fs').promises
 const tap = require('tap')
 const path = require('path')
 const CONFIG = require('./fixtures/config')
-const localPkg = require('./fixtures/package.json')
 const pkgTest = require('../lib/test')
 
 tap.test('Test correct sha returned for a GitHub repository', async tap => {
