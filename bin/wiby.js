@@ -3,24 +3,34 @@
 require('dotenv').config()
 const test = require('../lib/test')
 const result = require('../lib/result')
+const yargs = require('yargs')
 
-const args = require('yargs')
-  .option('test', {
-    alias: 't',
-    describe: 'Test your dependents'
-  })
-  .option('result', {
-    alias: 'r',
-    describe: 'Get the result of your tests'
-  })
+yargs
+  .command(
+    'test',
+    'Test your dependents',
+    (yargs) => {
+      yargs
+        .option('dependent', {
+          desc: 'URL of a dependent',
+          demandOption: true,
+          type: 'string'
+        })
+    },
+    (argv) => {
+      test(argv.dependent)
+    }
+  )
+  .command(
+    'result',
+    'Fetch the results of your tests',
+    () => {},
+    () => {
+      result()
+    }
+  )
+  .help()
+  .strict()
   .argv
 
-if (args.test) {
-  test(args.test)
-}
-
-if (args.result) {
-  result()
-}
-
-// Usage: wiby --test URL
+// Usage: wiby test --dependent=URL
