@@ -20,7 +20,7 @@ tap.test('commit url created from github org repo and commit sha', async tap => 
 })
 
 tap.test('Local package.json returned correctly', async tap => {
-  const pkgPath = path.join(__dirname, '/fixtures/package.json')
+  const pkgPath = path.join(__dirname, 'fixtures', 'pass', 'package.json')
   const expectedPackageJSON = await fs.readFile(pkgPath)
   tap.looseEqual(await pkgTest.getLocalPackageJSON(pkgPath), JSON.parse(expectedPackageJSON))
 })
