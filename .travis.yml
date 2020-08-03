@@ -7,14 +7,11 @@ node_js:
 
 env:
   - TESTS=true
-  - LINT=true
 
 jobs:
   fast_finish: true
-  exclude:
-    - node_js: 10
-      env: LINT=true
-    - node_js: 12
+  include:
+    - node_js: 14
       env: LINT=true
 
 script:
