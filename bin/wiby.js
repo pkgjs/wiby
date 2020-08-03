@@ -33,7 +33,10 @@ yargs
         })
     },
     (argv) => {
-      result(argv.dependent)
+      result(argv.dependent).catch(e => {
+        console.error(e)
+        process.exitCode = e.code || 1
+      })
     }
   )
   .help()
