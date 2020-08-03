@@ -31,6 +31,6 @@ yargs
   )
   .help()
   .strict()
-  .argv
+  .parse()
 
 // Usage: wiby test --dependent=URL
