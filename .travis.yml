@@ -11,7 +11,7 @@ env:
 jobs:
   fast_finish: true
   include:
-    - node_js: 14
+    - node_js: lts/*
       env: LINT=true
 
 script:
