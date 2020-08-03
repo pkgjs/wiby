@@ -10,8 +10,10 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "./node_modules/standard/bin/cmd.js",
-    "test": "tap"
+    "lint": "standard",
+    "pretest": "npm run lint",
+    "test": "npm run tests-only",
+    "tests-only": "tap"
   },
   "repository": {
     "type": "git",
