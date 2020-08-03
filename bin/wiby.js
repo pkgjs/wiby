@@ -24,9 +24,16 @@ yargs
   .command(
     'result',
     'Fetch the results of your tests',
-    () => {},
-    () => {
-      result()
+    (yargs) => {
+      yargs
+        .option('dependent', {
+          desc: 'URL of a dependent',
+          demandOption: true,
+          type: 'string'
+        })
+    },
+    (argv) => {
+      result(argv.dependent)
     }
   )
   .help()
@@ -34,3 +41,4 @@ yargs
   .parse()
 
 // Usage: wiby test --dependent=URL
+// Usage: wiby result --dependent=URL
