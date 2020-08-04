@@ -25,7 +25,7 @@
   "homepage": "https://github.com/pkgjs/wiby#readme",
   "dependencies": {
     "@octokit/graphql": "^4.5.0",
-    "@octokit/rest": "^17.9.2",
+    "@octokit/rest": "^17.11.2",
     "dotenv": "^8.2.0",
     "git-url-parse": "^11.1.2",
     "node-fetch": "^2.6.0",
