@@ -1,0 +1,17 @@
+{
+  "name": "@wiby-test/pass",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A dependent of `wiby` which always passes the tests",
+  "scripts": {
+    "test": "true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiby-test/pass.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "wiby": "*"
+  }
+}

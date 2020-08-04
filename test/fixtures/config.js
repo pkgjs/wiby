@@ -1,48 +1,16 @@
-module.exports.DEP_URL = 'https://github.com/andrewhughes101/do-you-pass'
-module.exports.PKGJSON = {
-  name: 'do-you-pass',
-  version: '1.0.0',
-  description: 'Does i-should-pass pass?',
-  main: 'index.js',
-  scripts: {
-    test: 'node test.js'
-  },
-  author: 'Andrew Hughes',
-  license: 'Apache-2.0',
-  homepage: 'https://github.com/andrewhughes101/do-you-pass',
-  repository: {
-    type: 'git',
-    url: 'https://github.com/andrewhughes101/do-you-pass.git'
-  },
-  dependencies: {
-    'i-should-pass': '^1.0.0'
-  }
-}
-module.exports.PATCHED_PKGJSON = {
-  name: 'do-you-pass',
-  version: '1.0.0',
-  description: 'Does i-should-pass pass?',
-  main: 'index.js',
-  scripts: {
-    test: 'node test.js'
-  },
-  author: 'Andrew Hughes',
-  license: 'Apache-2.0',
-  homepage: 'https://github.com/andrewhughes101/do-you-pass',
-  repository: {
-    type: 'git',
-    url: 'https://github.com/andrewhughes101/do-you-pass.git'
-  },
-  dependencies: {
-    'i-should-pass': 'andrewhughes101/i-should-pass#ec218ed4d7bd085c4aa3d94c2f86a43470754816'
-  }
-}
-module.exports.PATCH = 'andrewhughes101/i-should-pass#ec218ed4d7bd085c4aa3d94c2f86a43470754816'
-module.exports.PKG_NAME = 'i-should-pass'
-module.exports.PKG_REPO = 'i-should-pass'
-module.exports.PKG_ORG = 'andrewhughes101'
-module.exports.DEP_REPO = 'do-you-pass'
-module.exports.DEP_ORG = 'andrewhughes101'
-module.exports.PKG_HEAD_SHA = 'ec218ed4d7bd085c4aa3d94c2f86a43470754816'
-module.exports.LOCAL = 'i-should-pass'
+module.exports.PKGJSON = require('./pass/package.json')
+module.exports.PATCHED_PKGJSON = Object.assign({}, module.exports.PKGJSON, {
+  dependencies: Object.assign(
+    {},
+    module.exports.PKGJSON.dependencies,
+    { wiby: 'pkgjs/wiby#577c08e8fd5e1b3156ce75b2e5d9e3023dac180e' }
+  )
+})
+module.exports.PATCH = 'pkgjs/wiby#577c08e8fd5e1b3156ce75b2e5d9e3023dac180e'
+module.exports.PKG_NAME = 'wiby'
+module.exports.PKG_REPO = 'wiby'
+module.exports.PKG_ORG = 'pkgjs'
+module.exports.DEP_REPO = 'pass'
+module.exports.DEP_ORG = 'wiby-test'
+module.exports.PKG_HEAD_SHA = '577c08e8fd5e1b3156ce75b2e5d9e3023dac180e'
 module.exports.DEP_REPO_PERM = 'ADMIN'
