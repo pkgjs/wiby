@@ -6,7 +6,7 @@ const CONFIG = require('./fixtures/config')
 const pkgTest = require('../lib/test')
 
 tap.test('Test correct sha returned for a GitHub repository', async tap => {
-  tap.equal(await pkgTest.getCommitHash(CONFIG.PKG_ORG, CONFIG.PKG_REPO), CONFIG.PKG_HEAD_SHA)
+  tap.equal(await pkgTest.getCommitHash(CONFIG.DEP_ORG, CONFIG.DEP_REPO), CONFIG.DEP_HEAD_SHA)
 })
 
 tap.test('Check if the dependency is listed in the package.json', tap => {
