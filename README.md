@@ -8,7 +8,7 @@ This repository is managed by the [Package Maintenance Working Group](https://gi
 
 ### Github Token
 
-Wiby requires an environment variable `GITHUB_TOKEN` set to a github access token.
+Wiby requires an environment variable `GITHUB_TOKEN` set to a Github access token. This token needs to be granted push permissions to the dependent repos.
 
 Example: `export GITHUB_TOKEN=XXXXX`
 
@@ -16,18 +16,22 @@ For more information on creating a github token see [Github's docs](https://docs
 
 ### Running location
 
-Wiby is designed to be run from inside the folder containing your source code.
+Wiby is designed to be run from inside the folder containing your source code. This folder needs to be a git repository with a `package.json` that contains information about the packages source on Github.
+Example:
+
+```
+{
+...
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ORGNAME/REPONAME.git"
+  }
+...
+}
+```
 
 ## Available commands
 
-### test
+  [wiby test](./USAGE.md#wiby-test)    Test your dependents
 
-usage: `wiby test --dependent=URL_TO_DEPENDENT`
-
-Use this command to test your breaking changes against any one of your dependent. Wiby will go off to the dependents repo and create a branch with a patch to the `package.json` pointing to your latest version (with the new changes) triggering the dependents CI to run.
-
-### result
-
-usage: `wiby result --dependent=URL_TO_DEPENDENT`
-
-Use this command to fetch the results of your latest test against a dependent.
+  [wiby result](./USAGE.md#wiby-result) Fetch the results of your tests
