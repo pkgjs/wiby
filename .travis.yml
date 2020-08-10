@@ -5,5 +5,18 @@ node_js:
   - "12"
   - "10"
 
+env:
+  - TESTS=true
+
+jobs:
+  fast_finish: true
+  include:
+    - node_js: lts/*
+      env: LINT=true
+
+script:
+  - 'if [ -n "${LINT-}" ]; then npm run pretest ; fi'
+  - 'if [ -n "${TESTS-}" ]; then npm run tests-only ; fi'
+
 cache:
   npm: false
