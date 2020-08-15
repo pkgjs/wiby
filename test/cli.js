@@ -11,7 +11,7 @@ tap.test('test command', async (tap) => {
       childProcess.execSync(`${wibyCommand} test`, { cwd: cwd }).toString()
       tap.fail()
     } catch (err) {
-      tap.equal(true, err.message.indexOf('Missing required argument: dependent') > 0)
+      tap.equal(true, err.message.includes('Missing required argument: dependent'))
     }
   })
 
@@ -23,7 +23,7 @@ tap.test('test command', async (tap) => {
       }
     }).toString()
 
-    tap.equal(true, result.indexOf('Changes pushed to https://github.com/fakeOrg/fakeRepo/blob/wiby-wiby/package.json') > 0)
+    tap.equal(true, result.includes('Changes pushed to https://github.com/fakeOrg/fakeRepo/blob/wiby-wiby/package.json'))
   })
 })
 
@@ -33,7 +33,7 @@ tap.test('result command', async (tap) => {
       childProcess.execSync(`${wibyCommand} result`, { cwd: cwd }).toString()
       tap.fail()
     } catch (err) {
-      tap.equal(true, err.message.indexOf('Missing required argument: dependent') > 0)
+      tap.equal(true, err.message.includes('Missing required argument: dependent'))
     }
   })
 
@@ -45,7 +45,7 @@ tap.test('result command', async (tap) => {
       }
     }).toString()
 
-    tap.equal(true, result.indexOf("[ 'fake_run', 'queued' ]") > 0)
-    tap.equal(true, result.indexOf("[ 'fake_run_2', 'fake_conclusion' ]") > 0)
+    tap.equal(true, result.includes("[ 'fake_run', 'queued' ]"))
+    tap.equal(true, result.includes("[ 'fake_run_2', 'fake_conclusion' ]"))
   })
 })
