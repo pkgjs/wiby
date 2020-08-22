@@ -1,9 +1,7 @@
 language: node_js
 
-node_js:
-  - "14"
-  - "12"
-  - "10"
+import:
+  - nodejs/ci-config-travis:lts/gte-10.yml
 
 env:
   - TESTS=true
