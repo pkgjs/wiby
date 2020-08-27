@@ -2,6 +2,7 @@ require('dotenv').config()
 const fs = require('fs').promises
 const tap = require('tap')
 const path = require('path')
+const nock = require('nock')
 const CONFIG = require('./fixtures/config')
 const pkgTest = require('../lib/test')
 
@@ -27,5 +28,48 @@ tap.test('Local package.json returned correctly', async tap => {
 
 tap.test('Check patch applied to package.json successfully', tap => {
   tap.equal(JSON.stringify(pkgTest.applyPatch(CONFIG.PATCH, CONFIG.PKG_NAME, CONFIG.PKGJSON)), JSON.stringify(CONFIG.PATCHED_PKGJSON))
+  tap.end()
+})
+
+tap.test('aplyPatch() checks package exists in dependant package.json', tap => {
+  tap.throws(
+    function () {
+      pkgTest.applyPatch(
+        CONFIG.PATCH,
+        CONFIG.PKG_NAME,
+        {
+          dependencies: {
+            'other-package': '*'
+          }
+        }
+      )
+    },
+    new Error('Dependency not found in package.json')
+  )
+  tap.end()
+})
+
+tap.test('test command checks package exists in dependant package.json', tap => {
+  nock('https://api.github.com', { allowUnmocked: true })
+    // get package json
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        repository: {
+          object: {
+            text: JSON.stringify({
+              dependencies: {
+                'other-package': '*'
+              }
+            })
+          }
+        }
+      }
+    })
+
+  tap.rejects(
+    pkgTest(`https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`),
+    new Error(`pkgjs/wiby not found in the package.json of ${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
+  )
   tap.end()
 })

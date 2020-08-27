@@ -48,4 +48,17 @@ tap.test('result command', async (tap) => {
     tap.equal(true, result.includes("[ 'fake_run', 'queued' ]"))
     tap.equal(true, result.includes("[ 'fake_run_2', 'fake_conclusion' ]"))
   })
+
+  tap.test('result command handles empty response from github.getChecks()', tap => {
+    const result = childProcess.execSync(`${wibyCommand} result --dependent="https://github.com/fakeOrg/fakeRepo"`, {
+      cwd: cwd,
+      env: {
+        NODE_OPTIONS: '-r ./test/fixtures/http/result-command-empty-branch-checks.js'
+      }
+    }).toString()
+
+    tap.equal(true, result.includes("[ 'fake_run', 'queued' ]"))
+    tap.equal(true, result.includes("[ 'fake_run_2', 'fake_conclusion' ]"))
+    tap.end()
+  })
 })
