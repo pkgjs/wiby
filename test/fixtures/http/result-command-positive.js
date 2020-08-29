@@ -20,7 +20,7 @@ nock('https://api.github.com', { allowUnmocked: false })
     }
   })
   // get check results
-  .get('/repos/fakeOrg/fakeRepo/commits/wiby-wiby/check-runs')
+  .get('/repos/wiby-test/fakeRepo/commits/wiby-wiby/check-runs')
   .reply(200, {
     check_runs: [
       { status: 'queued', name: 'fake_run' },
