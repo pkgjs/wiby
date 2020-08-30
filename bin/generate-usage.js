@@ -25,15 +25,15 @@ const getGeneralHelpOutput = () => {
 }
 
 /**
- * Parses commnds list block ands retunr array of commands names
+ * Parses commands list block ands returns array of commands names
  */
 const parseCommandsListOutput = (commandsOutput) => {
-  // parse commads list
+  // parse commands list
   const re = /wiby\.js ([\w]+)/g
   const commandsList = []
-  let comandsParseResult
-  while ((comandsParseResult = re.exec(commandsOutput)) !== null) {
-    commandsList.push(comandsParseResult[1])
+  let commandsParseResult
+  while ((commandsParseResult = re.exec(commandsOutput)) !== null) {
+    commandsList.push(commandsParseResult[1])
   }
 
   return commandsList
@@ -43,7 +43,7 @@ const parseCommandsListOutput = (commandsOutput) => {
  * Calls --help option for each command and returns
  * array of Maps with command name and help output
  */
-const getComandsHelp = (commandsList) => {
+const getCommandsHelp = (commandsList) => {
   // get help for each command
   const commandsHelp = []
   commandsList.map((command) => {
@@ -63,7 +63,6 @@ const getComandsHelp = (commandsList) => {
  * Generates new markdown for USAGE page
  */
 const generateUsageMd = (commandsData) => {
-  // generage md
   let usageMd = ''
   commandsData.map((command) => {
     usageMd += `
@@ -72,7 +71,7 @@ const generateUsageMd = (commandsData) => {
 \`\`\`
 ${command.get('help')}
 \`\`\`
-  `
+`
   })
 
   return usageMd
@@ -80,7 +79,7 @@ ${command.get('help')}
 
 const commandsList = getGeneralHelpOutput()
 const commandsListParsed = parseCommandsListOutput(commandsList)
-const commandsHelp = getComandsHelp(commandsListParsed)
+const commandsHelp = getCommandsHelp(commandsListParsed)
 const resultMd = generateUsageMd(commandsHelp)
 
 // write result to USAGE.md
