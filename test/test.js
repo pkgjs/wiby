@@ -8,7 +8,7 @@ const pkgTest = require('../lib/test')
 
 tap.test('Test correct sha returned for a GitHub repository', async tap => {
   tap.equal(await pkgTest.getCommitHash(CONFIG.DEP_ORG, CONFIG.DEP_REPO), CONFIG.DEP_HEAD_SHA)
-})
+}, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('Check if the dependency is listed in the package.json', tap => {
   tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_NAME, CONFIG.PKGJSON), true)
@@ -18,7 +18,7 @@ tap.test('Check if the dependency is listed in the package.json', tap => {
 
 tap.test('commit url created from github org repo and commit sha', async tap => {
   tap.equal(await pkgTest.getCommitURL(CONFIG.PKG_ORG, CONFIG.PKG_NAME, CONFIG.PKG_HEAD_SHA), CONFIG.PATCH)
-})
+}, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('Local package.json returned correctly', async tap => {
   const pkgPath = path.join(__dirname, 'fixtures', 'pass', 'package.json')
@@ -31,7 +31,7 @@ tap.test('Check patch applied to package.json successfully', tap => {
   tap.end()
 })
 
-tap.test('aplyPatch() checks package exists in dependant package.json', tap => {
+tap.test('applyPatch() checks package exists in dependant package.json', tap => {
   tap.throws(
     function () {
       pkgTest.applyPatch(
