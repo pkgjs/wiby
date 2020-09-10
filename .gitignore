@@ -115,6 +115,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# lock files
-yarn.lock
+# Only apps should have lockfiles
+npm-shrinkwrap.json
 package-lock.json
+yarn.lock
