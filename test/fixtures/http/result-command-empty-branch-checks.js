@@ -1,5 +1,5 @@
 /**
- * Mocks of HTTP calls for "wiby result" command positive flow
+ * Mocks of HTTP calls for "wiby result" command flow with empty response from check-runs
  */
 const nock = require('nock')
 
@@ -21,6 +21,13 @@ nock('https://api.github.com', { allowUnmocked: false })
   })
   // get check results
   .get('/repos/wiby-test/fakeRepo/commits/wiby-wiby/check-runs')
+  .reply(200, {
+    check_runs: [
+      // empty checks list
+    ]
+  })
+  // get checks for ref
+  .get('/repos/wiby-test/fakeRepo/commits/wiby-wiby/statuses')
   .reply(200, {
     check_runs: [
       { status: 'queued', name: 'fake_run' },
