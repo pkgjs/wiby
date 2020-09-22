@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "Will I Break You?",
   "bin": {
-    "wiby": "bin/wiby.js"
+    "wiby": "bin/wiby"
   },
-  "main": "bin/wiby.js",
+  "main": "lib/index.js",
   "directories": {
     "test": "test"
   },

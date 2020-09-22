@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
 /**
- * Builds new content for USAGE.md page according to wiby.js --help commands list
+ * Builds new content for USAGE.md page according to wiby --help commands list
  */
 
 const { execSync } = require('child_process')
 const path = require('path')
-const wibyCommand = path.join(__dirname, '..', 'bin', 'wiby.js')
+const wibyCommand = path.join(__dirname, '..', 'bin', 'wiby')
 const cwd = path.join(__dirname, '..')
 const fs = require('fs')
 
 /**
- * Parses wiby.js --help output and returns block with commands list
+ * Parses wiby --help output and returns block with commands list
  */
 const getGeneralHelpOutput = () => {
   const helpOutput = execSync(`${wibyCommand} --help`, { cwd: cwd }).toString()
@@ -29,7 +29,7 @@ const getGeneralHelpOutput = () => {
  */
 const parseCommandsListOutput = (commandsOutput) => {
   // parse commands list
-  const re = /wiby\.js ([\w]+)/g
+  const re = /wiby ([\w]+)/g
   const commandsList = []
   let commandsParseResult
   while ((commandsParseResult = re.exec(commandsOutput)) !== null) {

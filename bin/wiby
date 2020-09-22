@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 require('dotenv').config()
-const test = require('../lib/test')
-const result = require('../lib/result')
+const { test, result } = require('..')
 const yargs = require('yargs')
 
 yargs
