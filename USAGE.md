@@ -1,4 +1,9 @@
-## wiby.js test
+# Usage
+  
+
+## `wiby test`
+
+
 
 Use this command to test your breaking changes against any one of your
 dependents. Wiby will go off to the dependent's repo and create a branch with a
@@ -12,7 +17,10 @@ Options:
   --dependent  URL of a dependent                            [string] [required]
 ```
 
-## wiby.js result
+
+## `wiby result`
+
+
 
 Use this command to fetch the results of your latest test against a dependent.
 Wiby will go off to the dependent's repo and fetch the results of the CI run
@@ -24,3 +32,4 @@ Options:
   --help       Show help                                               [boolean]
   --dependent  URL of a dependent                            [string] [required]
 ```
+

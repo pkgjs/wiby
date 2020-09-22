@@ -59,28 +59,28 @@ const getCommandsHelp = (commandsList) => {
   return commandsHelp
 }
 
+const renderCommand = (command) => {
+  return `
+## \`wiby ${command.get('commandName')}\`
+
+${command.get('help').replace(/^wiby.*$/m, '').replace(/Options:(.+)$/s, '```\n$&\n```')}
+`
+}
+
 /**
  * Generates new markdown for USAGE page
  */
-const generateUsageMd = (commandsData) => {
-  let usageMd = ''
-  commandsData.map((command) => {
-    usageMd += `
-## ${command.get('commandName')}
-
-\`\`\`
-${command.get('help')}
-\`\`\`
+const renderUsage = (commandsData) => {
+  return `# Usage
+  
+${commandsData.map((command) => renderCommand(command)).join('\n')}
 `
-  })
-
-  return usageMd
 }
 
 const commandsList = getGeneralHelpOutput()
 const commandsListParsed = parseCommandsListOutput(commandsList)
 const commandsHelp = getCommandsHelp(commandsListParsed)
-const resultMd = generateUsageMd(commandsHelp)
+const resultMd = renderUsage(commandsHelp)
 
 // write result to USAGE.md
 fs.writeFileSync(path.join(__dirname, '..', 'USAGE.md'), resultMd)
