@@ -2,6 +2,7 @@
 
 require('dotenv').config()
 
+const chalk = require('chalk')
 const yargs = require('yargs')
 
 yargs
@@ -9,4 +10,21 @@ yargs
   .demandCommand()
   .help()
   .strict()
+  .fail((msg, err, yargs) => {
+
+    if (err) {
+      console.error(err);
+    }
+
+    if (msg) {
+      console.error(chalk.red.bold(msg));
+      console.error();
+    }
+
+    if (!err || err.showHelp) {
+      yargs.showHelp();
+    }
+
+    process.exit(1);
+  })
   .parse()
