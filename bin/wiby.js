@@ -40,6 +40,7 @@ yargs
       })
     }
   )
+  .demandCommand()
   .help()
   .strict()
   .parse()
