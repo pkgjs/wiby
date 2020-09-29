@@ -29,7 +29,7 @@ const getGeneralHelpOutput = () => {
  */
 const parseCommandsListOutput = (commandsOutput) => {
   // parse commands list
-  const re = /^  wiby ([\w]+)/gm
+  const re = /^ {2}wiby ([\w]+)/gm
   const commandsList = []
   let commandsParseResult
   while ((commandsParseResult = re.exec(commandsOutput)) !== null) {

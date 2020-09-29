@@ -24,7 +24,7 @@ Options:
 Use this command to test your breaking changes against any one of your
 dependents. wiby will go off to the dependent’s repo and create a branch with a
 patch to the  `package.json` pointing to your latest version (with the new
-changes) triggering the dependents CI to run.
+changes) triggering the dependent’s CI to run.
 
 ```
 Options:
