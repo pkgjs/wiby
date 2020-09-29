@@ -40,5 +40,10 @@
     "nock": "^13.0.3",
     "standard": "^14.3.4",
     "tap": "^14.10.7"
+  },
+  "standard": {
+    "ignore": [
+      "test/fixtures/config"
+    ]
   }
 }
