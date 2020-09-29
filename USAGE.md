@@ -33,3 +33,19 @@ Options:
   --dependent  URL of a dependent                            [string] [required]
 ```
 
+
+## `wiby validate`
+
+
+
+Check the structure of the configuration file.
+
+```
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+  --config   Path to the configuration file. By default it will try to load the
+             configuration from the first file it finds in the current working
+             directory: `.wiby.json`, `.wiby.js`                        [string]
+```
+

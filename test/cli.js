@@ -62,3 +62,11 @@ tap.test('result command', async (tap) => {
     tap.end()
   })
 })
+
+tap.test('validate command', async (tap) => {
+  tap.test('should pass on wiby itself', async (tap) => {
+    const result = childProcess.execSync(`${wibyCommand} validate`, { cwd: cwd }).toString()
+    console.info(result)
+    tap.end()
+  })
+})
