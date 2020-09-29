@@ -18,7 +18,7 @@ const getGeneralHelpOutput = () => {
   const helpParseResult = /(Commands:\n)([\S\s]+)(Options:)/.exec(helpOutput)
 
   if (helpParseResult !== null) {
-    return helpParseResult[2].trim()
+    return helpParseResult[2]
   } else {
     throw new Error('wiby help command parsing failed')
   }
@@ -29,7 +29,7 @@ const getGeneralHelpOutput = () => {
  */
 const parseCommandsListOutput = (commandsOutput) => {
   // parse commands list
-  const re = /wiby ([\w]+)/g
+  const re = /^  wiby ([\w]+)/gm
   const commandsList = []
   let commandsParseResult
   while ((commandsParseResult = re.exec(commandsOutput)) !== null) {

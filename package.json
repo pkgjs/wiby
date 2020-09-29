@@ -13,7 +13,8 @@
     "lint": "standard",
     "pretest": "npm run lint",
     "test": "npm run tests-only",
-    "tests-only": "tap"
+    "tests-only": "tap",
+    "generate-docs": "./bin/generate-usage.js"
   },
   "repository": {
     "type": "git",
