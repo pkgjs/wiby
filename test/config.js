@@ -18,7 +18,20 @@ const validConfigs = [
 ]
 
 tap.test('should pass with the .wiby.json of the wiby itself', (tap) => {
-  wiby.validate({})
+  const normalizedConfig = wiby.validate({})
+  tap.strictSame(normalizedConfig, {
+    dependents: [
+      {
+        repository: 'https://github.com/wiby-test/partial'
+      },
+      {
+        repository: 'git://github.com/wiby-test/fail'
+      },
+      {
+        repository: 'git+https://github.com/wiby-test/pass'
+      }
+    ]
+  })
   tap.end()
 })
 
