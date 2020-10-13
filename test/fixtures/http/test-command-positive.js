@@ -3,61 +3,82 @@
  */
 const nock = require('nock')
 
-nock('https://api.github.com', { allowUnmocked: false })
-  // get package json
-  .post('/graphql')
-  .reply(200, {
-    data: {
-      repository: {
-        object: {
-          text: JSON.stringify({
-            dependencies: {
-              wiby: '*'
-            }
-          })
+function nockPkgjsWiby (nockInstance) {
+  return nockInstance
+    // get package json
+    .post('/graphql')
+    .times(3)
+    .reply(200, {
+      data: {
+        repository: {
+          object: {
+            text: JSON.stringify({
+              dependencies: {
+                wiby: '*'
+              }
+            })
+          }
         }
       }
-    }
-  })
-  // get commit sha
-  .get('/repos/pkgjs/wiby/commits?per_page=1')
-  .reply(200, [
-    {
-      sha: 'fake_sha',
-      commit: {
-        tree: {
-          sha: 'fake_sha'
+    })
+    // get commit sha
+    .get('/repos/pkgjs/wiby/commits?per_page=1')
+    .reply(200, [
+      {
+        sha: 'fake_sha',
+        commit: {
+          tree: {
+            sha: 'fake_sha'
+          }
         }
       }
-    }
-  ])
-  // get dependent commit sha
-  .get('/repos/wiby-test/fakeRepo/commits?per_page=1')
-  .reply(200, [
-    {
-      sha: 'fake_sha',
-      commit: {
-        tree: {
-          sha: 'fake_sha'
+    ])
+}
+
+function nockRepo (nockInstance, repo) {
+  return nockInstance
+    // get dependent commit sha
+    .get(`/repos/wiby-test/${repo}/commits?per_page=1`)
+    .reply(200, [
+      {
+        sha: 'fake_sha',
+        commit: {
+          tree: {
+            sha: 'fake_sha'
+          }
         }
       }
-    }
-  ])
-  // create blob
-  .post('/repos/wiby-test/fakeRepo/git/blobs')
-  .reply(200, {
-    sha: 'fake_sha'
-  })
-  // create tree
-  .post('/repos/wiby-test/fakeRepo/git/trees')
-  .reply(200, {
-    sha: 'fake_sha'
-  })
-  // create commit in dependent
-  .post('/repos/wiby-test/fakeRepo/git/commits')
-  .reply(200, {
-    sha: 'fake_sha'
-  })
-  // create branch in dependent
-  .post('/repos/wiby-test/fakeRepo/git/refs')
-  .reply(200, {})
+    ])
+    // create blob
+    .post(`/repos/wiby-test/${repo}/git/blobs`)
+    .reply(200, {
+      sha: 'fake_sha'
+    })
+    // create tree
+    .post(`/repos/wiby-test/${repo}/git/trees`)
+    .reply(200, {
+      sha: 'fake_sha'
+    })
+    // create commit in dependent
+    .post(`/repos/wiby-test/${repo}/git/commits`)
+    .reply(200, {
+      sha: 'fake_sha'
+    })
+    // create branch in dependent
+    .post(`/repos/wiby-test/${repo}/git/refs`)
+    .reply(200, {})
+}
+
+function buildNock () {
+  let nockInstance = nock('https://api.github.com', { allowUnmocked: false })
+
+  nockInstance = nockPkgjsWiby(nockInstance)
+  nockInstance = nockRepo(nockInstance, 'fakeRepo')
+  nockInstance = nockRepo(nockInstance, 'fail')
+  nockInstance = nockRepo(nockInstance, 'pass')
+  nockInstance = nockRepo(nockInstance, 'partial')
+
+  return nockInstance
+}
+
+buildNock()

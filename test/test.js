@@ -68,7 +68,7 @@ tap.test('test command checks package exists in dependant package.json', tap => 
     })
 
   tap.rejects(
-    pkgTest(`https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`),
+    pkgTest({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }),
     new Error(`pkgjs/wiby not found in the package.json of ${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
   )
   tap.end()
