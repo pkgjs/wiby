@@ -4,10 +4,10 @@
       "repository": "https://github.com/wiby-test/partial"
     },
     {
-      "repository": "https://github.com/wiby-test/fail"
+      "repository": "git://github.com/wiby-test/fail"
     },
     {
-      "repository": "https://github.com/wiby-test/pass"
+      "repository": "git+https://github.com/wiby-test/pass"
     }
   ]
 }
