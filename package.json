@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "Will I Break You?",
   "bin": {
-    "wiby": "bin/wiby.js"
+    "wiby": "bin/wiby"
   },
-  "main": "bin/wiby.js",
+  "main": "lib/index.js",
   "directories": {
     "test": "test"
   },
@@ -13,7 +13,8 @@
     "lint": "standard",
     "pretest": "npm run lint",
     "test": "npm run tests-only",
-    "tests-only": "tap"
+    "tests-only": "tap",
+    "generate-docs": "./bin/generate-usage.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "dependencies": {
     "@octokit/graphql": "^4.5.0",
     "@octokit/rest": "^18.0.0",
+    "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
     "git-url-parse": "^11.1.2",
     "node-fetch": "^2.6.0",

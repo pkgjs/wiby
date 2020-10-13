@@ -1,24 +1,24 @@
 #!/usr/bin/env node
 
 /**
- * Builds new content for USAGE.md page according to wiby.js --help commands list
+ * Builds new content for USAGE.md page according to wiby --help commands list
  */
 
 const { execSync } = require('child_process')
 const path = require('path')
-const wibyCommand = path.join(__dirname, '..', 'bin', 'wiby.js')
+const wibyCommand = path.join(__dirname, '..', 'bin', 'wiby')
 const cwd = path.join(__dirname, '..')
 const fs = require('fs')
 
 /**
- * Parses wiby.js --help output and returns block with commands list
+ * Parses wiby --help output and returns block with commands list
  */
 const getGeneralHelpOutput = () => {
   const helpOutput = execSync(`${wibyCommand} --help`, { cwd: cwd }).toString()
   const helpParseResult = /(Commands:\n)([\S\s]+)(Options:)/.exec(helpOutput)
 
   if (helpParseResult !== null) {
-    return helpParseResult[2].trim()
+    return helpParseResult[2]
   } else {
     throw new Error('wiby help command parsing failed')
   }
@@ -29,7 +29,7 @@ const getGeneralHelpOutput = () => {
  */
 const parseCommandsListOutput = (commandsOutput) => {
   // parse commands list
-  const re = /wiby\.js ([\w]+)/g
+  const re = /^ {2}wiby ([\w]+)/gm
   const commandsList = []
   let commandsParseResult
   while ((commandsParseResult = re.exec(commandsOutput)) !== null) {
@@ -59,28 +59,28 @@ const getCommandsHelp = (commandsList) => {
   return commandsHelp
 }
 
+const renderCommand = (command) => {
+  return `
+## \`wiby ${command.get('commandName')}\`
+
+${command.get('help').replace(/^wiby.*$/m, '').replace(/Options:(.+)$/s, '```\n$&\n```')}
+`
+}
+
 /**
  * Generates new markdown for USAGE page
  */
-const generateUsageMd = (commandsData) => {
-  let usageMd = ''
-  commandsData.map((command) => {
-    usageMd += `
-## ${command.get('commandName')}
-
-\`\`\`
-${command.get('help')}
-\`\`\`
+const renderUsage = (commandsData) => {
+  return `# Usage
+  
+${commandsData.map((command) => renderCommand(command)).join('\n')}
 `
-  })
-
-  return usageMd
 }
 
 const commandsList = getGeneralHelpOutput()
 const commandsListParsed = parseCommandsListOutput(commandsList)
 const commandsHelp = getCommandsHelp(commandsListParsed)
-const resultMd = generateUsageMd(commandsHelp)
+const resultMd = renderUsage(commandsHelp)
 
 // write result to USAGE.md
 fs.writeFileSync(path.join(__dirname, '..', 'USAGE.md'), resultMd)

@@ -2,7 +2,7 @@ const tap = require('tap')
 const childProcess = require('child_process')
 const path = require('path')
 
-const wibyCommand = path.join(__dirname, '..', 'bin', 'wiby.js')
+const wibyCommand = path.join(__dirname, '..', 'bin', 'wiby')
 const cwd = path.join(__dirname, '..')
 
 tap.test('test command', async (tap) => {
