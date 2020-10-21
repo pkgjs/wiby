@@ -50,7 +50,7 @@ tap.test('applyPatch() checks package exists in dependant package.json', tap => 
 })
 
 tap.test('test command checks package exists in dependant package.json', tap => {
-  nock('https://api.github.com', { allowUnmocked: true })
+  nock('https://api.github.com', { allowUnmocked: false })
     // get package json
     .post('/graphql')
     .reply(200, {
@@ -66,6 +66,17 @@ tap.test('test command checks package exists in dependant package.json', tap => 
         }
       }
     })
+    .get('/repos/pkgjs/wiby/commits?per_page=1')
+    .reply(200, [
+      {
+        sha: 'fake_sha',
+        commit: {
+          tree: {
+            sha: 'fake_sha'
+          }
+        }
+      }
+    ])
 
   tap.rejects(
     pkgTest({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }),

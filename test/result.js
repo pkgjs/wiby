@@ -15,7 +15,7 @@ tap.test('Test correct status returned from getResultForEachRun', tap => {
 })
 
 tap.test('result command checks package exists in dependant package.json', tap => {
-  nock('https://api.github.com', { allowUnmocked: true })
+  nock('https://api.github.com', { allowUnmocked: false })
     // get package json
     .post('/graphql')
     .reply(200, {

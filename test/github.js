@@ -9,7 +9,7 @@ tap.test('package.json can be fetched with a valid url', async tap => {
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('getPackageJson() handles NotFound reposiptory error', async tap => {
-  nock('https://api.github.com', { allowUnmocked: true })
+  nock('https://api.github.com', { allowUnmocked: false })
     .post('/graphql')
     .reply(404, {
       errors: [
@@ -24,7 +24,7 @@ tap.test('getPackageJson() handles NotFound reposiptory error', async tap => {
 })
 
 tap.test('getPackageJson() handles general error', async tap => {
-  nock('https://api.github.com', { allowUnmocked: true })
+  nock('https://api.github.com', { allowUnmocked: false })
     .post('/graphql')
     .reply(500)
 
@@ -38,7 +38,7 @@ tap.test('correct permissions returned for GitHub repo', async tap => {
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('getPermissions() handles NotFound reposiptory error', async tap => {
-  nock('https://api.github.com', { allowUnmocked: true })
+  nock('https://api.github.com', { allowUnmocked: false })
     .post('/graphql')
     .reply(404, {
       errors: [
@@ -53,7 +53,7 @@ tap.test('getPermissions() handles NotFound reposiptory error', async tap => {
 })
 
 tap.test('getPermissions() handles general error', async tap => {
-  nock('https://api.github.com', { allowUnmocked: true })
+  nock('https://api.github.com', { allowUnmocked: false })
     .post('/graphql')
     .reply(500)
 
