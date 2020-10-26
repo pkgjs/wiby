@@ -3,7 +3,7 @@
  */
 const nock = require('nock')
 
-nock('https://api.github.com', { allowUnmocked: false })
+nock('https://api.github.com')
   // get package json
   .post('/graphql')
   .times(3)

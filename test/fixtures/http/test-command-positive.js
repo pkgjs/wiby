@@ -70,7 +70,7 @@ function nockRepo (nockInstance, repo) {
 }
 
 function buildNock () {
-  let nockInstance = nock('https://api.github.com', { allowUnmocked: false })
+  let nockInstance = nock('https://api.github.com')
 
   nockInstance = nockPkgjsWiby(nockInstance)
   nockInstance = nockRepo(nockInstance, 'fakeRepo')

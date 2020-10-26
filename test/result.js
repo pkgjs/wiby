@@ -5,6 +5,15 @@ const result = require('../lib/result')
 const checks = require('./fixtures/checks')
 const CONFIG = require('./fixtures/config')
 
+tap.beforeEach(async () => {
+  nock.disableNetConnect()
+})
+
+tap.afterEach(async () => {
+  nock.cleanAll()
+  nock.enableNetConnect()
+})
+
 tap.test('Test correct branch name is returned', async tap => {
   tap.equal(await result.getBranchName('wiby'), 'wiby-wiby')
 })
@@ -15,7 +24,7 @@ tap.test('Test correct status returned from getResultForEachRun', tap => {
 })
 
 tap.test('result command checks package exists in dependant package.json', tap => {
-  nock('https://api.github.com', { allowUnmocked: false })
+  nock('https://api.github.com')
     // get package json
     .post('/graphql')
     .reply(200, {
