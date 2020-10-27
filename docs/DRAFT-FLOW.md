@@ -21,7 +21,7 @@
 1. [x] Patch the `package.json` of the dependent module to point to the release candidate branch for your module.
 1. ~~Run either `npm update` or `yarn upgrade`.~~ Rely on the dependent test system to install the correct version.
 1. [x] Create a commit for the `package.json` update and push to a consistently named branch on the dependent repository.
-1. [ ] Open a draft PR in the dependents repository that contains the patched `package.json`.
+1. [ ] Open a draft PR in the dependents repository that contains the patched `package.json`: [issue #53](https://github.com/pkgjs/wiby/issues/53)
 1. `wiby` will create a JSON file (`wiby-v2.1.0.json`) which contains the links of dependent PRs that have been opened.
     - [ ] recording the state: [issue #50](https://github.com/pkgjs/wiby/issues/50)
 1. `wiby result` will loop through the run file (`wiby-v2.1.0.json`) and interact with the GitHub Checks API to determine whether the tests have passed.
