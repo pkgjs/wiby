@@ -35,3 +35,8 @@ Example:
   [wiby test](./USAGE.md#wiby-test)    Test your dependents
 
   [wiby result](./USAGE.md#wiby-result) Fetch the results of your tests
+
+## Development
+
+- This repository uses `semantic-release` and commits should follow the [Angular Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
+- Create a new release by running `npx semantic-release`.
