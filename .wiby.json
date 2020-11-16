@@ -1,0 +1,13 @@
+{
+  "dependents": [
+    {
+      "repository": "https://github.com/wiby-test/partial"
+    },
+    {
+      "repository": "git://github.com/wiby-test/fail"
+    },
+    {
+      "repository": "git+https://github.com/wiby-test/pass"
+    }
+  ]
+}

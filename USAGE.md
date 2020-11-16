@@ -13,7 +13,10 @@ against the patch branch wiby had created.
 Options:
   --version    Show version number                                     [boolean]
   --help       Show help                                               [boolean]
-  --dependent  URL of a dependent                            [string] [required]
+  --dependent  URL of a dependent                                       [string]
+  --config     Path to the configuration file. By default it will try to load
+               the configuration from the first file it finds in the current
+               working directory: `.wiby.json`, `.wiby.js`              [string]
 ```
 
 
@@ -30,6 +33,25 @@ changes) triggering the dependent’s CI to run.
 Options:
   --version    Show version number                                     [boolean]
   --help       Show help                                               [boolean]
-  --dependent  URL of a dependent                            [string] [required]
+  --dependent  URL of a dependent                                       [string]
+  --config     Path to the configuration file. By default it will try to load
+               the configuration from the first file it finds in the current
+               working directory: `.wiby.json`, `.wiby.js`              [string]
+```
+
+
+## `wiby validate`
+
+
+
+Check the structure of the configuration file.
+
+```
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+  --config   Path to the configuration file. By default it will try to load the
+             configuration from the first file it finds in the current working
+             directory: `.wiby.json`, `.wiby.js`                        [string]
 ```
 
