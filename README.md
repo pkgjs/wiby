@@ -38,5 +38,5 @@ Example:
 
 ## Development
 
-- This repository uses `semantic-release` and commits should follow the [Angular Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
+- This repository uses `semantic-release` with default configuration.
 - Create a new release by running `npx semantic-release`.
