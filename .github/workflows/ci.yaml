@@ -1,6 +1,8 @@
 name: Node.js CI
 
 on:
+  schedule:
+    - cron:  '23 4 * * *' # Once, nightly
   push:
     branches:
       - main
