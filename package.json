@@ -10,6 +10,8 @@
     "test": "test"
   },
   "scripts": {
+    "action-wiby-test": "npm install --production && ./bin/wiby test",
+    "action-wiby-result": "npm install --production && ./bin/wiby result",
     "lint": "standard",
     "pretest": "npm run lint",
     "test": "npm run tests-only",
