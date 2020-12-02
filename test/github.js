@@ -13,7 +13,7 @@ tap.afterEach(async () => {
   nock.enableNetConnect()
 })
 
-tap.test('getPackageJson() handles NotFound reposiptory error', async tap => {
+tap.test('getPackageJson() handles NotFound repository error', async tap => {
   nock('https://api.github.com')
     .post('/graphql')
     .reply(404, {
@@ -38,7 +38,7 @@ tap.test('getPackageJson() handles general error', async tap => {
   )
 })
 
-tap.test('getPermissions() handles NotFound reposiptory error', async tap => {
+tap.test('getPermissions() handles NotFound repository error', async tap => {
   nock('https://api.github.com')
     .post('/graphql')
     .reply(404, {
