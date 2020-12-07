@@ -35,3 +35,8 @@ Example:
   [wiby test](./USAGE.md#wiby-test)    Test your dependents
 
   [wiby result](./USAGE.md#wiby-result) Fetch the results of your tests
+
+## Development
+
+- This repository uses `semantic-release` with default configuration.
+- Create a new release by running `npx semantic-release`.
