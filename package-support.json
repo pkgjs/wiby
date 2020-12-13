@@ -1,0 +1,22 @@
+{
+  "versions": [
+    {
+      "version": "*",
+      "target": {
+        "node": "active"
+      },
+      "response": {
+        "type": "time-permitting",
+        "paid": false,
+        "contact": {
+          "name": "Package Maintenance Working Group",
+          "url": "https://github.com/pkgjs/wiby/issues"
+        }
+      },
+      "backing": [
+        { "project": "https://github.com/nodejs" },
+        { "foundation": "https://openjsf.org/" }
+      ]
+    }
+  ]
+}
