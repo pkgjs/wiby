@@ -45,5 +45,9 @@
     "ignore": [
       "test/fixtures/config"
     ]
+  },
+  "support": true,
+  "engines": {
+    "node": "^14 || ^12 || ^10"
   }
 }
