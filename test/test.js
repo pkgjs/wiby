@@ -52,8 +52,21 @@ tap.test('applyPatch() checks package exists in dependant package.json', tap => 
 
 tap.test('test command checks package exists in dependant package.json', tap => {
   nock('https://api.github.com')
+    // get default branch
+    .post('/graphql')
+    .once()
+    .reply(200, {
+      data: {
+        repository: {
+          defaultBranchRef: {
+            name: 'master'
+          }
+        }
+      }
+    })
     // get package json
     .post('/graphql')
+    .once()
     .reply(200, {
       data: {
         repository: {

@@ -62,3 +62,43 @@ tap.test('getPermissions() handles general error', async tap => {
     github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO)
   )
 })
+
+tap.test('getDefaultBranch() handles NotFound repository error', async tap => {
+  nock('https://api.github.com')
+    .post('/graphql')
+    .reply(404, {
+      errors: [
+        { type: 'NOT_FOUND' }
+      ]
+    })
+
+  tap.rejects(
+    github.getDefaultBranch(CONFIG.DEP_ORG, CONFIG.DEP_REPO),
+    new Error(`Could not find GitHub repository at https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
+  )
+})
+
+tap.test('getDefaultBranch() handles general error', async tap => {
+  nock('https://api.github.com')
+    .post('/graphql')
+    .reply(500)
+
+  tap.rejects(
+    github.getDefaultBranch(CONFIG.DEP_ORG, CONFIG.DEP_REPO)
+  )
+})
+
+tap.test('getDefaultBranch() handles correctly formed response', async tap => {
+  nock('https://api.github.com')
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        repository: {
+          defaultBranchRef: {
+            name: CONFIG.DEP_DEF_BRANCH
+          }
+        }
+      }
+    })
+  tap.equal(await github.getDefaultBranch(CONFIG.DEP_ORG, CONFIG.DEP_REPO), CONFIG.DEP_DEF_BRANCH)
+})

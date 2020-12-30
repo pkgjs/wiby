@@ -3,8 +3,12 @@ const tap = require('tap')
 const github = require('../lib/github')
 const CONFIG = require('./fixtures/config')
 
+tap.test('get default branch name', async tap => {
+  tap.equal(await github.getDefaultBranch(CONFIG.DEP_ORG, CONFIG.DEP_REPO), CONFIG.DEP_DEF_BRANCH)
+}, { skip: !process.env.GITHUB_TOKEN })
+
 tap.test('package.json can be fetched with a valid url', async tap => {
-  tap.equal(JSON.stringify(await github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO)), JSON.stringify(CONFIG.PKGJSON))
+  tap.equal(JSON.stringify(await github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO, CONFIG.DEP_DEF_BRANCH)), JSON.stringify(CONFIG.PKGJSON))
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('correct permissions returned for GitHub repo', async tap => {
