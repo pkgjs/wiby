@@ -16,7 +16,8 @@ tap.afterEach(async () => {
 })
 
 tap.test('Check if the dependency is listed in the package.json', tap => {
-  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_NAME, CONFIG.PKGJSON), true)
+  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_NAME, CONFIG.PKGJSON), true, `expect ${CONFIG.PKG_NAME} to be in pkg json`)
+  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_REPO, CONFIG.PKGJSON), false, `expect that repo name ${CONFIG.PKG_REPO} does not match scoped pkg name ${CONFIG.PKG_NAME}`)
   tap.equal(pkgTest.checkPackageInPackageJSON('not-a-dep', CONFIG.PKGJSON), false)
   tap.end()
 })
