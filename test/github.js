@@ -68,12 +68,12 @@ tap.test('getPermissions() handle properly formed response', async tap => {
     .post('/graphql')
     .reply(200,
       {
-      data: {
-         repository: {
-           viewerPermission: 'read'
-         }
+        data: {
+          repository: {
+            viewerPermission: 'read'
+          }
+        }
       }
-    }
     )
   tap.equal(await github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO), 'read')
 })
