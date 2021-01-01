@@ -63,6 +63,33 @@ tap.test('getPermissions() handles general error', async tap => {
   )
 })
 
+tap.test('getPermissions() handle properly formed response', async tap => {
+  nock('https://api.github.com')
+    .post('/graphql')
+    .reply(200,
+      {
+      data: {
+         repository: {
+           viewerPermission: 'read'
+         }
+      }
+    }
+    )
+  tap.equal(await github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO), 'read')
+})
+
+tap.test('getPermissions() handle poorly formed response', async tap => {
+  nock('https://api.github.com')
+    .post('/graphql')
+    .reply(200,
+      {
+        data: {
+        }
+      }
+    )
+  tap.equal(await github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO), '')
+})
+
 tap.test('getDefaultBranch() handles NotFound repository error', async tap => {
   nock('https://api.github.com')
     .post('/graphql')
