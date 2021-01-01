@@ -101,7 +101,7 @@ tap.test('getDefaultBranch() handles NotFound repository error', async tap => {
 
   tap.rejects(
     github.getDefaultBranch(CONFIG.DEP_ORG, CONFIG.DEP_REPO),
-    new Error(`Could not find GitHub repository at https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
+    new Error(`Could not find GitHub repository at https://github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
   )
 })
 
@@ -128,4 +128,14 @@ tap.test('getDefaultBranch() handles correctly formed response', async tap => {
       }
     })
   tap.equal(await github.getDefaultBranch(CONFIG.DEP_ORG, CONFIG.DEP_REPO), CONFIG.DEP_DEF_BRANCH)
+})
+tap.test('getDefaultBranch() handles incorrectly formed response', async tap => {
+  nock('https://api.github.com')
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        repository: {}
+      }
+    })
+  tap.rejects(github.getDefaultBranch(CONFIG.DEP_ORG, CONFIG.DEP_REPO))
 })

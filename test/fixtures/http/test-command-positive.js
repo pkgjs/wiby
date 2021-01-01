@@ -5,6 +5,18 @@ const nock = require('nock')
 
 function nockPkgjsWiby (nockInstance) {
   return nockInstance
+    // get the default branch json
+    .post('/graphql', /.*defaultBranchRef.*/gi)
+    .times(3)
+    .reply(200, {
+      data: {
+        repository: {
+          defaultBranchRef: {
+            name: 'main'
+          }
+        }
+      }
+    })
     // get package json
     .post('/graphql')
     .times(3)
