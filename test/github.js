@@ -24,7 +24,7 @@ tap.test('getPackageJson() handles NotFound repository error', async tap => {
 
   tap.rejects(
     github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO),
-    new Error(`Could not find GitHub repository at https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
+    new Error(`Could not find GitHub repository at https://github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
   )
 })
 
@@ -49,7 +49,7 @@ tap.test('getPermissions() handles NotFound repository error', async tap => {
 
   tap.rejects(
     github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO),
-    new Error(`Could not find GitHub repository at https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
+    new Error(`Could not find GitHub repository at https://github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
   )
 })
 
