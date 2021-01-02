@@ -25,6 +25,18 @@ tap.test('Test correct status returned from getResultForEachRun', tap => {
 
 tap.test('result command checks package exists in dependant package.json', tap => {
   nock('https://api.github.com')
+    // get default branch
+    .post('/graphql')
+    .once()
+    .reply(200, {
+      data: {
+        repository: {
+          defaultBranchRef: {
+            name: 'master'
+          }
+        }
+      }
+    })
     // get package json
     .post('/graphql')
     .reply(200, {
