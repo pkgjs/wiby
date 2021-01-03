@@ -5,6 +5,7 @@ on:
     types: [ created ]
 
 env:
+  WIBY_CHECK_NAME: "wiby"
   WIBY_NODE_VERSION: 14
 
 jobs:
@@ -52,7 +53,7 @@ jobs:
           mediaType: |
             previews:
               - antiope
-          name: "wiby"
+          name: ${{ env.WIBY_CHECK_NAME }}
           details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
           head_sha: ${{ steps.pr.outputs.head_sha }}
           status: "queued"
@@ -92,7 +93,7 @@ jobs:
           mediaType: |
             previews:
               - antiope
-          name: "wiby"
+          name: ${{ env.WIBY_CHECK_NAME }}
           details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
           head_sha: ${{ steps.pr.outputs.head_sha }}
           conclusion: "failure"
@@ -107,7 +108,7 @@ jobs:
           mediaType: |
             previews:
               - antiope
-          name: "wiby"
+          name: ${{ env.WIBY_CHECK_NAME }}
           details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
           head_sha: ${{ steps.pr.outputs.head_sha }}
           status: "in_progress"
@@ -192,7 +193,7 @@ jobs:
           mediaType: |
             previews:
               - antiope
-          name: "wiby"
+          name: ${{ env.WIBY_CHECK_NAME }}
           details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
           head_sha: ${{ steps.pr.outputs.head_sha }}
           conclusion: "failure"
@@ -208,7 +209,7 @@ jobs:
           mediaType: |
             previews:
               - antiope
-          name: "wiby"
+          name: ${{ env.WIBY_CHECK_NAME }}
           details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
           head_sha: ${{ steps.pr.outputs.head_sha }}
           conclusion: ${{ steps.wiby_result.outputs.wiby_conclusion }}
