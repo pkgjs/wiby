@@ -2,6 +2,7 @@
  * Mocks of HTTP calls for "wiby test" command positive flow
  */
 const nock = require('nock')
+require('../../../lib/logger').enableLogs()
 
 function nockPkgjsWiby (nockInstance) {
   return nockInstance

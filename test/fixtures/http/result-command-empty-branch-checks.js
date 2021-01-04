@@ -2,6 +2,7 @@
  * Mocks of HTTP calls for "wiby result" command flow with empty response from check-runs
  */
 const nock = require('nock')
+require('../../../lib/logger').enableLogs()
 
 nock('https://api.github.com')
   // get package json
