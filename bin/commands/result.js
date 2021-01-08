@@ -15,10 +15,10 @@ exports.builder = (yargs) => yargs
     type: 'string'
   })
 
-exports.handler = (params) => {
+exports.handler = async (params) => {
   const config = params.dependent
     ? { dependents: [{ repository: params.dependent }] }
     : wiby.validate({ config: params.config })
 
-  return wiby.result(config)
+  return await wiby.result(config)
 }
