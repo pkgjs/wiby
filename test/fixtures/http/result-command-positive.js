@@ -2,7 +2,6 @@
  * Mocks of HTTP calls for "wiby result" command positive flow
  */
 const nock = require('nock')
-require('../../../lib/logger').enableLogs()
 
 nock('https://api.github.com')
   // get package json

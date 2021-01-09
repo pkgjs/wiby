@@ -54,13 +54,13 @@ tap.test('result() should return correct data object', async tap => {
 
   const output = await result({ dependents: [{ repository: 'https://github.com/wiby-test/fakeRepo' }] })
 
-  tap.equal(output.status, 'failure')
+  tap.equal(output.status, 'pending')
   tap.equal(output.results[0].dependent, 'wiby-test/fakeRepo')
-  tap.equal(output.results[0].status, 'failure')
+  tap.equal(output.results[0].status, 'pending')
   tap.equal(output.results[0].runs.length, 2)
 })
 
-tap.test('should correctly detect overall status for runs results', async tap => {
+tap.test('getOverallStatusForAllRuns() should correctly detect overall status for runs results', async tap => {
   const failedCasesPresent = [
     [null, 'failure'],
     [null, 'success'],
@@ -85,6 +85,12 @@ tap.test('should correctly detect overall status for runs results', async tap =>
     [null, 'success']
   ]
 
+  const queuedCasesPresent = [
+    [null, 'queued'],
+    [null, 'success'],
+    [null, 'success']
+  ]
+
   const successCasesPresent = [
     [null, 'success'],
     [null, 'success'],
@@ -95,5 +101,6 @@ tap.test('should correctly detect overall status for runs results', async tap =>
   tap.equal(result.getOverallStatusForAllRuns(unexpectedCasesPresent), 'failure')
   tap.equal(result.getOverallStatusForAllRuns(nullCasesPresent), 'pending')
   tap.equal(result.getOverallStatusForAllRuns(pendingCasesPresent), 'pending')
+  tap.equal(result.getOverallStatusForAllRuns(queuedCasesPresent), 'pending')
   tap.equal(result.getOverallStatusForAllRuns(successCasesPresent), 'success')
 })

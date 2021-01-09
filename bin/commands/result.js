@@ -20,5 +20,7 @@ exports.handler = async (params) => {
     ? { dependents: [{ repository: params.dependent }] }
     : wiby.validate({ config: params.config })
 
-  return await wiby.result(config)
+  const result = await wiby.result(config)
+
+  return wiby.result.processOutput(result)
 }

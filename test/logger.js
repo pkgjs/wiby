@@ -6,6 +6,7 @@ tap.test('logger module', async (tap) => {
     const debug = logger()
 
     tap.equals('wiby:general', debug.namespace)
+    // check that output stream changed by default by overriding "log" method
     tap.equals(true, Object.prototype.hasOwnProperty.call(debug, 'log'))
   })
 
@@ -19,10 +20,11 @@ tap.test('logger module', async (tap) => {
     const debug = logger('wiby:unit-test', false)
 
     tap.equals('wiby:unit-test', debug.namespace)
+    // check that default output stream not changed
     tap.equals(false, Object.prototype.hasOwnProperty.call(debug, 'log'))
   })
 
-  tap.test('module should have enableLogs with default param', async (tap) => {
+  tap.test('module should have enableLogs() with default params', async (tap) => {
     const debug = logger()
     logger.enableLogs()
 
