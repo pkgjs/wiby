@@ -8,5 +8,5 @@ tap.test('Test correct sha returned for a GitHub repository', async tap => {
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('commit url created from github org repo and commit sha', async tap => {
-  tap.equal(await pkgTest.getCommitURL(CONFIG.PKG_ORG, CONFIG.PKG_NAME, CONFIG.PKG_HEAD_SHA), CONFIG.PATCH)
+  tap.equal(await pkgTest.getCommitURL(CONFIG.PKG_ORG, CONFIG.PKG_NAME_INTEGRATION, CONFIG.PKG_HEAD_SHA), CONFIG.PATCH)
 }, { skip: !process.env.GITHUB_TOKEN })

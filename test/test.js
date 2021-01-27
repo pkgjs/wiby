@@ -16,8 +16,8 @@ tap.afterEach(async () => {
 })
 
 tap.test('Check if the dependency is listed in the package.json', tap => {
-  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_NAME, CONFIG.PKGJSON), true, `expect ${CONFIG.PKG_NAME} to be in pkg json`)
-  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_REPO, CONFIG.PKGJSON), false, `expect that repo name ${CONFIG.PKG_REPO} does not match scoped pkg name ${CONFIG.PKG_NAME}`)
+  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_NAME_UNIT, CONFIG.PKGJSON), true, `expect ${CONFIG.PKG_NAME_UNIT} to be in pkg json`)
+  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_REPO, CONFIG.PKGJSON), false, `expect that repo name ${CONFIG.PKG_REPO} does not match scoped pkg name ${CONFIG.PKG_NAME_UNIT}`)
   tap.equal(pkgTest.checkPackageInPackageJSON('not-a-dep', CONFIG.PKGJSON), false)
   tap.end()
 })
@@ -29,7 +29,7 @@ tap.test('Local package.json returned correctly', async tap => {
 })
 
 tap.test('Check patch applied to package.json successfully', tap => {
-  tap.equal(JSON.stringify(pkgTest.applyPatch(CONFIG.PATCH, CONFIG.PKG_NAME, CONFIG.PKGJSON)), JSON.stringify(CONFIG.PATCHED_PKGJSON))
+  tap.equal(JSON.stringify(pkgTest.applyPatch(CONFIG.PATCH, CONFIG.PKG_NAME_UNIT, CONFIG.PKGJSON)), JSON.stringify(CONFIG.PATCHED_PKGJSON))
   tap.end()
 })
 
@@ -38,7 +38,7 @@ tap.test('applyPatch() checks package exists in dependant package.json', tap => 
     function () {
       pkgTest.applyPatch(
         CONFIG.PATCH,
-        CONFIG.PKG_NAME,
+        CONFIG.PKG_NAME_UNIT,
         {
           dependencies: {
             'other-package': '*'
