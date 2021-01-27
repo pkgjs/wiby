@@ -18,9 +18,9 @@ tap.test('Shas returned from getShas', async tap => {
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('Checks fetched for a GitHub repo', async tap => {
-  tap.equal((await github.getChecks('pkgjs', 'wiby', 'master')).status, 200)
+  tap.equal((await github.getChecks('pkgjs', 'wiby', 'HEAD')).status, 200)
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('Checks fetched for a GitHub repo', async tap => {
-  tap.equal((await github.getCommitStatusesForRef('pkgjs', 'wiby', 'master')).status, 200)
+  tap.equal((await github.getCommitStatusesForRef('pkgjs', 'wiby', 'HEAD')).status, 200)
 }, { skip: !process.env.GITHUB_TOKEN })
