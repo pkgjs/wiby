@@ -14,8 +14,9 @@ This is a manual step, until automation is ready:
    - i.e. commit, push, open a PR and merge it, if necessary
 4. Add a `WIBY_TOKEN` secret
    - create a new one at https://github.com/settings/tokens, required scopes: `repo:status` and `public_repo`
-   - the account has to have push access to the test repositories - you will probably want to fork the dependents into that account (or a separate organization)
+   - the account has to have _push_ (merge access not necessary) access to the test repositories - you will probably want to fork the dependents into that account (or a separate organization)
    - you may want to use a robot account which _does not have **any** merge access_, as Github does not allow restricting tokens to a subset of repositories
+   - the bot account does not need to have access to the original repository (only to the forks used for testing)
 
 
 ## Usage
