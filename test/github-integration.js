@@ -7,10 +7,6 @@ tap.test('package.json can be fetched with a valid url', async tap => {
   tap.equal(JSON.stringify(await github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO)), JSON.stringify({ ...CONFIG.PKGJSON, dependencies: { [CONFIG.PKG_NAME_INTEGRATION]: '*' } }))
 }, { skip: !process.env.GITHUB_TOKEN })
 
-tap.test('correct permissions returned for GitHub repo', async tap => {
-  tap.equal((await github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO)), CONFIG.DEP_REPO_PERM)
-}, { skip: !process.env.GITHUB_TOKEN })
-
 tap.test('Shas returned from getShas', async tap => {
   const [headSha, treeSha] = await github.getShas('pkgjs', 'wiby')
   tap.notEqual(headSha, null)
