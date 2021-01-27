@@ -16,3 +16,15 @@ This is a manual step, until automation is ready:
    - create a new one at https://github.com/settings/tokens, required scopes: `repo:status` and `public_repo`
    - the account has to have push access to the test repositories - you will probably want to fork the dependents into that account (or a separate organization)
    - you may want to use a robot account which _does not have **any** merge access_, as Github does not allow restricting tokens to a subset of repositories
+
+
+## Usage
+
+0. This assumes `.wiby.json` is already configured and that you're an owner or a contributor on the dependency repo
+1. Open a PR against the dependency repository
+2. Post a comment saying `wiby test` in the PR
+   - This should kick off the test workflow and update the `package.json` of configured dependents
+   - Shortly after that, a `wiby` status check will have its status set to `pending`
+3. Wait a reasonable amount of time for the dependents to finish their tests
+4. Post a comment saying `wiby result`
+   - Shortly after that, the `wiby` status check will changes its status to report the results of the tests in the dependents (but it may stay pending if they're still running)
