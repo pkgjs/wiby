@@ -37,28 +37,3 @@ tap.test('getPackageJson() handles general error', async tap => {
     github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO)
   )
 })
-
-tap.test('getPermissions() handles NotFound repository error', async tap => {
-  nock('https://api.github.com')
-    .post('/graphql')
-    .reply(404, {
-      errors: [
-        { type: 'NOT_FOUND' }
-      ]
-    })
-
-  tap.rejects(
-    github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO),
-    new Error(`Could not find GitHub repository at https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
-  )
-})
-
-tap.test('getPermissions() handles general error', async tap => {
-  nock('https://api.github.com')
-    .post('/graphql')
-    .reply(500)
-
-  tap.rejects(
-    github.getPermissions(CONFIG.DEP_ORG, CONFIG.DEP_REPO)
-  )
-})
