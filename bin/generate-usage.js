@@ -50,7 +50,7 @@ const getCommandsHelp = (commandsList) => {
       .toString()
       .trim()
       .replace(/^\s+--version.*$/m, '')
-      .replace(/^\s+--help.*$/m, '');
+      .replace(/^\s+--help.*$/m, '')
 
     const commandData = new Map()
     commandData.set('commandName', command)
