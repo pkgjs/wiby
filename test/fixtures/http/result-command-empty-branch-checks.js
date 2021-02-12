@@ -5,6 +5,8 @@
  */
 const nock = require('nock')
 
+nock.disableNetConnect()
+
 nock('https://api.github.com')
   // get package json
   .post('/graphql')

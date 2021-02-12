@@ -5,6 +5,8 @@
  */
 const nock = require('nock')
 
+nock.disableNetConnect()
+
 function nockPkgjsWiby (nockInstance) {
   return nockInstance
     // get package json
