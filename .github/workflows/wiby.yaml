@@ -1,0 +1,217 @@
+name: wiby
+
+on:
+  issue_comment:
+    types: [ created ]
+
+env:
+  WIBY_CHECK_NAME: "wiby"
+  WIBY_NODE_VERSION: 14
+
+jobs:
+
+  permissions:
+
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, 'wiby ') && (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR') }}
+
+    steps:
+      - run: 'echo "Author association: ${{ github.event.comment.author_association }}"'
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    needs: permissions
+
+    if: ${{ startsWith(github.event.comment.body, 'wiby test') }}
+
+    steps:
+
+      - name: Load PR
+        uses: octokit/request-action@v2.x
+        with:
+          route: ${{ github.event.issue.pull_request.url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: load_pr
+
+      - name: Get PR information
+        run: |
+          echo "::set-output name=branch::${{ fromJson(steps.load_pr.outputs.data).head.ref }}"
+          echo "::set-output name=head_sha::${{ fromJson(steps.load_pr.outputs.data).head.sha }}"
+          echo "::set-output name=repo_name::${{ fromJson(steps.load_pr.outputs.data).base.repo.full_name }}"
+          echo "::set-output name=repo_url::${{ fromJson(steps.load_pr.outputs.data).base.repo.html_url }}"
+        id: pr
+
+      - name: Set "queued" status
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/:repository/check-runs
+          repository: ${{ steps.pr.outputs.repo_name }}
+          mediaType: |
+            previews:
+              - antiope
+          name: ${{ env.WIBY_CHECK_NAME }}
+          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
+          head_sha: ${{ steps.pr.outputs.head_sha }}
+          status: "queued"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ steps.pr.outputs.repo_name }}
+          ref: ${{ steps.pr.outputs.branch }}
+
+      - name: Prepare Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.WIBY_NODE_VERSION }}
+
+      - name: wiby test
+        run: |
+          if cat package.json | jq -e '.scripts["action-wiby-test"]'; then
+            # this is primarily so that wiby can test itself using itself
+            npm run action-wiby-test
+          else
+            npm install
+            npx wiby test
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.WIBY_TOKEN }}
+
+      - name: Handle errors
+        uses: octokit/request-action@v2.x
+        if: ${{ failure() }}
+        with:
+          route: POST /repos/:repository/check-runs
+          repository: ${{ steps.pr.outputs.repo_name }}
+          mediaType: |
+            previews:
+              - antiope
+          name: ${{ env.WIBY_CHECK_NAME }}
+          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
+          head_sha: ${{ steps.pr.outputs.head_sha }}
+          conclusion: "failure"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set "in_progress" status
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/:repository/check-runs
+          repository: ${{ steps.pr.outputs.repo_name }}
+          mediaType: |
+            previews:
+              - antiope
+          name: ${{ env.WIBY_CHECK_NAME }}
+          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
+          head_sha: ${{ steps.pr.outputs.head_sha }}
+          status: "in_progress"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  result:
+
+    runs-on: ubuntu-latest
+
+    needs: permissions
+
+    if: ${{ startsWith(github.event.comment.body, 'wiby result') }}
+
+    steps:
+
+      - name: Load PR
+        uses: octokit/request-action@v2.x
+        with:
+          route: ${{ github.event.issue.pull_request.url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: load_pr
+
+      - name: Get PR information
+        run: |
+          echo "::set-output name=branch::${{ fromJson(steps.load_pr.outputs.data).head.ref }}"
+          echo "::set-output name=head_sha::${{ fromJson(steps.load_pr.outputs.data).head.sha }}"
+          echo "::set-output name=repo_name::${{ fromJson(steps.load_pr.outputs.data).base.repo.full_name }}"
+          echo "::set-output name=repo_url::${{ fromJson(steps.load_pr.outputs.data).base.repo.html_url }}"
+        id: pr
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ steps.pr.outputs.repo_name }}
+          ref: ${{ steps.pr.outputs.branch }}
+
+      - name: Prepare Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.WIBY_NODE_VERSION }}
+
+      - name: wiby result
+        run: |
+          # execute wiby result and set action result
+
+          handle_result() {
+
+            WIBY_RESULT_CODE=$1
+
+            if [ ${WIBY_RESULT_CODE} -eq 64 ]; then
+              echo "`wiby` exited with code 64 - results are still pending"
+            else
+              echo "::set-output name=wiby_conclusion::failure"
+            fi
+
+          }
+
+          if cat package.json | jq -e '.scripts["action-wiby-result"]'; then
+            # this is primarily so that wiby can test itself using itself
+            npm run action-wiby-result || handle_result $?
+          else
+            npm install
+            npx wiby result || handle_result $?
+          fi
+
+          # if we got here - there was no error
+          echo "::set-output name=wiby_conclusion::success"
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.WIBY_TOKEN }}
+        id: wiby_result
+
+      - name: Handle errors
+        uses: octokit/request-action@v2.x
+        if: ${{ failure() }}
+        with:
+          route: POST /repos/:repository/check-runs
+          repository: ${{ steps.pr.outputs.repo_name }}
+          mediaType: |
+            previews:
+              - antiope
+          name: ${{ env.WIBY_CHECK_NAME }}
+          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
+          head_sha: ${{ steps.pr.outputs.head_sha }}
+          conclusion: "failure"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set status from result
+        uses: octokit/request-action@v2.x
+        if: ${{ steps.wiby_result.outputs.wiby_conclusion != '' }}
+        with:
+          route: POST /repos/:repository/check-runs
+          repository: ${{ steps.pr.outputs.repo_name }}
+          mediaType: |
+            previews:
+              - antiope
+          name: ${{ env.WIBY_CHECK_NAME }}
+          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
+          head_sha: ${{ steps.pr.outputs.head_sha }}
+          conclusion: ${{ steps.wiby_result.outputs.wiby_conclusion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
