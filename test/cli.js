@@ -148,8 +148,35 @@ tap.test('result command', async (tap) => {
 
 tap.test('validate command', async (tap) => {
   tap.test('should pass on wiby itself', async (tap) => {
-    const result = childProcess.execSync(`${wibyCommand} validate`, { cwd: cwd }).toString()
-    console.info(result)
+    childProcess.execSync(`${wibyCommand} validate`, { cwd: cwd })
     tap.end()
+  })
+})
+
+tap.test('clean command', async (tap) => {
+  tap.test('test command should delete test branch in all configured test modules', async (tap) => {
+    const result = childProcess.execSync(`${wibyCommand} clean`, {
+      cwd: cwd,
+      env: {
+        NODE_OPTIONS: '-r ./test/fixtures/http/clean-command.js'
+      }
+    }).toString()
+
+    tap.ok(result.includes('Branches deleted:'))
+    tap.ok(result.includes('- https://github.com/wiby-test/partial: wiby-wiby'))
+    tap.ok(result.includes('- git://github.com/wiby-test/fail: wiby-wiby'))
+    tap.ok(result.includes('- git+https://github.com/wiby-test/pass: wiby-wiby'))
+  })
+
+  tap.test('test command should delete test branch in the test module at dependent URI', async (tap) => {
+    const result = childProcess.execSync(`${wibyCommand} clean --dependent="https://github.com/wiby-test/fakeRepo"`, {
+      cwd: cwd,
+      env: {
+        NODE_OPTIONS: '-r ./test/fixtures/http/clean-command.js'
+      }
+    }).toString()
+
+    tap.ok(result.includes('Branches deleted:'))
+    tap.ok(result.includes('- https://github.com/wiby-test/fakeRepo: wiby-wiby'))
   })
 })
