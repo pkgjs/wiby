@@ -46,11 +46,15 @@ const parseCommandsListOutput = (commandsOutput) => {
 const getCommandsHelp = (commandsList) => {
   // get help for each command
   return commandsList.map((command) => {
-    const commandHelpOutput = execSync(`${wibyCommand} ${command} --help`, { cwd: cwd }).toString()
+    const commandHelpOutput = execSync(`${wibyCommand} ${command} --help`, { cwd: cwd })
+      .toString()
+      .trim()
+      .replace(/^\s+--version.*$/m, '')
+      .replace(/^\s+--help.*$/m, '')
 
     const commandData = new Map()
     commandData.set('commandName', command)
-    commandData.set('help', commandHelpOutput.trim())
+    commandData.set('help', commandHelpOutput)
 
     return commandData
   })
