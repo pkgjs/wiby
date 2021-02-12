@@ -1,0 +1,9 @@
+query($owner: String!, $repo: String!) {
+    repository(name: $repo, owner: $owner) {
+        object(expression: "HEAD:package.json") {
+            ... on Blob {
+                text
+            }
+        }
+    }
+}
