@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Mocks of HTTP calls for "wiby result" command positive flow
  */

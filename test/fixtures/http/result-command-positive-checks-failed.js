@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Mocks of HTTP calls for "wiby result" command
  * Checks returned with status failure

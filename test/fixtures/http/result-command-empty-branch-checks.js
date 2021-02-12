@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * Mocks of HTTP calls for "wiby result" command flow with empty response from check-runs
  */
