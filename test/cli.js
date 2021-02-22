@@ -28,7 +28,7 @@ tap.test('test command', async (tap) => {
       }
     }).toString()
 
-    tap.equal(true, result.includes('Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-wiby/package.json'))
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-wiby/package.json')
   })
 
   tap.test('test command should call test module with all deps from .wiby.json', async (tap) => {
@@ -39,9 +39,9 @@ tap.test('test command', async (tap) => {
       }
     }).toString()
 
-    tap.equal(true, result.includes('Changes pushed to https://github.com/wiby-test/pass/blob/wiby-wiby/package.json'))
-    tap.equal(true, result.includes('Changes pushed to https://github.com/wiby-test/fail/blob/wiby-wiby/package.json'))
-    tap.equal(true, result.includes('Changes pushed to https://github.com/wiby-test/partial/blob/wiby-wiby/package.json'))
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/pass/blob/wiby-wiby/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fail/blob/wiby-wiby/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-wiby/package.json')
   })
 })
 
@@ -162,10 +162,10 @@ tap.test('clean command', async (tap) => {
       }
     }).toString()
 
-    tap.ok(result.includes('Branches deleted:'))
-    tap.ok(result.includes('- https://github.com/wiby-test/partial: wiby-wiby'))
-    tap.ok(result.includes('- git://github.com/wiby-test/fail: wiby-wiby'))
-    tap.ok(result.includes('- git+https://github.com/wiby-test/pass: wiby-wiby'))
+    tap.includes(result, 'Branches deleted:')
+    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-wiby')
+    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-wiby')
+    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-wiby')
   })
 
   tap.test('should delete test branch in the test module at dependent URI', async (tap) => {
@@ -176,7 +176,21 @@ tap.test('clean command', async (tap) => {
       }
     }).toString()
 
-    tap.ok(result.includes('Branches deleted:'))
-    tap.ok(result.includes('- https://github.com/wiby-test/fakeRepo: wiby-wiby'))
+    tap.includes(result, 'Branches deleted:')
+    tap.includes(result, '- https://github.com/wiby-test/fakeRepo: wiby-wiby')
+  })
+
+  tap.test('should delete all wiby-* branches in all configured test modules', async (tap) => {
+    const result = childProcess.execSync(`${wibyCommand} clean --all`, {
+      cwd: cwd,
+      env: {
+        NODE_OPTIONS: '-r ./test/fixtures/http/clean-command.js'
+      }
+    }).toString()
+
+    tap.includes(result, 'Branches deleted:')
+    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-partial-one, wiby-partial-two')
+    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-fail-one, wiby-fail-two')
+    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-pass-one, wiby-pass-two')
   })
 })

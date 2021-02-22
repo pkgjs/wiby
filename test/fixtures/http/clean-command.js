@@ -9,9 +9,50 @@ nock.disableNetConnect()
 
 function nockRepo (nockInstance, repo) {
   return nockInstance
+    .post('/graphql')
+    .reply(200, (uri, body) => {
+
+      const repo = body.variables.repo;
+
+      return {
+        data: {
+          organization: {
+            repository: {
+              name: 'pass',
+              refs: {
+                edges: [
+                  {
+                    node: {
+                      branchName: `wiby-${repo}-one`
+                    }
+                  },
+                  {
+                    node: {
+                      branchName: `wiby-${repo}-two`
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      };
+    })
     .get(`/repos/wiby-test/${repo}/branches/wiby-wiby`)
     .reply(200)
     .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-wiby`)
+    .reply(200)
+    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-pass-one`)
+    .reply(200)
+    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-pass-two`)
+    .reply(200)
+    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-fail-one`)
+    .reply(200)
+    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-fail-two`)
+    .reply(200)
+    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-partial-one`)
+    .reply(200)
+    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-partial-two`)
     .reply(200)
 }
 

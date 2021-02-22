@@ -1,0 +1,18 @@
+query getExistingRepoBranches($owner: String!, $repo: String!) {
+  organization(login: $owner) {
+    repository(name: $repo) {
+      id
+      name
+      refs(refPrefix: "refs/heads/", query: "wiby-", first: 100) {
+        edges {
+          node {
+            branchName: name
+          }
+        }
+        pageInfo {
+          endCursor
+        }
+      }
+    }
+  }
+}
