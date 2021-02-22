@@ -9,6 +9,8 @@ nock.disableNetConnect()
 
 function nockRepo (nockInstance, repo) {
   return nockInstance
+    .get(`/repos/wiby-test/${repo}/branches/wiby-wiby`)
+    .reply(200)
     .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-wiby`)
     .reply(200)
 }
