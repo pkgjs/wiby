@@ -184,7 +184,7 @@ tap.test('clean command', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean --all`, {
       cwd: cwd,
       env: {
-        NODE_OPTIONS: '-r ./test/fixtures/http/clean-command.js'
+        NODE_OPTIONS: '-r ./test/fixtures/http/clean-command-all.js'
       }
     }).toString()
 
@@ -192,5 +192,19 @@ tap.test('clean command', async (tap) => {
     tap.includes(result, '- https://github.com/wiby-test/partial: wiby-partial-one, wiby-partial-two')
     tap.includes(result, '- git://github.com/wiby-test/fail: wiby-fail-one, wiby-fail-two')
     tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-pass-one, wiby-pass-two')
+  })
+
+  tap.test('should not delete during dry-run', async (tap) => {
+    const result = childProcess.execSync(`${wibyCommand} clean --dry-run`, {
+      cwd: cwd,
+      env: {
+        NODE_OPTIONS: '-r ./test/fixtures/http/clean-command-dry.js'
+      }
+    }).toString()
+
+    tap.includes(result, 'Branches to be deleted:')
+    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-wiby')
+    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-wiby')
+    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-wiby')
   })
 })
