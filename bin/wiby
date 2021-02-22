@@ -2,6 +2,11 @@
 
 'use strict'
 
+process.on('unhandledRejection', (err) => {
+
+  throw err;
+});
+
 require('dotenv').config()
 
 const chalk = require('chalk')
