@@ -6,7 +6,7 @@ const tap = require('tap')
 const path = require('path')
 const nock = require('nock')
 const CONFIG = require('./fixtures/config')
-const pkgTest = require('../lib/test')
+const wiby = require('..')
 
 tap.beforeEach(async () => {
   nock.disableNetConnect()
@@ -17,28 +17,15 @@ tap.afterEach(async () => {
   nock.enableNetConnect()
 })
 
-tap.test('Check if the dependency is listed in the package.json', tap => {
-  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_NAME_UNIT, CONFIG.PKGJSON), true, `expect ${CONFIG.PKG_NAME_UNIT} to be in pkg json`)
-  tap.equal(pkgTest.checkPackageInPackageJSON(CONFIG.PKG_REPO, CONFIG.PKGJSON), false, `expect that repo name ${CONFIG.PKG_REPO} does not match scoped pkg name ${CONFIG.PKG_NAME_UNIT}`)
-  tap.equal(pkgTest.checkPackageInPackageJSON('not-a-dep', CONFIG.PKGJSON), false)
-  tap.end()
-})
-
-tap.test('Local package.json returned correctly', async tap => {
-  const pkgPath = path.join(__dirname, 'fixtures', 'pass', 'package.json')
-  const expectedPackageJSON = await fs.readFile(pkgPath)
-  tap.looseEqual(await pkgTest.getLocalPackageJSON(pkgPath), JSON.parse(expectedPackageJSON))
-})
-
 tap.test('Check patch applied to package.json successfully', tap => {
-  tap.equal(JSON.stringify(pkgTest.applyPatch(CONFIG.PATCH, CONFIG.PKG_NAME_UNIT, CONFIG.PKGJSON)), JSON.stringify(CONFIG.PATCHED_PKGJSON))
+  tap.equal(JSON.stringify(wiby.test.applyPatch(CONFIG.PATCH, CONFIG.PKG_NAME_UNIT, CONFIG.PKGJSON)), JSON.stringify(CONFIG.PATCHED_PKGJSON))
   tap.end()
 })
 
 tap.test('applyPatch() checks package exists in dependant package.json', tap => {
   tap.throws(
     function () {
-      pkgTest.applyPatch(
+      wiby.test.applyPatch(
         CONFIG.PATCH,
         CONFIG.PKG_NAME_UNIT,
         {
@@ -83,7 +70,7 @@ tap.test('test command checks package exists in dependant package.json', tap => 
     ])
 
   tap.rejects(
-    pkgTest({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }),
+    wiby.test({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }),
     new Error(`pkgjs/wiby not found in the package.json of ${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
   )
   tap.end()

@@ -16,10 +16,6 @@ tap.afterEach(async () => {
   nock.enableNetConnect()
 })
 
-tap.test('Test correct branch name is returned', async tap => {
-  tap.equal(await result.getBranchName('wiby'), 'wiby-wiby')
-})
-
 tap.test('Test correct status returned from getResultForEachRun', tap => {
   tap.equal(result.getResultForEachRun(checks).toString(), checks.expected.toString())
   tap.end()
