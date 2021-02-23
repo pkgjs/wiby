@@ -1,7 +1,7 @@
 'use strict'
 
 const tap = require('tap')
-const logger = require('./../lib/logger')
+const logger = require('../../lib/logger')
 
 tap.test('logger module', async (tap) => {
   tap.test('logger should have default params', async (tap) => {

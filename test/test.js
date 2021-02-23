@@ -1,9 +1,7 @@
 'use strict'
 
 require('dotenv').config()
-const fs = require('fs').promises
 const tap = require('tap')
-const path = require('path')
 const nock = require('nock')
 const CONFIG = require('./fixtures/config')
 const wiby = require('..')
