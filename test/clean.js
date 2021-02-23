@@ -22,6 +22,8 @@ tap.test('wiby.clean()', async (tap) => {
       .reply(404)
 
     await wiby.clean({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }, {})
+
+    // implied assertion - no DELETE requests expected - we don't need to delete the missing `wiby-wiby` branch
   })
 
   tap.test('should rethrow when github API inaccessible during branch check', async (tap) => {
