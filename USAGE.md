@@ -1,6 +1,27 @@
 # Usage
   
 
+## `wiby clean`
+
+
+
+Use this command to clean up branches created by wiby (i.e. branches with the
+"wiby-" prefix).
+
+```
+Options:
+
+  --dependent  URL of a dependent                                       [string]
+  --config     Path to the configuration file. By default it will try to load
+               the configuration from the first file it finds in the current
+               working directory: `.wiby.json`, `.wiby.js`              [string]
+  --all        Remove all branches with "wiby-" prefix. By default, `wiby clean`
+               will only remove the branch that would be created if `wiby test`
+               ran in the current repository, on the current branch.
+  --dry-run    Print the list of branches to be removed.
+```
+
+
 ## `wiby result`
 
 

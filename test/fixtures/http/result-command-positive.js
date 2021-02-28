@@ -1,7 +1,11 @@
+'use strict'
+
 /**
  * Mocks of HTTP calls for "wiby result" command positive flow
  */
 const nock = require('nock')
+
+nock.disableNetConnect()
 
 nock('https://api.github.com')
   // get package json

@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports.PKGJSON = require('./pass/package.json')
 module.exports.PATCHED_PKGJSON = Object.assign({}, module.exports.PKGJSON, {
   dependencies: Object.assign(

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict'
+
 /**
  * Builds new content for USAGE.md page according to wiby --help commands list
  */

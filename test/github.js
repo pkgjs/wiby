@@ -1,3 +1,5 @@
+'use strict'
+
 require('dotenv').config()
 const nock = require('nock')
 const tap = require('tap')
