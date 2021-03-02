@@ -44,6 +44,9 @@ tap.test('applyPatch() checks package exists in dependant package.json', tap => 
           },
           peerDependencies: {
             'some-plugin': '*'
+          },
+          optionalDependencies: {
+            'some-optional-dep': '*'
           }
         }
       )
