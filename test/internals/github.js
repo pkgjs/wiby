@@ -3,8 +3,8 @@
 require('dotenv').config()
 const nock = require('nock')
 const tap = require('tap')
-const github = require('../lib/github')
-const CONFIG = require('./fixtures/config')
+const github = require('../../lib/github')
+const CONFIG = require('../fixtures/config')
 
 tap.beforeEach(async () => {
   nock.disableNetConnect()

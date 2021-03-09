@@ -3,9 +3,9 @@
 require('dotenv').config()
 const tap = require('tap')
 const nock = require('nock')
-const result = require('../lib/result')
 const checks = require('./fixtures/checks')
 const CONFIG = require('./fixtures/config')
+const wiby = require('..')
 
 tap.beforeEach(async () => {
   nock.disableNetConnect()
@@ -16,12 +16,8 @@ tap.afterEach(async () => {
   nock.enableNetConnect()
 })
 
-tap.test('Test correct branch name is returned', async tap => {
-  tap.equal(await result.getBranchName('wiby'), 'wiby-wiby')
-})
-
 tap.test('Test correct status returned from getResultForEachRun', tap => {
-  tap.equal(result.getResultForEachRun(checks).toString(), checks.expected.toString())
+  tap.equal(wiby.result.getResultForEachRun(checks).toString(), checks.expected.toString())
   tap.end()
 })
 
@@ -44,7 +40,7 @@ tap.test('result command checks package exists in dependant package.json', tap =
     })
 
   tap.rejects(
-    result({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }),
+    wiby.result({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }),
     new Error(`pkgjs/wiby not found in the package.json of ${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}`)
   )
   tap.end()
@@ -54,7 +50,7 @@ tap.test('result() should return correct data object', async tap => {
   // mock reall http requests with positive scenario
   require('./fixtures/http/result-command-positive')
 
-  const output = await result({ dependents: [{ repository: 'https://github.com/wiby-test/fakeRepo' }] })
+  const output = await wiby.result({ dependents: [{ repository: 'https://github.com/wiby-test/fakeRepo' }] })
 
   tap.equal(output.status, 'pending')
   tap.equal(output.results[0].dependent, 'wiby-test/fakeRepo')
@@ -99,10 +95,10 @@ tap.test('getOverallStatusForAllRuns() should correctly detect overall status fo
     [null, 'success']
   ]
 
-  tap.equal(result.getOverallStatusForAllRuns(failedCasesPresent), 'failure')
-  tap.equal(result.getOverallStatusForAllRuns(unexpectedCasesPresent), 'failure')
-  tap.equal(result.getOverallStatusForAllRuns(nullCasesPresent), 'pending')
-  tap.equal(result.getOverallStatusForAllRuns(pendingCasesPresent), 'pending')
-  tap.equal(result.getOverallStatusForAllRuns(queuedCasesPresent), 'pending')
-  tap.equal(result.getOverallStatusForAllRuns(successCasesPresent), 'success')
+  tap.equal(wiby.result.getOverallStatusForAllRuns(failedCasesPresent), 'failure')
+  tap.equal(wiby.result.getOverallStatusForAllRuns(unexpectedCasesPresent), 'failure')
+  tap.equal(wiby.result.getOverallStatusForAllRuns(nullCasesPresent), 'pending')
+  tap.equal(wiby.result.getOverallStatusForAllRuns(pendingCasesPresent), 'pending')
+  tap.equal(wiby.result.getOverallStatusForAllRuns(queuedCasesPresent), 'pending')
+  tap.equal(wiby.result.getOverallStatusForAllRuns(successCasesPresent), 'success')
 })
