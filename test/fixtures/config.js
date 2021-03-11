@@ -15,10 +15,8 @@ module.exports.PKGJSON_DEV_DEPS = Object.assign({}, module.exports.PKGJSON, {
   }
 })
 module.exports.PATCHED_DEV_DEPS_PKGJSON = Object.assign({}, module.exports.PKGJSON, {
-  devDependencies: Object.assign(
-    {},
+  devDependencies:
     { '@other/name': 'other/name#577c08e8fd5e1b3156ce75b2e5d9e3023dac180e' }
-  )
 })
 
 module.exports.PKGJSON_PEER_DEPS = Object.assign({}, module.exports.PKGJSON, {
@@ -27,10 +25,8 @@ module.exports.PKGJSON_PEER_DEPS = Object.assign({}, module.exports.PKGJSON, {
   }
 })
 module.exports.PATCHED_PEER_DEPS_PKGJSON = Object.assign({}, module.exports.PKGJSON, {
-  peerDependencies: Object.assign(
-    {},
+  peerDependencies:
     { '@other/plugin': 'other/plugin#577c08e8fd5e1b3156ce75b2e5d9e3023dac180e' }
-  )
 })
 module.exports.PATCH = 'pkgjs/wiby#577c08e8fd5e1b3156ce75b2e5d9e3023dac180e'
 module.exports.DEV_DEP_PATCH = 'other/name#577c08e8fd5e1b3156ce75b2e5d9e3023dac180e'
