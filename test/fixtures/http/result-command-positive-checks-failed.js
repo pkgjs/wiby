@@ -26,7 +26,7 @@ nock('https://api.github.com')
     }
   })
   // get check results
-  .get('/repos/wiby-test/fakeRepo/commits/wiby-branch-naming/check-runs')
+  .get('/repos/wiby-test/fakeRepo/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
       { status: 'done', name: 'fake_run', conclusion: 'failure' }

@@ -24,14 +24,14 @@ nock('https://api.github.com')
     }
   })
   // get check results
-  .get('/repos/wiby-test/fakeRepo/commits/wiby-branch-naming/check-runs')
+  .get('/repos/wiby-test/fakeRepo/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
       // empty checks list
     ]
   })
   // get checks for ref
-  .get('/repos/wiby-test/fakeRepo/commits/wiby-branch-naming/statuses')
+  .get('/repos/wiby-test/fakeRepo/commits/wiby-running-unit-tests/statuses')
   .reply(200, {
     check_runs: [
       { status: 'queued', name: 'fake_run' },

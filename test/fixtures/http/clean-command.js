@@ -9,9 +9,9 @@ nock.disableNetConnect()
 
 function nockRepo (nockInstance, repo) {
   return nockInstance
-    .get(`/repos/wiby-test/${repo}/branches/wiby-branch-naming`)
+    .get(`/repos/wiby-test/${repo}/branches/wiby-running-unit-tests`)
     .reply(200)
-    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-branch-naming`)
+    .delete(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-running-unit-tests`)
     .reply(200)
 }
 

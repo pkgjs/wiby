@@ -25,28 +25,28 @@ nock('https://api.github.com')
     }
   })
   // get check results
-  .get('/repos/wiby-test/fakeRepo/commits/wiby-branch-naming/check-runs')
+  .get('/repos/wiby-test/fakeRepo/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
       { status: 'queued', name: 'fake_run' },
       { status: 'done', name: 'fake_run_2', conclusion: 'fake_conclusion' }
     ]
   })
-  .get('/repos/wiby-test/fail/commits/wiby-branch-naming/check-runs')
+  .get('/repos/wiby-test/fail/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
       { status: 'queued', name: 'fail_run' },
       { status: 'done', name: 'fail_run_2', conclusion: 'fake_conclusion' }
     ]
   })
-  .get('/repos/wiby-test/pass/commits/wiby-branch-naming/check-runs')
+  .get('/repos/wiby-test/pass/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
       { status: 'queued', name: 'pass_run' },
       { status: 'done', name: 'pass_run_2', conclusion: 'fake_conclusion' }
     ]
   })
-  .get('/repos/wiby-test/partial/commits/wiby-branch-naming/check-runs')
+  .get('/repos/wiby-test/partial/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
       { status: 'queued', name: 'partial_run' },

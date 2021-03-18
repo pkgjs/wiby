@@ -31,7 +31,7 @@ tap.test('test command', async (tap) => {
       }
     }).toString()
 
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-branch-naming/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-running-unit-tests/package.json')
   })
 
   tap.test('test command should call test module with all deps from .wiby.json', async (tap) => {
@@ -42,8 +42,8 @@ tap.test('test command', async (tap) => {
       }
     }).toString()
 
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/pass/blob/wiby-branch-naming/package.json')
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fail/blob/wiby-branch-naming/package.json')
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-branch-naming/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/pass/blob/wiby-running-unit-tests/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fail/blob/wiby-running-unit-tests/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-running-unit-tests/package.json')
   })
 })
