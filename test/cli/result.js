@@ -32,6 +32,7 @@ tap.test('result command', async (tap) => {
       childProcess.execSync(`${wibyCommand} result --dependent="https://github.com/wiby-test/fakeRepo"`, {
         cwd: cwd,
         env: {
+          ...process.env,
           NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive.js`
         }
       })
@@ -54,6 +55,7 @@ tap.test('result command', async (tap) => {
       childProcess.execSync(`${wibyCommand} result`, {
         cwd: cwd,
         env: {
+          ...process.env,
           NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive.js`
         }
       })
@@ -76,6 +78,7 @@ tap.test('result command', async (tap) => {
       childProcess.execSync(`${wibyCommand} result --dependent="https://github.com/wiby-test/fakeRepo"`, {
         cwd: cwd,
         env: {
+          ...process.env,
           NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-empty-branch-checks.js`
         }
       })
@@ -100,6 +103,7 @@ tap.test('result command', async (tap) => {
       childProcess.execSync(`${wibyCommand} result --dependent="https://github.com/wiby-test/fakeRepo"`, {
         cwd: cwd,
         env: {
+          ...process.env,
           NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive-checks-failed.js`
         }
       })

@@ -13,30 +13,33 @@ tap.test('clean command', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean`, {
       cwd: cwd,
       env: {
+        ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command.js`
       }
     }).toString()
     tap.includes(result, 'Branches deleted:')
-    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-wiby')
-    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-wiby')
-    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-wiby')
+    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-branch-naming')
+    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-branch-naming')
+    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-branch-naming')
   })
 
   tap.test('should delete test branch in the test module at dependent URI', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean --dependent="https://github.com/wiby-test/fakeRepo"`, {
       cwd: cwd,
       env: {
+        ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command.js`
       }
     }).toString()
     tap.includes(result, 'Branches deleted:')
-    tap.includes(result, '- https://github.com/wiby-test/fakeRepo: wiby-wiby')
+    tap.includes(result, '- https://github.com/wiby-test/fakeRepo: wiby-branch-naming')
   })
 
   tap.test('should delete all wiby-* branches in all configured test modules', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean --all`, {
       cwd: cwd,
       env: {
+        ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command-all.js`
       }
     }).toString()
@@ -50,13 +53,14 @@ tap.test('clean command', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean --dry-run`, {
       cwd: cwd,
       env: {
+        ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command-dry.js`
       }
     }).toString()
 
     tap.includes(result, 'Branches to be deleted:')
-    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-wiby')
-    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-wiby')
-    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-wiby')
+    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-branch-naming')
+    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-branch-naming')
+    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-branch-naming')
   })
 })

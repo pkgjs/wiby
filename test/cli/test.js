@@ -22,23 +22,25 @@ tap.test('test command', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} test --dependent="https://github.com/wiby-test/fakeRepo"`, {
       cwd: cwd,
       env: {
+        ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
       }
     }).toString()
 
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-wiby/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-branch-naming/package.json')
   })
 
   tap.test('test command should call test module with all deps from .wiby.json', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} test`, {
       cwd: cwd,
       env: {
+        ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
       }
     }).toString()
 
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/pass/blob/wiby-wiby/package.json')
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fail/blob/wiby-wiby/package.json')
-    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-wiby/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/pass/blob/wiby-branch-naming/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/fail/blob/wiby-branch-naming/package.json')
+    tap.includes(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-branch-naming/package.json')
   })
 })

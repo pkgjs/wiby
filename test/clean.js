@@ -18,17 +18,17 @@ tap.afterEach(async () => {
 tap.test('wiby.clean()', async (tap) => {
   tap.test('should check if the wiby branch exists', async (tap) => {
     nock('https://api.github.com')
-      .get(`/repos/wiby-test/${CONFIG.DEP_REPO}/branches/wiby-wiby`)
+      .get(`/repos/wiby-test/${CONFIG.DEP_REPO}/branches/wiby-branch-naming`)
       .reply(404)
 
     await wiby.clean({ dependents: [{ repository: `https://www.github.com/${CONFIG.DEP_ORG}/${CONFIG.DEP_REPO}` }] }, {})
 
-    // implied assertion - no DELETE requests expected - we don't need to delete the missing `wiby-wiby` branch
+    // implied assertion - no DELETE requests expected - we don't need to delete the missing `wiby-branch-naming` branch
   })
 
   tap.test('should rethrow when github API inaccessible during branch check', async (tap) => {
     nock('https://api.github.com')
-      .get(`/repos/wiby-test/${CONFIG.DEP_REPO}/branches/wiby-wiby`)
+      .get(`/repos/wiby-test/${CONFIG.DEP_REPO}/branches/wiby-branch-naming`)
       .reply(500)
 
     await tap.rejects(

@@ -9,7 +9,7 @@ nock.disableNetConnect()
 
 function nockRepo (nockInstance, repo) {
   return nockInstance
-    .get(`/repos/wiby-test/${repo}/branches/wiby-wiby`)
+    .get(`/repos/wiby-test/${repo}/branches/wiby-branch-naming`)
     .reply(200)
 }
 
