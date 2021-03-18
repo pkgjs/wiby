@@ -14,6 +14,8 @@ exports.init = function () {
   process.chdir(tmpDir)
 
   childProcess.execSync('git init --initial-branch=running-unit-tests')
+  childProcess.execSync('git config user.email "wiby@example.com"')
+  childProcess.execSync('git config user.name "Wiby Bot"')
 
   for (const fn of ['package.json', '.wiby.json']) {
     fs.copyFileSync(path.join(gitRepoPath, fn), path.join(tmpDir, fn))
