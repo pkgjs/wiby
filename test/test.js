@@ -15,8 +15,17 @@ tap.afterEach(async () => {
   nock.enableNetConnect()
 })
 
-tap.test('Check patch applied to package.json successfully', tap => {
+tap.test('Check patch applied to dependency package.json successfully', tap => {
   tap.equal(JSON.stringify(wiby.test.applyPatch(CONFIG.PATCH, CONFIG.PKG_NAME_UNIT, CONFIG.PKGJSON)), JSON.stringify(CONFIG.PATCHED_PKGJSON))
+  tap.end()
+})
+tap.test('Check patch applied to dev dependency package.json successfully', tap => {
+  tap.equal(JSON.stringify(wiby.test.applyPatch(CONFIG.DEV_DEP_PATCH, CONFIG.DEV_DEP_PKG_NAME_UNIT, CONFIG.PKGJSON_DEV_DEPS)), JSON.stringify(CONFIG.PATCHED_DEV_DEPS_PKGJSON))
+  tap.end()
+})
+
+tap.test('Check patch applied to peer dependency package.json successfully', tap => {
+  tap.equal(JSON.stringify(wiby.test.applyPatch(CONFIG.PEER_DEP_PATCH, CONFIG.DEV_PEER_PKG_NAME_UNIT, CONFIG.PKGJSON_PEER_DEPS)), JSON.stringify(CONFIG.PATCHED_PEER_DEPS_PKGJSON))
   tap.end()
 })
 
@@ -29,6 +38,15 @@ tap.test('applyPatch() checks package exists in dependant package.json', tap => 
         {
           dependencies: {
             'other-package': '*'
+          },
+          devDependencies: {
+            'further-packages': '*'
+          },
+          peerDependencies: {
+            'some-plugin': '*'
+          },
+          optionalDependencies: {
+            'some-optional-dep': '*'
           }
         }
       )
