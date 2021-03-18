@@ -4,14 +4,18 @@ const tap = require('tap')
 const childProcess = require('child_process')
 const path = require('path')
 
-const cwd = path.join(__dirname, '..', '..')
-const wibyCommand = path.join(cwd, 'bin', 'wiby')
+const gitFixture = require('../fixtures/git')
+
+const wibyCommand = path.join(__dirname, '..', '..', 'bin', 'wiby')
 const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
 
 tap.test('clean command', async (tap) => {
+  tap.beforeEach(async () => {
+    gitFixture.init()
+  })
+
   tap.test('should delete test branch in all configured test modules', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean`, {
-      cwd: cwd,
       env: {
         ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command.js`
@@ -25,7 +29,6 @@ tap.test('clean command', async (tap) => {
 
   tap.test('should delete test branch in the test module at dependent URI', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean --dependent="https://github.com/wiby-test/fakeRepo"`, {
-      cwd: cwd,
       env: {
         ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command.js`
@@ -37,7 +40,6 @@ tap.test('clean command', async (tap) => {
 
   tap.test('should delete all wiby-* branches in all configured test modules', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean --all`, {
-      cwd: cwd,
       env: {
         ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command-all.js`
@@ -51,7 +53,6 @@ tap.test('clean command', async (tap) => {
 
   tap.test('should not delete during dry-run', async (tap) => {
     const result = childProcess.execSync(`${wibyCommand} clean --dry-run`, {
-      cwd: cwd,
       env: {
         ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command-dry.js`

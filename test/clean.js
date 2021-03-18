@@ -3,19 +3,23 @@
 require('dotenv').config()
 const tap = require('tap')
 const nock = require('nock')
+
 const CONFIG = require('./fixtures/config')
+const gitFixture = require('./fixtures/git')
+
 const wiby = require('..')
 
-tap.beforeEach(async () => {
-  nock.disableNetConnect()
-})
-
-tap.afterEach(async () => {
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
-
 tap.test('wiby.clean()', async (tap) => {
+  tap.beforeEach(async () => {
+    nock.disableNetConnect()
+    gitFixture.init()
+  })
+
+  tap.afterEach(async () => {
+    nock.cleanAll()
+    nock.enableNetConnect()
+  })
+
   tap.test('should check if the wiby branch exists', async (tap) => {
     nock('https://api.github.com')
       .get(`/repos/wiby-test/${CONFIG.DEP_REPO}/branches/wiby-branch-naming`)
