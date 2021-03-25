@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 
-exports.desc = 'Check if you have the bundled version of wiby Github workflow installed.'
+exports.desc = 'Check if you have the bundled version of wiby Github workflow installed. Will exit with zero if .github/workflows/wiby.yaml is up to date, and non-zero if it is outdated.'
 
 exports.handler = async (params) => {
   const packageRoot = process.env.INIT_CWD || process.cwd()

@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 
-exports.desc = 'Install the bundled versions of the wiby workflows.'
+exports.desc = 'Install the bundled versions of the wiby workflows. Will overwrite existing `.github/workflows/wiby.yaml`, if any.'
 
 exports.handler = async (params) => {
   const packageRoot = process.env.INIT_CWD || process.cwd()
