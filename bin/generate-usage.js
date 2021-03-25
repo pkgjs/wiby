@@ -29,17 +29,17 @@ const getGeneralHelpOutput = (commandWithSubCommands = '') => {
 /**
  * Parses commands list block ands returns array of commands names
  */
-const parseCommandsListOutput = (commandsOutput, commandWithSubCommands='') => {
+const parseCommandsListOutput = (commandsOutput, commandWithSubCommands = '') => {
   // parse commands list
   const re = new RegExp(`^ {2}wiby ${commandWithSubCommands}([\\w-]+)`, 'gm')
   const commandsList = []
   let commandsParseResult
   while ((commandsParseResult = re.exec(commandsOutput)) !== null) {
-    const [,command] = commandsParseResult;
+    const [, command] = commandsParseResult
     if (command === 'github-workflow') {
       const subCommandsOutput = getGeneralHelpOutput(`${command} `)
-      const subCommandList = parseCommandsListOutput(subCommandsOutput, `${command} `);
-      commandsList.push(...subCommandList.map((subCommand) => `${command} ${subCommand}`));
+      const subCommandList = parseCommandsListOutput(subCommandsOutput, `${command} `)
+      commandsList.push(...subCommandList.map((subCommand) => `${command} ${subCommand}`))
     } else {
       commandsList.push(command)
     }
