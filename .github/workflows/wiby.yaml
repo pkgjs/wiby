@@ -165,6 +165,7 @@ jobs:
               echo "`wiby` exited with code 64 - results are still pending"
             else
               echo "::set-output name=wiby_conclusion::failure"
+              exit $WIBY_RESULT_CODE
             fi
 
           }
