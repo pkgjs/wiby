@@ -27,12 +27,12 @@ tap.test('github-workflow install command', async (tap) => {
         ...process.env,
         INIT_CWD: ''
       }
-    }).toString()
+    })
 
     tap.notEqual(fs.readFileSync(wibyYamlPath).toString(), contentsBefore)
   })
 
-  tap.test('should copy wiby.yaml to the ${INIT_CWD}/.github/workflows folder', async (tap) => {
+  tap.test('should copy wiby.yaml to the $INIT_CWD/.github/workflows folder', async (tap) => {
     const initCwd = path.join(process.cwd(), 'some-other-place')
     const workflowsPath = path.join(initCwd, '.github', 'workflows')
     const wibyYamlPath = path.join(workflowsPath, 'wiby.yaml')
@@ -46,7 +46,7 @@ tap.test('github-workflow install command', async (tap) => {
         ...process.env,
         INIT_CWD: initCwd
       }
-    }).toString()
+    })
 
     tap.notEqual(fs.readFileSync(wibyYamlPath).toString(), contentsBefore)
   })
@@ -58,7 +58,7 @@ tap.test('github-workflow install command', async (tap) => {
           ...process.env,
           INIT_CWD: ''
         }
-      }).toString()
+      })
       tap.fail('Should fail before reaching here')
     } catch (err) {
       tap.include(err.message, '/.github/workflows folder does not exist.')

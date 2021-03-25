@@ -19,7 +19,7 @@ tap.test('result command', async (tap) => {
 
   tap.test('result command should fail when config and dependent provided', async (tap) => {
     try {
-      childProcess.execSync(`${wibyCommand} result --config=.wiby.json --dependent="https://github.com/wiby-test/fakeRepo"`).toString()
+      childProcess.execSync(`${wibyCommand} result --config=.wiby.json --dependent="https://github.com/wiby-test/fakeRepo"`)
       tap.fail()
     } catch (err) {
       tap.equal(true, err.message.includes('Arguments dependent and config are mutually exclusive'))
