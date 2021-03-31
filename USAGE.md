@@ -22,6 +22,27 @@ Options:
 ```
 
 
+## `wiby github-workflow install`
+
+
+
+Install the bundled versions of the wiby workflows. Will overwrite existing
+`.github/workflows/wiby.yaml`, if any.
+
+
+
+
+## `wiby github-workflow outdated`
+
+
+
+Check if you have the bundled version of wiby Github workflow installed. Will
+exit with zero if .github/workflows/wiby.yaml is up to date, and non-zero if it
+is outdated.
+
+
+
+
 ## `wiby result`
 
 

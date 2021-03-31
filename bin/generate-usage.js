@@ -15,8 +15,8 @@ const fs = require('fs')
 /**
  * Parses wiby --help output and returns block with commands list
  */
-const getGeneralHelpOutput = () => {
-  const helpOutput = execSync(`${wibyCommand} --help`, { cwd: cwd }).toString()
+const getGeneralHelpOutput = (commandWithSubCommands = '') => {
+  const helpOutput = execSync(`${wibyCommand} ${commandWithSubCommands}--help`, { cwd: cwd }).toString()
   const helpParseResult = /(Commands:\n)([\S\s]+)(Options:)/.exec(helpOutput)
 
   if (helpParseResult !== null) {
@@ -29,13 +29,20 @@ const getGeneralHelpOutput = () => {
 /**
  * Parses commands list block ands returns array of commands names
  */
-const parseCommandsListOutput = (commandsOutput) => {
+const parseCommandsListOutput = (commandsOutput, commandWithSubCommands = '') => {
   // parse commands list
-  const re = /^ {2}wiby ([\w]+)/gm
+  const re = new RegExp(`^ {2}wiby ${commandWithSubCommands}([\\w-]+)`, 'gm')
   const commandsList = []
   let commandsParseResult
   while ((commandsParseResult = re.exec(commandsOutput)) !== null) {
-    commandsList.push(commandsParseResult[1])
+    const [, command] = commandsParseResult
+    if (command === 'github-workflow') {
+      const subCommandsOutput = getGeneralHelpOutput(`${command} `)
+      const subCommandList = parseCommandsListOutput(subCommandsOutput, `${command} `)
+      commandsList.push(...subCommandList.map((subCommand) => `${command} ${subCommand}`))
+    } else {
+      commandsList.push(command)
+    }
   }
 
   return commandsList
@@ -66,7 +73,7 @@ const renderCommand = (command) => {
   return `
 ## \`wiby ${command.get('commandName')}\`
 
-${command.get('help').replace(/^wiby.*$/m, '').replace(/Options:(.+)$/s, '```\n$&\n```')}
+${command.get('help').replace(/^wiby.*$/m, '').replace(/Options:\s+$/, '').replace(/Options:(.+)$/s, '```\n$&\n```')}
 `
 }
 
