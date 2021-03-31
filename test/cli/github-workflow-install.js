@@ -61,7 +61,7 @@ tap.test('github-workflow install command', async (tap) => {
       })
       tap.fail('Should fail before reaching here')
     } catch (err) {
-      tap.include(err.message, '/.github/workflows folder does not exist.')
+      tap.match(err.message, '/.github/workflows folder does not exist.')
     }
   })
 })
