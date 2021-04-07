@@ -71,6 +71,11 @@ function nockRepo (nockInstance, repo) {
     // create branch in dependent
     .post(`/repos/wiby-test/${repo}/git/refs`)
     .reply(200, {})
+    // create PR when requested
+    .post(`/repos/wiby-test/${repo}/pulls`)
+    .reply(201, {
+      html_url: 'https://github.com/pkgjs/wiby/pull/1'
+    })
 }
 
 function buildNock () {

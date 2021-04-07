@@ -97,4 +97,20 @@ tap.test('wiby.test()', async (tap) => {
     )
     tap.end()
   })
+  tap.test('test create PR', (t) => {
+    const htmlURL = `https://github.com/${CONFIG.PKG_ORG}/${CONFIG.DEP_REPO}/pull/1`
+    nock('https://api.github.com')
+      .post('/repos/pkgjs/wiby/pulls')
+      .reply(201, {
+        html_url: htmlURL
+      })
+    const dependentOwner = 'pkgjs'
+    const dependentRepo = 'wiby'
+    const parentBranchName = 'main'
+    wiby.test.createPR(dependentOwner, dependentRepo, parentBranchName)
+      .then((result) => {
+        t.equal(result.data.html_url, htmlURL)
+        t.end()
+      })
+  })
 })

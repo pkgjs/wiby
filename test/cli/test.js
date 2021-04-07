@@ -24,7 +24,7 @@ tap.test('test command', async (tap) => {
   })
 
   tap.test('test command should call test module with dependent URI', async (tap) => {
-    const result = childProcess.execSync(`${wibyCommand} test --dependent="https://github.com/wiby-test/fakeRepo"`, {
+    const result = childProcess.execSync(`${wibyCommand} test --dependent="https://github.com/wiby-test/fakeRepo" --pullrequest=true`, {
       env: {
         ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
