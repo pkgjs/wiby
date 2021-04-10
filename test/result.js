@@ -130,11 +130,11 @@ tap.test('wiby.result()', async (tap) => {
       t.equal(result, undefined)
     })
     t.test('status not completed returns empty array', async (t) => {
-      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{ status: 'bad' }])
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{ status: 'queued' }])
       t.equal(result.length, 0)
     })
     t.test('conclusion not a success returns empty array', async (t) => {
-      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{ status: 'bad', conclusion: 'bad' }])
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{ status: 'queued', conclusion: 'failure' }])
       t.equal(result.length, 0)
     })
     t.test('no pull requests returns empty array', async (t) => {
