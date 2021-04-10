@@ -119,4 +119,62 @@ tap.test('wiby.result()', async (tap) => {
       tap.fail('Should not get here')
     }
   })
+
+  tap.test('update PR Status handles in uncompleted and completed', (t) => {
+    const owner = 'pkgjs'
+    const repo = 'wiby'
+    const branch = 'wiby-main'
+    t.plan(6)
+    t.test('no checkruns returns', async (t) => {
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, null)
+      t.equal(result, undefined)
+    })
+    t.test('status not completed returns empty array', async (t) => {
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{ status: 'bad' }])
+      t.equal(result.length, 0)
+    })
+    t.test('conclusion not a success returns empty array', async (t) => {
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{ status: 'bad', conclusion: 'bad' }])
+      t.equal(result.length, 0)
+    })
+    t.test('no pull requests returns empty array', async (t) => {
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{
+        status: 'completed',
+        conclusion: 'success'
+      }])
+      t.equal(result.length, 0)
+    })
+    t.test('empty pull requests returns empty array', async (t) => {
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{
+        status: 'completed',
+        conclusion: 'success',
+        pull_requests: []
+      }])
+      t.equal(result.length, 0)
+    })
+    t.test('pull requests with numbers returns values', async (t) => {
+      nock('https://api.github.com')
+        // get package json
+        .patch('/repos/pkgjs/wiby/pulls/1')
+        .reply(200, {
+          data: {}
+        })
+      const result = await wiby.result.updatePRStatus(owner, repo, branch, [{
+        status: 'completed',
+        conclusion: 'success',
+        pull_requests: [{
+          number: 1,
+          head: {
+            ref: branch
+          }
+        }, {
+          number: 2,
+          head: {
+            ref: 'any-other-branch'
+          }
+        }]
+      }])
+      t.equal(result.length, 1)
+    })
+  })
 })
