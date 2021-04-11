@@ -52,7 +52,7 @@ tap.test('wiby.result()', async (tap) => {
   })
 
   tap.test('result() should return correct data object', async (tap) => {
-    // mock reall http requests with positive scenario
+    // mock real http requests with positive scenario
     require('./fixtures/http/result-command-positive')
 
     const output = await wiby.result({ dependents: [{ repository: 'https://github.com/wiby-test/fakeRepo' }] })
@@ -106,5 +106,17 @@ tap.test('wiby.result()', async (tap) => {
     tap.equal(wiby.result.getOverallStatusForAllRuns(pendingCasesPresent), 'pending')
     tap.equal(wiby.result.getOverallStatusForAllRuns(queuedCasesPresent), 'pending')
     tap.equal(wiby.result.getOverallStatusForAllRuns(successCasesPresent), 'success')
+  })
+
+  tap.test('resolveCodeAndExit() should exit with 0 code with "success" status', async (tap) => {
+    try {
+      wiby.result.processOutput({
+        status: 'success',
+        results: []
+      })
+      tap.pass()
+    } catch (e) {
+      tap.fail('Should not get here')
+    }
   })
 })

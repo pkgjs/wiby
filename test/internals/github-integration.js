@@ -7,7 +7,7 @@ const CONFIG = require('../fixtures/config')
 
 tap.test('package.json can be fetched with a valid url', async tap => {
   const packageJson = await github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO)
-  tap.includes(packageJson, { ...CONFIG.PKGJSON, dependencies: { [CONFIG.PKG_NAME_INTEGRATION]: '*' } })
+  tap.match(packageJson, { ...CONFIG.PKGJSON, dependencies: { [CONFIG.PKG_NAME_INTEGRATION]: '*' } })
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('Shas returned from getShas', async tap => {

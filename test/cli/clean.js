@@ -21,10 +21,10 @@ tap.test('clean command', async (tap) => {
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command.js`
       }
     }).toString()
-    tap.includes(result, 'Branches deleted:')
-    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-running-unit-tests')
-    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-running-unit-tests')
-    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-running-unit-tests')
+    tap.match(result, 'Branches deleted:')
+    tap.match(result, '- https://github.com/wiby-test/partial: wiby-running-unit-tests')
+    tap.match(result, '- git://github.com/wiby-test/fail: wiby-running-unit-tests')
+    tap.match(result, '- git+https://github.com/wiby-test/pass: wiby-running-unit-tests')
   })
 
   tap.test('should delete test branch in the test module at dependent URI', async (tap) => {
@@ -34,8 +34,8 @@ tap.test('clean command', async (tap) => {
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command.js`
       }
     }).toString()
-    tap.includes(result, 'Branches deleted:')
-    tap.includes(result, '- https://github.com/wiby-test/fakeRepo: wiby-running-unit-tests')
+    tap.match(result, 'Branches deleted:')
+    tap.match(result, '- https://github.com/wiby-test/fakeRepo: wiby-running-unit-tests')
   })
 
   tap.test('should delete all wiby-* branches in all configured test modules', async (tap) => {
@@ -45,10 +45,10 @@ tap.test('clean command', async (tap) => {
         NODE_OPTIONS: `-r ${fixturesPath}/http/clean-command-all.js`
       }
     }).toString()
-    tap.includes(result, 'Branches deleted:')
-    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-partial-one, wiby-partial-two')
-    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-fail-one, wiby-fail-two')
-    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-pass-one, wiby-pass-two')
+    tap.match(result, 'Branches deleted:')
+    tap.match(result, '- https://github.com/wiby-test/partial: wiby-partial-one, wiby-partial-two')
+    tap.match(result, '- git://github.com/wiby-test/fail: wiby-fail-one, wiby-fail-two')
+    tap.match(result, '- git+https://github.com/wiby-test/pass: wiby-pass-one, wiby-pass-two')
   })
 
   tap.test('should not delete during dry-run', async (tap) => {
@@ -59,9 +59,9 @@ tap.test('clean command', async (tap) => {
       }
     }).toString()
 
-    tap.includes(result, 'Branches to be deleted:')
-    tap.includes(result, '- https://github.com/wiby-test/partial: wiby-running-unit-tests')
-    tap.includes(result, '- git://github.com/wiby-test/fail: wiby-running-unit-tests')
-    tap.includes(result, '- git+https://github.com/wiby-test/pass: wiby-running-unit-tests')
+    tap.match(result, 'Branches to be deleted:')
+    tap.match(result, '- https://github.com/wiby-test/partial: wiby-running-unit-tests')
+    tap.match(result, '- git://github.com/wiby-test/fail: wiby-running-unit-tests')
+    tap.match(result, '- git+https://github.com/wiby-test/pass: wiby-running-unit-tests')
   })
 })

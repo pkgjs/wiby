@@ -24,7 +24,7 @@ tap.test('github-workflow outdated command', async (tap) => {
       })
       tap.fail('Should fail before reaching here')
     } catch (err) {
-      tap.include(err.message, '/.github/workflows/wiby.yaml not found. Use `wiby github-workflow install` to install it.')
+      tap.match(err.message, '/.github/workflows/wiby.yaml not found. Use `wiby github-workflow install` to install it.')
     }
   })
 
@@ -45,7 +45,7 @@ tap.test('github-workflow outdated command', async (tap) => {
       })
       tap.fail('Should fail before reaching here')
     } catch (err) {
-      tap.include(err.message, '/.github/workflows/wiby.yaml is not the same as the bundled version')
+      tap.match(err.message, '/.github/workflows/wiby.yaml is not the same as the bundled version')
     }
   })
 
@@ -64,7 +64,7 @@ tap.test('github-workflow outdated command', async (tap) => {
       }
     }).toString()
 
-    tap.include(result, 'wiby.yaml is the same as the bundled version.')
+    tap.match(result, 'wiby.yaml is the same as the bundled version.')
   })
 
   tap.test('should pass when wiby.yaml has the same contents in $INIT_CWD', async (tap) => {
@@ -83,6 +83,6 @@ tap.test('github-workflow outdated command', async (tap) => {
       }
     }).toString()
 
-    tap.include(result, 'wiby.yaml is the same as the bundled version.')
+    tap.match(result, 'wiby.yaml is the same as the bundled version.')
   })
 })
