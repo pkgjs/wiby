@@ -107,7 +107,7 @@ tap.test('wiby.test()', async (tap) => {
     const dependentOwner = 'pkgjs'
     const dependentRepo = 'wiby'
     const parentBranchName = 'main'
-    wiby.test.createPR(dependentOwner, dependentRepo, parentBranchName)
+    wiby.test.closePR(dependentOwner, dependentRepo, parentBranchName)
       .then((result) => {
         t.equal(result.data.html_url, htmlURL)
         t.end()
