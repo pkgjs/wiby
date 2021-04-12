@@ -10,7 +10,7 @@ exports.builder = (yargs) => yargs
     type: 'string',
     conflicts: 'config'
   })
-  .option('pullrequest', {
+  .option('pull-request', {
     desc: 'close a draft PR created in the test phase',
     alias: 'pr',
     type: 'boolean',
@@ -25,7 +25,7 @@ exports.handler = async (params) => {
   const config = params.dependent
     ? {
         dependents: [{ repository: params.dependent }],
-        pullrequest: !!params.pullrequest
+        pullRequest: !!params['pull-request']
       }
     : wiby.validate({ config: params.config })
 

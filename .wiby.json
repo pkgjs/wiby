@@ -10,5 +10,5 @@
       "repository": "git+https://github.com/wiby-test/pass"
     }
   ],
-  "pullrequest": false
+  "pullRequest": false
 }

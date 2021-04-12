@@ -39,7 +39,7 @@ tap.test('config validation', async (tap) => {
           repository: 'git+https://github.com/wiby-test/pass'
         }
       ],
-      pullrequest: false
+      pullRequest: false
     })
     tap.end()
   })
