@@ -24,8 +24,7 @@ exports.builder = (yargs) => yargs
 exports.handler = (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent }],
-        pullRequest: !!params['pull-request']
+        dependents: [{ repository: params.dependent, pullRequest: !!params['pull-request'] }]
       }
     : wiby.validate({ config: params.config })
 
