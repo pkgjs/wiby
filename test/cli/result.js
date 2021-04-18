@@ -10,6 +10,8 @@ const gitFixture = require('../fixtures/git')
 const wibyCommand = path.join(__dirname, '..', '..', 'bin', 'wiby')
 const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
 
+const SUCCESS_RESULT_EXIT_CODE = 0
+const FAIL_RESULT_EXIT_CODE = 1
 const PENDING_RESULT_EXIT_CODE = 64
 
 tap.test('result command', async (tap) => {
@@ -37,7 +39,51 @@ tap.test('result command', async (tap) => {
       childProcess.execSync(`${wibyCommand} result --dependent="https://github.com/wiby-test/fakeRepo"`, {
         env: {
           ...process.env,
-          NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive.js`
+          NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive-pass.js`
+        }
+      })
+    } catch (e) {
+      const result = e.output[1].toString().trim()
+
+      tap.equal(result, expected)
+      tap.equal(e.status, SUCCESS_RESULT_EXIT_CODE)
+    }
+  })
+
+  tap.test('result command should call result module with all deps from .wiby.json', async (tap) => {
+    const expected = fs.readFileSync(
+      path.join(__dirname, '..', 'fixtures', 'expected-outputs', 'result', 'result-output-multiple-pass.md'),
+      'utf-8'
+    )
+      .trim()
+
+    try {
+      childProcess.execSync(`${wibyCommand} result`, {
+        env: {
+          ...process.env,
+          NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive-pass.js`
+        }
+      })
+    } catch (e) {
+      const result = e.output[1].toString().trim()
+
+      tap.equal(result, expected)
+      tap.equal(e.status, SUCCESS_RESULT_EXIT_CODE)
+    }
+  })
+
+  tap.test('result command should call result module with all deps from .wiby.json (pending result)', async (tap) => {
+    const expected = fs.readFileSync(
+      path.join(__dirname, '..', 'fixtures', 'expected-outputs', 'result', 'result-output-multiple-pending.md'),
+      'utf-8'
+    )
+      .trim()
+
+    try {
+      childProcess.execSync(`${wibyCommand} result`, {
+        env: {
+          ...process.env,
+          NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive-pending.js`
         }
       })
     } catch (e) {
@@ -48,9 +94,9 @@ tap.test('result command', async (tap) => {
     }
   })
 
-  tap.test('result command should call result module with all deps from .wiby.json', async (tap) => {
+  tap.test('result command should call result module with all deps from .wiby.json (missing branch result)', async (tap) => {
     const expected = fs.readFileSync(
-      path.join(__dirname, '..', 'fixtures', 'expected-outputs', 'result', 'result-output-multiple-dependant.md'),
+      path.join(__dirname, '..', 'fixtures', 'expected-outputs', 'result', 'result-output-missing-branch.md'),
       'utf-8'
     )
       .trim()
@@ -59,7 +105,7 @@ tap.test('result command', async (tap) => {
       childProcess.execSync(`${wibyCommand} result`, {
         env: {
           ...process.env,
-          NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive.js`
+          NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-missing-branch.js`
         }
       })
     } catch (e) {
@@ -136,7 +182,7 @@ tap.test('result command', async (tap) => {
       const result = e.output[1].toString().trim()
 
       tap.equal(result, expected)
-      tap.equal(e.status, 1)
+      tap.equal(e.status, FAIL_RESULT_EXIT_CODE)
     }
   })
 })
