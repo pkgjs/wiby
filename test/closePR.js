@@ -64,10 +64,10 @@ tap.test('close PR', (t) => {
   })
   t.test('closePR Cli function tests', (t) => {
     t.plan(2)
-    t.test('closePR should not close PRs', async(t) => {
-      //nock setup
+    t.test('closePR should not close PRs', async (t) => {
+      // nock setup
       nock('https://api.github.com')
-        .get(/repos.*check\-runs/)
+        .get(/repos.*check-runs/)
         .reply(200, {
           data: {}
         })
@@ -82,12 +82,12 @@ tap.test('close PR', (t) => {
 
       t.equal(result.length, 0)
     })
-    t.test('closePR should close a single PR', async(t) => {
+    t.test('closePR should close a single PR', async (t) => {
       gitFixture.init()
       const branch = context.getTestingBranchName(await context.getParentBranchName())
-      //nock setup
+      // nock setup
       nock('https://api.github.com')
-        .get(/repos.*check\-runs/)
+        .get(/repos.*check-runs/)
         .reply(200, {
           check_runs: [
             {

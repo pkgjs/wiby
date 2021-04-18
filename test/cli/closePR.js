@@ -4,7 +4,6 @@ const gitFixture = require('../fixtures/git')
 const childProcess = require('child_process')
 const nock = require('nock')
 const path = require('path')
-const fs = require('fs')
 
 const wibyCommand = path.join(__dirname, '..', '..', 'bin', 'wiby')
 const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
