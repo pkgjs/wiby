@@ -29,7 +29,7 @@ exports.handler = async (params) => {
     : wiby.validate({ config: params.config })
 
   const result = await wiby.closePR(config)
+  // TODO, something more like the result process output
   const output = `${result.length} PRs closed`
   console.log(output)
-  return output
 }
