@@ -10,7 +10,7 @@ nock.disableNetConnect()
 function nockRepo (nockInstance, owner, repo, branch) {
   return nockInstance
     // /repos/{owner}/{repo}/commits/{ref}/check-runs
-    .get(`repos/${owner}/${repo}/commits/${branch}/check-runs`)
+    .get(`/repos/${owner}/${repo}/commits/${branch}/check-runs`)
     .reply(200, {
       check_runs: [
         {
@@ -32,7 +32,8 @@ function nockRepo (nockInstance, owner, repo, branch) {
         }
       ]
     })
-    .patch(/repos.*pulls\/1/)
+    // /repos/{owner}/{repo}/pulls/{pull_number}
+    .patch(`/repos/${owner}/${repo}/pulls/1`)
     .reply(200, {
       state: 'closed',
       title: 'wiby test pr'
@@ -42,8 +43,8 @@ function nockRepo (nockInstance, owner, repo, branch) {
 function buildNock () {
   let nockInstance = nock('https://api.github.com')
 
-  nockInstance = nockRepo(nockInstance, 'fakeRepo')
-
+  nockInstance = nockRepo(nockInstance, 'wiby-test', 'fakeRepo', 'wiby-running-unit-tests')
+  nockInstance = nockRepo(nockInstance, 'wiby-test', 'pass', 'wiby-running-unit-tests')
   return nockInstance
 }
 

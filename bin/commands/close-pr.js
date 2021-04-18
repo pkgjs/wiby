@@ -10,8 +10,8 @@ exports.builder = (yargs) => yargs
     type: 'string',
     conflicts: 'config'
   })
-  .option('pull-request', {
-    desc: 'Raise a draft PR in addition to creating a branch',
+  .option('close-pr', {
+    desc: 'Close a PR of a dependent raised in test',
     alias: 'pr',
     type: 'boolean',
     conflicts: 'config'
@@ -21,12 +21,15 @@ exports.builder = (yargs) => yargs
     type: 'string'
   })
 
-exports.handler = (params) => {
+exports.handler = async (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent, pullRequest: !!params['pull-request'] }]
+        dependents: [{ repository: params.dependent, pullRequest: true }]
       }
     : wiby.validate({ config: params.config })
 
-  return wiby.closePR(config)
+  const result = await wiby.closePR(config)
+  const output = `${result.length} PRs closed`
+  console.log(output)
+  return output
 }
