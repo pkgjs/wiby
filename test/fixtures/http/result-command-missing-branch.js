@@ -24,32 +24,40 @@ nock('https://api.github.com')
       }
     }
   })
+  .get('/repos/wiby-test/fakeRepo/branches/wiby-running-unit-tests')
+  .reply(200, {})
+  .get('/repos/wiby-test/partial/branches/wiby-running-unit-tests')
+  .reply(200, {})
+  .get('/repos/wiby-test/pass/branches/wiby-running-unit-tests')
+  .reply(200, {})
+  .get('/repos/wiby-test/fail/branches/wiby-running-unit-tests')
+  .reply(404, {})
   // get check results
   .get('/repos/wiby-test/fakeRepo/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
-      { status: 'queued', name: 'fake_run' },
-      { status: 'done', name: 'fake_run_2', conclusion: 'fake_conclusion' }
+      { status: 'done', name: 'fake_run', conclusion: 'success' },
+      { status: 'done', name: 'fake_run_2', conclusion: 'success' }
     ]
   })
   .get('/repos/wiby-test/fail/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
-      { status: 'queued', name: 'fail_run' },
-      { status: 'done', name: 'fail_run_2', conclusion: 'fake_conclusion' }
+      { status: 'done', name: 'fail_run', conclusion: 'success' },
+      { status: 'done', name: 'fail_run_2', conclusion: 'success' }
     ]
   })
   .get('/repos/wiby-test/pass/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
-      { status: 'queued', name: 'pass_run' },
-      { status: 'done', name: 'pass_run_2', conclusion: 'fake_conclusion' }
+      { status: 'done', name: 'pass_run', conclusion: 'success' },
+      { status: 'done', name: 'pass_run_2', conclusion: 'success' }
     ]
   })
   .get('/repos/wiby-test/partial/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
     check_runs: [
-      { status: 'queued', name: 'partial_run' },
-      { status: 'done', name: 'partial_run_2', conclusion: 'fake_conclusion' }
+      { status: 'done', name: 'partial_run', conclusion: 'success' },
+      { status: 'done', name: 'partial_run_2', conclusion: 'success' }
     ]
   })
