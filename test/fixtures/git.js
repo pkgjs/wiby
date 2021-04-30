@@ -5,15 +5,13 @@ const fs = require('fs')
 const path = require('path')
 const tmp = require('tmp')
 
-exports.TEST_BRANCH_NAME = 'running-unit-tests'
-
-exports.init = function () {
+exports.init = function (initialBranch = 'running-unit-tests') {
   const gitRepoPath = path.join(__dirname, '..', '..')
 
   const { name: tmpDir } = tmp.dirSync()
   process.chdir(tmpDir)
 
-  childProcess.execSync('git init --initial-branch=running-unit-tests')
+  childProcess.execSync(`git init --initial-branch=${initialBranch}`)
   childProcess.execSync('git config user.email "wiby@example.com"')
   childProcess.execSync('git config user.name "Wiby Bot"')
 

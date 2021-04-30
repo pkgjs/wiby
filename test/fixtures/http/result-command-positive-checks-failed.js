@@ -25,6 +25,8 @@ nock('https://api.github.com')
       }
     }
   })
+  .get('/repos/wiby-test/fakeRepo/branches/wiby-running-unit-tests')
+  .reply(200, {})
   // get check results
   .get('/repos/wiby-test/fakeRepo/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {

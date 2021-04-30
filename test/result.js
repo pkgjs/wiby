@@ -53,13 +53,13 @@ tap.test('wiby.result()', async (tap) => {
 
   tap.test('result() should return correct data object', async (tap) => {
     // mock real http requests with positive scenario
-    require('./fixtures/http/result-command-positive')
+    require('./fixtures/http/result-command-positive-pass')
 
     const output = await wiby.result({ dependents: [{ repository: 'https://github.com/wiby-test/fakeRepo' }] })
 
-    tap.equal(output.status, 'pending')
+    tap.equal(output.status, 'success')
     tap.equal(output.results[0].dependent, 'wiby-test/fakeRepo')
-    tap.equal(output.results[0].status, 'pending')
+    tap.equal(output.results[0].status, 'success')
     tap.equal(output.results[0].runs.length, 2)
   })
 
