@@ -10,12 +10,6 @@ exports.builder = (yargs) => yargs
     type: 'string',
     conflicts: 'config'
   })
-  .option('close-pr', {
-    desc: 'Close a PR of a dependent raised in test',
-    alias: 'pr',
-    type: 'boolean',
-    conflicts: 'config'
-  })
   .option('config', {
     desc: 'Path to the configuration file. By default it will try to load the configuration from the first file it finds in the current working directory: `.wiby.json`, `.wiby.js`',
     type: 'string'
