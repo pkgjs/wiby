@@ -10,7 +10,7 @@ nock.disableNetConnect()
 function nockPkgjsWiby (nockInstance) {
   return nockInstance
     // get package json
-    .post('/graphql')
+    .post('/graphql', body => !!body.query.match(/HEAD/g))
     .times(3)
     .reply(200, {
       data: {
@@ -21,6 +21,17 @@ function nockPkgjsWiby (nockInstance) {
                 wiby: '*'
               }
             })
+          }
+        }
+      }
+    })
+    .post(/graphql/, body => !!body.query.match(/defaultBranchRef/g))
+    .times(3)
+    .reply(200, {
+      data: {
+        repository: {
+          defaultBranchRef: {
+            name: 'main'
           }
         }
       }

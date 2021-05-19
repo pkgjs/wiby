@@ -9,7 +9,7 @@ const gitFixture = require('./fixtures/git')
 
 const wiby = require('..')
 
-tap.test('wiby.test()', async (tap) => {
+tap.only('wiby.test()', async (tap) => {
   tap.beforeEach(async () => {
     nock.disableNetConnect()
     gitFixture.init()
@@ -97,8 +97,19 @@ tap.test('wiby.test()', async (tap) => {
     )
     tap.end()
   })
-  tap.test('test create PR', (t) => {
+  tap.only('test create PR', (t) => {
     const htmlURL = `https://github.com/${CONFIG.PKG_ORG}/${CONFIG.DEP_REPO}/pull/1`
+    nock('https://api.github.com')
+      .post(/graphql/)
+      .reply(200, {
+        data: {
+          repository: {
+            defaultBranchRef: {
+              name: 'main'
+            }
+          }
+        }
+      })
     nock('https://api.github.com')
       .post('/repos/pkgjs/wiby/pulls')
       .reply(201, {
