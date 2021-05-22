@@ -8,7 +8,7 @@ const path = require('path')
 const wibyCommand = path.join(__dirname, '..', '..', 'bin', 'wiby')
 const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
 
-tap.only('closePRs command', async (t) => {
+tap.test('closePRs command', async (t) => {
   t.beforeEach(async () => {
     nock.disableNetConnect()
     gitFixture.init()
@@ -31,7 +31,7 @@ tap.only('closePRs command', async (t) => {
     }).toString()
     t.match(result, '1 PRs closed\n')
   })
-  t.only('close-pr should call and close the PR on command using wiby.json settings', async (t) => {
+  t.test('close-pr should call and close the PR on command using wiby.json settings', async (t) => {
     const result = childProcess.execSync(`${wibyCommand} close-pr`, {
       env: {
         ...process.env,

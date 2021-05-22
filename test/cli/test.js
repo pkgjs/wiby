@@ -9,7 +9,7 @@ const gitFixture = require('../fixtures/git')
 const wibyCommand = path.join(__dirname, '..', '..', 'bin', 'wiby')
 const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
 
-tap.only('test command', async (tap) => {
+tap.test('test command', async (tap) => {
   tap.test('test command should fail when config and dependent provided', async (tap) => {
     gitFixture.init()
 
@@ -34,7 +34,7 @@ tap.only('test command', async (tap) => {
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-running-unit-tests/package.json')
   })
 
-  tap.only('test command should call test module with all deps from .wiby.json', async (tap) => {
+  tap.test('test command should call test module with all deps from .wiby.json', async (tap) => {
     gitFixture.init()
 
     const result = childProcess.execSync(`${wibyCommand} test`, {

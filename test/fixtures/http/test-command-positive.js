@@ -48,6 +48,8 @@ function nockPkgjsWiby (nockInstance) {
         }
       }
     ])
+    .get('/repos/wiby-test/pass/branches/wiby-running-unit-tests')
+    .reply(404, {})
 }
 
 function nockRepo (nockInstance, repo) {
@@ -86,6 +88,10 @@ function nockRepo (nockInstance, repo) {
     .post(`/repos/wiby-test/${repo}/pulls`)
     .reply(201, {
       html_url: 'https://github.com/pkgjs/wiby/pull/1'
+    })
+    .get('/repos/wiby-test/pass/branches/running-unit-tests')
+    .reply(200, {
+      name: 'running-unit-tests'
     })
 }
 
