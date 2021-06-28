@@ -2,7 +2,7 @@
 
 const wiby = require('../..')
 
-exports.desc = 'Use this command to fetch the results of your latest test against a dependent. wiby will go off to the dependent’s repo and fetch the results of the CI run against the patch branch wiby had created.'
+exports.desc = 'Use this command to close the PRs raised against your dependents. wiby will go off to the dependent’s repo and close the PRs raised that trigger jobs  `package.json` pointing to your latest version (with the new changes) triggering the dependent’s CI to run.'
 
 exports.builder = (yargs) => yargs
   .option('dependent', {
@@ -18,11 +18,12 @@ exports.builder = (yargs) => yargs
 exports.handler = async (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent }]
+        dependents: [{ repository: params.dependent, pullRequest: true }]
       }
     : wiby.validate({ config: params.config })
 
-  const result = await wiby.result(config)
-
-  return wiby.result.processOutput(result)
+  const result = await wiby.closePR(config)
+  // TODO, something more like the result process output
+  const output = `${result.length} PRs closed`
+  console.log(output)
 }

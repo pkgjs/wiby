@@ -30,13 +30,16 @@ tap.test('config validation', async (tap) => {
     tap.strictSame(normalizedConfig, {
       dependents: [
         {
-          repository: 'https://github.com/wiby-test/partial'
+          repository: 'https://github.com/wiby-test/partial',
+          pullRequest: false
         },
         {
-          repository: 'git://github.com/wiby-test/fail'
+          repository: 'git://github.com/wiby-test/fail',
+          pullRequest: false
         },
         {
-          repository: 'git+https://github.com/wiby-test/pass'
+          repository: 'git+https://github.com/wiby-test/pass',
+          pullRequest: true
         }
       ]
     })

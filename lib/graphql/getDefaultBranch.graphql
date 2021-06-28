@@ -1,0 +1,7 @@
+query getExistingRepoBranches($owner: String!, $repo: String!) {
+    repository(name: $repo, owner: $owner) {
+        defaultBranchRef {
+            name
+        }
+    }
+}

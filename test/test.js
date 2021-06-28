@@ -97,4 +97,50 @@ tap.test('wiby.test()', async (tap) => {
     )
     tap.end()
   })
+  tap.test('Create PR', (tap) => {
+    tap.plan(2)
+    const htmlURL = `https://github.com/${CONFIG.PKG_ORG}/${CONFIG.DEP_REPO}/pull/1`
+    const dependentOwner = 'pkgjs'
+    const dependentRepo = 'wiby'
+    const parentBranchName = 'main'
+    tap.beforeEach(() => {
+      nock('https://api.github.com')
+        .post('/repos/pkgjs/wiby/pulls')
+        .reply(201, {
+          html_url: htmlURL
+        })
+        .post(/graphql/)
+        .reply(200, {
+          data: {
+            repository: {
+              defaultBranchRef: {
+                name: 'main'
+              }
+            }
+          }
+        })
+    })
+    tap.test('test create PR when dependency feature branch does not exist in dependent repo', (t) => {
+      nock('https://api.github.com')
+        .get(/repos/)
+        .reply(404, {})
+      wiby.test.createPR(dependentOwner, dependentRepo, parentBranchName)
+        .then((result) => {
+          t.equal(result.data.html_url, htmlURL)
+          t.end()
+        })
+    })
+    tap.test('test create PR when dependency feature branch exists in dependent repo', (t) => {
+      nock('https://api.github.com')
+        .get(/repos/)
+        .reply(200, {
+          name: parentBranchName
+        })
+      wiby.test.createPR(dependentOwner, dependentRepo, parentBranchName)
+        .then((result) => {
+          t.equal(result.data.html_url, htmlURL)
+          t.end()
+        })
+    })
+  })
 })

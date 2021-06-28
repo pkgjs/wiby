@@ -10,6 +10,12 @@ exports.builder = (yargs) => yargs
     type: 'string',
     conflicts: 'config'
   })
+  .option('pull-request', {
+    desc: 'Raise a draft PR in addition to creating a branch',
+    alias: 'pr',
+    type: 'boolean',
+    conflicts: 'config'
+  })
   .option('config', {
     desc: 'Path to the configuration file. By default it will try to load the configuration from the first file it finds in the current working directory: `.wiby.json`, `.wiby.js`',
     type: 'string'
@@ -17,7 +23,9 @@ exports.builder = (yargs) => yargs
 
 exports.handler = (params) => {
   const config = params.dependent
-    ? { dependents: [{ repository: params.dependent }] }
+    ? {
+        dependents: [{ repository: params.dependent, pullRequest: !!params['pull-request'] }]
+      }
     : wiby.validate({ config: params.config })
 
   return wiby.test(config)

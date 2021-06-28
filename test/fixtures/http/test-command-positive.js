@@ -10,7 +10,7 @@ nock.disableNetConnect()
 function nockPkgjsWiby (nockInstance) {
   return nockInstance
     // get package json
-    .post('/graphql')
+    .post('/graphql', body => !!body.query.match(/HEAD/g))
     .times(3)
     .reply(200, {
       data: {
@@ -21,6 +21,17 @@ function nockPkgjsWiby (nockInstance) {
                 wiby: '*'
               }
             })
+          }
+        }
+      }
+    })
+    .post(/graphql/, body => !!body.query.match(/defaultBranchRef/g))
+    .times(3)
+    .reply(200, {
+      data: {
+        repository: {
+          defaultBranchRef: {
+            name: 'main'
           }
         }
       }
@@ -37,6 +48,8 @@ function nockPkgjsWiby (nockInstance) {
         }
       }
     ])
+    .get('/repos/wiby-test/pass/branches/wiby-running-unit-tests')
+    .reply(404, {})
 }
 
 function nockRepo (nockInstance, repo) {
@@ -71,6 +84,15 @@ function nockRepo (nockInstance, repo) {
     // create branch in dependent
     .post(`/repos/wiby-test/${repo}/git/refs`)
     .reply(200, {})
+    // create PR when requested
+    .post(`/repos/wiby-test/${repo}/pulls`)
+    .reply(201, {
+      html_url: 'https://github.com/pkgjs/wiby/pull/1'
+    })
+    .get('/repos/wiby-test/pass/branches/running-unit-tests')
+    .reply(200, {
+      name: 'running-unit-tests'
+    })
 }
 
 function buildNock () {
