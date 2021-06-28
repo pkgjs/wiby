@@ -49,6 +49,21 @@ tap.test('test command', async (tap) => {
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-running-unit-tests/package.json')
   })
 
+  tap.test('test command should update existing wiby test branches', async (tap) => {
+    gitFixture.init('existing-branch')
+
+    const result = childProcess.execSync(`${wibyCommand} test`, {
+      env: {
+        ...process.env,
+        NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
+      }
+    }).toString()
+
+    tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/pass#wiby-existing-branch')
+    tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/fail#wiby-existing-branch')
+    tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/partial#wiby-existing-branch')
+  })
+
   tap.test('test command should not add `wiby-` prefix when branch already has it', async (tap) => {
     gitFixture.init('wiby-running-unit-tests')
 

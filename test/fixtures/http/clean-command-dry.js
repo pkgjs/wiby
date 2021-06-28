@@ -10,7 +10,7 @@ nock.disableNetConnect()
 function nockRepo (nockInstance, repo) {
   return nockInstance
     .get(`/repos/wiby-test/${repo}/branches/wiby-running-unit-tests`)
-    .reply(200)
+    .reply(200, {})
 }
 
 function buildNock () {

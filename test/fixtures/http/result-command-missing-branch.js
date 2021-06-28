@@ -31,7 +31,7 @@ nock('https://api.github.com')
   .get('/repos/wiby-test/pass/branches/wiby-running-unit-tests')
   .reply(200, {})
   .get('/repos/wiby-test/fail/branches/wiby-running-unit-tests')
-  .reply(404, {})
+  .reply(404)
   // get check results
   .get('/repos/wiby-test/fakeRepo/commits/wiby-running-unit-tests/check-runs')
   .reply(200, {
