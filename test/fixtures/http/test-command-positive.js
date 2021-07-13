@@ -119,6 +119,14 @@ function nockRepo (nockInstance, repo) {
     })
     .patch(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-existing-branch`, { sha: 'fake_sha' })
     .reply(204)
+    .get(`/repos/wiby-test/${repo}/pulls?head=wiby-test%3Awiby-running-unit-tests`)
+    .reply(200, [])
+    .get(`/repos/wiby-test/${repo}/pulls?head=wiby-test%3Awiby-existing-branch`)
+    .reply(200, [
+      {
+        html_url: 'https://github.com/pkgjs/wiby/pull/1'
+      }
+    ])
 }
 
 function buildNock () {

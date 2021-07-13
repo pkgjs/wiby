@@ -63,7 +63,7 @@ tap.test('test command', async (tap) => {
     tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/pass#wiby-existing-branch')
     tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/fail#wiby-existing-branch')
     tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/partial#wiby-existing-branch')
-    tap.match(result, 'PR raised upon https://github.com/pkgjs/wiby/pull/1 (base branch: main)')
+    tap.match(result, 'Existing PRs updated: https://github.com/pkgjs/wiby/pull/1')
   })
 
   tap.test('test command should not add `wiby-` prefix when branch already has it', async (tap) => {
