@@ -47,6 +47,23 @@ tap.test('test command', async (tap) => {
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/pass/blob/wiby-running-unit-tests/package.json')
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/fail/blob/wiby-running-unit-tests/package.json')
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-running-unit-tests/package.json')
+    tap.match(result, 'PR raised upon https://github.com/pkgjs/wiby/pull/1 (base branch: running-unit-tests)')
+  })
+
+  tap.test('test command should update existing wiby test branches', async (tap) => {
+    gitFixture.init('existing-branch')
+
+    const result = childProcess.execSync(`${wibyCommand} test`, {
+      env: {
+        ...process.env,
+        NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
+      }
+    }).toString()
+
+    tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/pass#wiby-existing-branch')
+    tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/fail#wiby-existing-branch')
+    tap.match(result, 'Pushed a new commit to https://github.com/wiby-test/partial#wiby-existing-branch')
+    tap.match(result, 'Existing PRs updated: https://github.com/pkgjs/wiby/pull/1')
   })
 
   tap.test('test command should not add `wiby-` prefix when branch already has it', async (tap) => {
@@ -62,5 +79,6 @@ tap.test('test command', async (tap) => {
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/pass/blob/wiby-running-unit-tests/package.json')
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/fail/blob/wiby-running-unit-tests/package.json')
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/partial/blob/wiby-running-unit-tests/package.json')
+    tap.match(result, 'PR raised upon https://github.com/pkgjs/wiby/pull/1 (base branch: main)')
   })
 })

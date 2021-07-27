@@ -41,9 +41,7 @@ tap.test('close PR', (t) => {
       nock('https://api.github.com')
         // get package json
         .patch('/repos/pkgjs/wiby/pulls/1')
-        .reply(200, {
-          data: {}
-        })
+        .reply(200, {})
       const result = await closePR.closeDependencyPR(owner, repo, branch, [{
         status: 'completed',
         conclusion: 'success',
@@ -68,9 +66,7 @@ tap.test('close PR', (t) => {
       // nock setup
       nock('https://api.github.com')
         .get(/repos.*check-runs/)
-        .reply(200, {
-          data: {}
-        })
+        .reply(200, {})
       const result = await closePR({
         dependents: [
           {

@@ -11,7 +11,7 @@ tap.test('package.json can be fetched with a valid url', async tap => {
 }, { skip: !process.env.GITHUB_TOKEN })
 
 tap.test('Shas returned from getShas', async tap => {
-  const [headSha, treeSha] = await github.getShas('pkgjs', 'wiby')
+  const { headSha, treeSha } = await github.getShas('pkgjs', 'wiby')
   tap.notEqual(headSha, null)
   tap.notEqual(treeSha, null)
 }, { skip: !process.env.GITHUB_TOKEN })

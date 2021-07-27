@@ -49,7 +49,7 @@ function nockPkgjsWiby (nockInstance) {
       }
     ])
     .get('/repos/wiby-test/pass/branches/wiby-running-unit-tests')
-    .reply(404, {})
+    .reply(404)
 }
 
 function nockRepo (nockInstance, repo) {
@@ -89,10 +89,44 @@ function nockRepo (nockInstance, repo) {
     .reply(201, {
       html_url: 'https://github.com/pkgjs/wiby/pull/1'
     })
-    .get('/repos/wiby-test/pass/branches/running-unit-tests')
+    .get(`/repos/wiby-test/${repo}/branches/running-unit-tests`)
     .reply(200, {
-      name: 'running-unit-tests'
+      name: 'running-unit-tests',
+      commit: {
+        sha: 'head_sha',
+        commit: {
+          tree: {
+            sha: 'tree_sha'
+          }
+        }
+      }
     })
+    .get(`/repos/wiby-test/${repo}/branches/wiby-running-unit-tests`)
+    .reply(404)
+    .get(`/repos/wiby-test/${repo}/branches/existing-branch`)
+    .reply(404)
+    .get(`/repos/wiby-test/${repo}/branches/wiby-existing-branch`)
+    .reply(200, {
+      name: 'wiby-existing-branch',
+      commit: {
+        sha: 'head_sha',
+        commit: {
+          tree: {
+            sha: 'tree_sha'
+          }
+        }
+      }
+    })
+    .patch(`/repos/wiby-test/${repo}/git/refs/heads%2Fwiby-existing-branch`, { sha: 'fake_sha' })
+    .reply(204)
+    .get(`/repos/wiby-test/${repo}/pulls?head=wiby-test%3Awiby-running-unit-tests`)
+    .reply(200, [])
+    .get(`/repos/wiby-test/${repo}/pulls?head=wiby-test%3Awiby-existing-branch`)
+    .reply(200, [
+      {
+        html_url: 'https://github.com/pkgjs/wiby/pull/1'
+      }
+    ])
 }
 
 function buildNock () {
