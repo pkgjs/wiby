@@ -68,7 +68,7 @@ jobs:
           ref: ${{ steps.pr.outputs.branch }}
 
       - name: Prepare Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ env.WIBY_NODE_VERSION }}
 
@@ -149,7 +149,7 @@ jobs:
           ref: ${{ steps.pr.outputs.branch }}
 
       - name: Prepare Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ env.WIBY_NODE_VERSION }}
 
