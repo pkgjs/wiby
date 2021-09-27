@@ -122,6 +122,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Clean up the trigger label
+        if: ${{ always() }}
+        uses: octokit/request-action@v2.x
+        with:
+          route: DELETE /repos/:repository/issues/:issue_number/labels/:label_name
+          repository: ${{ github.event.repository.full_name }}
+          issue_number: ${{ github.event.pull_request.number }}
+          label_name: ${{ github.event.label.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
   result:
 
     runs-on: ubuntu-latest
@@ -206,5 +218,16 @@ jobs:
           details_url: "${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}"
           head_sha: ${{ github.event.pull_request.head.sha }}
           conclusion: ${{ steps.wiby_result.outputs.wiby_conclusion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up the trigger label
+        if: ${{ always() }}
+        uses: octokit/request-action@v2.x
+        with:
+          route: DELETE /repos/:repository/issues/:issue_number/labels/:label_name
+          repository: ${{ github.event.repository.full_name }}
+          issue_number: ${{ github.event.pull_request.number }}
+          label_name: ${{ github.event.label.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
