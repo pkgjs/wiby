@@ -1,8 +1,8 @@
 name: wiby
 
 on:
-  issue_comment:
-    types: [ created ]
+  pull_request_target:
+    types: [ labeled ]
 
 env:
   WIBY_CHECK_NAME: "wiby"
@@ -10,52 +10,58 @@ env:
 
 jobs:
 
-  permissions:
+  status:
 
     runs-on: ubuntu-latest
 
-    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, 'wiby ') && (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR') }}
+    if: ${{ github.event.label.name == 'wiby test' }}
+
+    outputs:
+      in_progress: ${{ steps.checks_by_status.outputs.in_progress }}
+      queued: ${{ steps.checks_by_status.outputs.queued }}
+      completed: ${{ steps.checks_by_status.outputs.completed }}
 
     steps:
-      - run: 'echo "Author association: ${{ github.event.comment.author_association }}"'
+      - name: Get status
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/:repository/commits/:ref/check-runs
+          repository: ${{ github.event.repository.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          mediaType: |
+            previews:
+              - antiope
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: pr_status
+
+      - name: Count wiby status check by their status
+        run: |
+          jq -r '.check_runs | map(select(.name=="wiby")) | group_by(.status) | map("::set-output name=" + .[0].status + "::" + (length | tostring)) | join("\n")' << EOF
+          ${{ steps.pr_status.outputs.data }}
+          EOF
+        id: checks_by_status
 
   test:
 
     runs-on: ubuntu-latest
 
-    needs: permissions
+    needs: status
 
-    if: ${{ startsWith(github.event.comment.body, 'wiby test') }}
+    if: ${{ !needs.status.outputs.in_progress && !needs.status.outputs.queued }}
 
     steps:
-
-      - name: Load PR
-        uses: octokit/request-action@v2.x
-        with:
-          route: ${{ github.event.issue.pull_request.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        id: load_pr
-
-      - name: Get PR information
-        run: |
-          echo "::set-output name=branch::${{ fromJson(steps.load_pr.outputs.data).head.ref }}"
-          echo "::set-output name=head_sha::${{ fromJson(steps.load_pr.outputs.data).head.sha }}"
-          echo "::set-output name=repo_name::${{ fromJson(steps.load_pr.outputs.data).base.repo.full_name }}"
-          echo "::set-output name=repo_url::${{ fromJson(steps.load_pr.outputs.data).base.repo.html_url }}"
-        id: pr
 
       - name: Set "queued" status
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/:repository/check-runs
-          repository: ${{ steps.pr.outputs.repo_name }}
+          repository: ${{ github.event.repository.full_name }}
           mediaType: |
             previews:
               - antiope
           name: ${{ env.WIBY_CHECK_NAME }}
-          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
-          head_sha: ${{ steps.pr.outputs.head_sha }}
+          head_sha: ${{ github.event.pull_request.head.sha }}
           status: "queued"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,8 +70,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ steps.pr.outputs.repo_name }}
-          ref: ${{ steps.pr.outputs.branch }}
+          repository: ${{ github.event.repository.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Prepare Node.js
         uses: actions/setup-node@v2
@@ -89,13 +95,12 @@ jobs:
         if: ${{ failure() }}
         with:
           route: POST /repos/:repository/check-runs
-          repository: ${{ steps.pr.outputs.repo_name }}
+          repository: ${{ github.event.repository.full_name }}
           mediaType: |
             previews:
               - antiope
           name: ${{ env.WIBY_CHECK_NAME }}
-          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
-          head_sha: ${{ steps.pr.outputs.head_sha }}
+          head_sha: ${{ github.event.pull_request.head.sha }}
           conclusion: "failure"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -104,49 +109,44 @@ jobs:
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/:repository/check-runs
-          repository: ${{ steps.pr.outputs.repo_name }}
+          repository: ${{ github.event.repository.full_name }}
           mediaType: |
             previews:
               - antiope
           name: ${{ env.WIBY_CHECK_NAME }}
-          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
-          head_sha: ${{ steps.pr.outputs.head_sha }}
+          head_sha: ${{ github.event.pull_request.head.sha }}
           status: "in_progress"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up the trigger label
+        if: ${{ always() }}
+        uses: octokit/request-action@v2.x
+        with:
+          route: DELETE /repos/:repository/issues/:issue_number/labels/:label_name
+          repository: ${{ github.event.repository.full_name }}
+          issue_number: ${{ github.event.pull_request.number }}
+          label_name: ${{ github.event.label.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
   result:
 
     runs-on: ubuntu-latest
 
-    needs: permissions
+    needs: status
 
-    if: ${{ startsWith(github.event.comment.body, 'wiby result') }}
+    if: ${{ needs.status.outputs.in_progress }}
 
     steps:
-
-      - name: Load PR
-        uses: octokit/request-action@v2.x
-        with:
-          route: ${{ github.event.issue.pull_request.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        id: load_pr
-
-      - name: Get PR information
-        run: |
-          echo "::set-output name=branch::${{ fromJson(steps.load_pr.outputs.data).head.ref }}"
-          echo "::set-output name=head_sha::${{ fromJson(steps.load_pr.outputs.data).head.sha }}"
-          echo "::set-output name=repo_name::${{ fromJson(steps.load_pr.outputs.data).base.repo.full_name }}"
-          echo "::set-output name=repo_url::${{ fromJson(steps.load_pr.outputs.data).base.repo.html_url }}"
-        id: pr
 
       - name: Checkout PR Branch
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ steps.pr.outputs.repo_name }}
-          ref: ${{ steps.pr.outputs.branch }}
+          repository: ${{ github.event.repository.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Prepare Node.js
         uses: actions/setup-node@v2
@@ -162,7 +162,7 @@ jobs:
             WIBY_RESULT_CODE=$1
 
             if [ ${WIBY_RESULT_CODE} -eq 64 ]; then
-              echo "`wiby` exited with code 64 - results are still pending"
+              echo "wiby exited with code 64 - results are still pending"
               exit
             else
               echo "::set-output name=wiby_conclusion::failure"
@@ -191,13 +191,12 @@ jobs:
         if: ${{ failure() }}
         with:
           route: POST /repos/:repository/check-runs
-          repository: ${{ steps.pr.outputs.repo_name }}
+          repository: ${{ github.event.repository.full_name }}
           mediaType: |
             previews:
               - antiope
           name: ${{ env.WIBY_CHECK_NAME }}
-          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
-          head_sha: ${{ steps.pr.outputs.head_sha }}
+          head_sha: ${{ github.event.pull_request.head.sha }}
           conclusion: "failure"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -207,13 +206,23 @@ jobs:
         if: ${{ steps.wiby_result.outputs.wiby_conclusion != '' }}
         with:
           route: POST /repos/:repository/check-runs
-          repository: ${{ steps.pr.outputs.repo_name }}
+          repository: ${{ github.event.repository.full_name }}
           mediaType: |
             previews:
               - antiope
           name: ${{ env.WIBY_CHECK_NAME }}
-          details_url: "${{ steps.pr.outputs.repo_url }}/actions/runs/${{ github.run_id }}"
-          head_sha: ${{ steps.pr.outputs.head_sha }}
+          head_sha: ${{ github.event.pull_request.head.sha }}
           conclusion: ${{ steps.wiby_result.outputs.wiby_conclusion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up the trigger label
+        if: ${{ always() }}
+        uses: octokit/request-action@v2.x
+        with:
+          route: DELETE /repos/:repository/issues/:issue_number/labels/:label_name
+          repository: ${{ github.event.repository.full_name }}
+          issue_number: ${{ github.event.pull_request.number }}
+          label_name: ${{ github.event.label.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
