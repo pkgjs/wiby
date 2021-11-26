@@ -1,5 +1,11 @@
 WIBY (**W**ill **I** **B**reak **Y**ou)
 
+## Purpose
+Wiby is a tool that will inform and trigger actions on a package to inform it that a registered dependency change may break
+it. This is different from triggering tests once a dependency has been published. The goal is to inform before publication.
+This will answer the question, "will I break you?", not "did I break you?". This is preemptive action that can take place
+before rather than after a dependent package is broken.
+
 The term **depenedent** shall mean an npm package that consumes another npm package, called a **dependency**, directly
 or indirectly via a tree of reliance through the package.json file. The **wiby** program exists to create a notification to the *dependent* 
 package maintainers of changes made in a dependency. The **WIBY** program, when configured correctly, will raise a Pull 
@@ -44,7 +50,10 @@ Pull Request agaist the "the-example-dependent" when the WIBY command was run wi
 example 1 working example with a single dependent and dependency. using github actions to build the dependency and run
 wiby on the dependent repo.
 
-This does raise questions about where code should be stored, this is very github dependent.
 
 from the examples that you create, write the documentation based on your experiences and add in notes and things you 
 discover on the way.
+
+- This does raise questions about where code should be stored, this is very github dependent.
+- Do we need a specific github action for wiby? Meaning in the market place
+- how do we bridge the gap between the repo changes or PRs in the dependencies and the dependent only really understanding npm modules (not repos)
