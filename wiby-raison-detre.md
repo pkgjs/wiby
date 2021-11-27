@@ -1,10 +1,10 @@
 WIBY (**W**ill **I** **B**reak **Y**ou)
 
-## Purpose
+## Purpose and Terminology
 Wiby is a tool that will inform and trigger actions on a package to inform it that a registered dependency change may break
 it. This is different from triggering tests once a dependency has been published. The goal is to inform before publication.
-This will answer the question, "will I break you?", not "did I break you?". This is preemptive action that can take place
-before rather than after a dependent package is broken.
+This will answer the question, "will I break you?", not "did I break you?". 
+
 
 The term **depenedent** shall mean an npm package that consumes another npm package, called a **dependency**, directly
 or indirectly via a tree of reliance through the package.json file. The **wiby** program exists to create a notification to the *dependent* 
@@ -12,6 +12,8 @@ package maintainers of changes made in a dependency. The **WIBY** program, when 
 Request against the dependent package informing of the change. The **intent** is to provide a notification of possible 
 breakages of the dependent due to reliance on a dependency. No distinction is made between dev and non-dev dependencies.
 They are all dependencies that could break "the-example-dependent" in some operational or test manner.
+
+![Dependent Dependency Relationship](./images/Dependent-Dependency-Relationship.png)
 
 ## Examples
 
@@ -45,6 +47,16 @@ In this simple case the **dependent** package is called "the-example-dependent" 
 If WIBY were configured in the dependencies **tap** and **fastify** then changes in the these dependencies would raise a
 Pull Request agaist the "the-example-dependent" when the WIBY command was run within these repositories.
 
+## Example 1, simply dependent breakage check run locally
+Given a dependent, example-dependent-id-a, and its dependency example-dependency-id-a the following steps are required
+to raise a notification against the dependent of changes in the dependency.
+
+- install wiby as a dependency of example-dependency-id-a
+- create the .wiby.json configuration file
+- run wiby test in the dependency example-dependency-id-a
+
+
+
 ...TODO
 
 example 1 working example with a single dependent and dependency. using github actions to build the dependency and run
@@ -57,3 +69,5 @@ discover on the way.
 - This does raise questions about where code should be stored, this is very github dependent.
 - Do we need a specific github action for wiby? Meaning in the market place
 - how do we bridge the gap between the repo changes or PRs in the dependencies and the dependent only really understanding npm modules (not repos)
+- significant .wiby.json example files are going to be required and will need its own setup.md file with lots of examples
+- do we need to address complex repos with complex build steps
