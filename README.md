@@ -139,9 +139,9 @@ export GITHUB_TOKEN=XXXXX
 wiby test
 ```
 
-![Wiby Test Cli Command Output](./images/wiby-test-cli-screenshot.png)
+![Wiby Test Cli Command Output](./images/wiby-test-cli-with-callouts.png)
 
 This raises a PR against the dependent as specified in the ".wiby.json" file
 
-![Example PR raised by Wiby on Dependent](./images/github-pr-raised-from-wiby-test-command.png)
+![Example PR raised by Wiby on Dependent](./images/PR-from-wiby-with-callouts.png)
 
