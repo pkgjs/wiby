@@ -175,8 +175,7 @@ for this example it is assumed that the dependency "example-dependency-id-a" has
 ```
 This means that example-dependency-id-a knows that upstream example-dependent-id-a consumes it.
 
-When *wiby clean* is run. The parent dependency, in this case example-dependency-id-a, which raised a PR against the
-dependent module , in this case example-dependent-id-a, deletes the previously raised PR.
+When *wiby clean* is run. The parent dependency's PR, in this case example-dependency-id-a, is removed.
 
 ![Wiby clean run on command line via .wiby.json file](./images/wiby-clean-example-on-cli.png)
 
