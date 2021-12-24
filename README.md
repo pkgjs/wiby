@@ -154,7 +154,7 @@ remove a PR that has been previously raised by *Wiby*. The *wiby clean* command 
 PR that was previously raised by running the *wiby test* command.
 
 The following example demonstrates the use of *wiby clean* based upon the specified dependents in the ".wiby.json" 
-configuration file. It is to be noted that command line arguements may also be used instead of the ".wiby.json" file.
+configuration file. It is to be noted that command line arguments may also be used instead of the ".wiby.json" file.
 The PR raised in the dependent is identified using wiby's PR naming schema.
 
 The following steps are required to run *wiby clean*
