@@ -62,7 +62,7 @@ Example:
 - Create a new release by running `npx semantic-release`.
 ## Examples
 
-The following is the most simple use case.
+The following is the most simple use case for *wiby test*
 
 The dependent npm package has the following package.json file
 ```json
@@ -98,7 +98,7 @@ If WIBY were configured in the dependencies ***@gvhinks/example-dependency-id-a 
 dependency would raise a Pull Request agaist the "example-dependent-id-a" when the WIBY command was run within this
 repository.
 
-## Example 1, simply dependent breakage check run locally
+### Example 1, simply dependent breakage check run locally
 Given a dependent, example-dependent-id-a, and its dependency example-dependency-id-a the following steps are required
 to raise a notification against the dependent of changes in the dependency.
 
@@ -107,14 +107,15 @@ to raise a notification against the dependent of changes in the dependency.
 - ensure that GITHUB_TOKEN is exported
 - run wiby test in the dependency example-dependency-id-a
 
-This will raise a PR against the dependent configured in the .wiby.json configuration file.
+This will raise a PR against the dependent configured in the .wiby.json configuration file. It is also possible to use
+wiby with command line arguments and this will be shown in a subsequent example.
 
-### Step #1 Install Wiby
+#### Step #1 Install Wiby
 ```shell
 npm i wiby -D
 ```
 
-### Step #2 create the .wiby.json configuration file
+#### Step #2 create the .wiby.json configuration file
 
 ```shell
 echo '{
@@ -126,14 +127,15 @@ echo '{
   ]
 } ' > .wiby.json
 ```
+This means that example-dependency-id-a knows that upstream example-dependent-id-a consumes it.
 
-### Step #3 ensure GITHUB_TOKEN is exported
+#### Step #3 ensure GITHUB_TOKEN is exported
 
 ```shell
 export GITHUB_TOKEN=XXXXX
 ```
 
-### Step #4 Run Wiby locally
+#### Step #4 Run Wiby locally
 
 ```shell
 wiby test
@@ -144,4 +146,38 @@ wiby test
 This raises a PR against the dependent as specified in the ".wiby.json" file
 
 ![Example PR raised by Wiby on Dependent](./images/PR-from-wiby-with-callouts.png)
+
+### Example 2 *Wiby Clean*
+
+The *Wiby Test* command results in a PR being raised on the dependent package. The opposite of raising a PR would be to
+remove a PR that has been previously raised by *Wiby*. The *wiby clean* command carries out this action. It removes a 
+PR that was previously raised by running the *wiby test* command.
+
+The following example demonstrates the use of *wiby clean* based upon the specified dependents in the ".wiby.json" 
+configuration file. It is to be noted that command line arguements may also be used instead of the ".wiby.json" file.
+The PR raised in the dependent is identified using wiby's PR naming schema.
+
+The following steps are required to run *wiby clean*
+- ensure that GITHUB_TOKEN is exported
+- run wiby clean in the dependency example-dependency-id-a
+
+for this example it is assumed that the dependency "example-dependency-id-a" has a ".wiby.json" that contains 
+
+```json
+{
+  "dependents": [
+    {
+      "repository": "https://github.com/ghinks/example-dependent-id-a.git",
+      "pullRequest": true
+    }
+  ]
+}
+```
+This means that example-dependency-id-a knows that upstream example-dependent-id-a consumes it.
+
+When *wiby clean* is run. The parent dependency, in this case example-dependency-id-a, which raised a PR against the
+dependent module , in this case example-dependent-id-a, deletes the previously raised PR.
+
+![Wiby clean run on command line via .wiby.json file](./images/wiby-clean-example-on-cli.png)
+
 
