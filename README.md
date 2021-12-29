@@ -230,7 +230,7 @@ Will validate a file of another name for the schema below.
 ```json
    "dependents": [
     {
-      "repository": "https://github.com/some/repo
+      "repository": "https://github.com/some/repo"
       "pullRequest": true
     }
   ]
