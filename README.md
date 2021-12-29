@@ -54,6 +54,12 @@ Example:
 
 [wiby test](./USAGE.md#wiby-test)    Test your dependents
 
+[wiby clean](./USAGE.md#wiby-clean) Clean (delete) a PR raised by Wiby
+
+[wiby_close_pr](./USAGE.md#wiby-test) Close a PR that was raised by Wiby and successfully run
+
+[wiby_validate](./USAGE.md#wiby-validate) ...
+
 [wiby result](./USAGE.md#wiby-result) Fetch the results of your tests
 
 ## Development
@@ -94,7 +100,7 @@ In this simple case the **dependent** package is called "example-dependent-id-a"
 * tap
 * @gvhinks/example-dependency-id-a
 
-If WIBY were configured in the dependencies ***@gvhinks/example-dependency-id-a * then changes in the that
+If WIBY were configured in the dependencies **@gvhinks/example-dependency-id-a** then changes in the that
 dependency would raise a Pull Request agaist the "example-dependent-id-a" when the WIBY command was run within this
 repository.
 
@@ -147,11 +153,15 @@ This raises a PR against the dependent as specified in the ".wiby.json" file
 
 ![Example PR raised by Wiby on Dependent](./images/PR-from-wiby-with-callouts.png)
 
+It is to be noted that this example only uses one dependent object in the dependents array. The intent is that 
+many dependents may be tested in a real world scenario.
+
 ### Example 2 *Wiby Clean*
 
 The *Wiby Test* command results in a PR being raised on the dependent package. The opposite of raising a PR would be to
-remove a PR that has been previously raised by *Wiby*. The *wiby clean* command carries out this action. It removes a 
-PR that was previously raised by running the *wiby test* command.
+delete a PR that has been previously raised by *Wiby*. The *wiby clean* command carries out this action. It removes a 
+PR that was previously raised by running the *wiby test* command. Note that the PR is deleted no matter the state of the 
+PR. Meaning the PR will be deleted if the tests passed or failed.
 
 The following example demonstrates the use of *wiby clean* based upon the specified dependents in the ".wiby.json" 
 configuration file. It is to be noted that command line arguments may also be used instead of the ".wiby.json" file.
@@ -175,8 +185,26 @@ for this example it is assumed that the dependency "example-dependency-id-a" has
 ```
 This means that example-dependency-id-a knows that upstream example-dependent-id-a consumes it.
 
-When *wiby clean* is run. The parent dependency's PR, in this case example-dependency-id-a, is removed.
+When *wiby clean* is run. The parent dependency's PR, in this case example-dependency-id-a, is deleted.
 
 ![Wiby clean run on command line via .wiby.json file](./images/wiby-clean-example-on-cli.png)
 
 
+It is to be noted that this example only uses one dependent object in the dependents array. The intent is that
+many dependents may be cleaned in a real world scenario.
+
+### Example 3 Wiby close-pr
+When tests have been run successfully by wiby you can close the raised PRs with the wiby close pr command. The 
+
+- ensure that GITHUB_TOKEN is exported
+- run wiby close-pr
+
+```shell
+wiby close-pr
+```
+
+Only those tests that have passed successfully will have their PRs closed.
+
+![Wiby close-pr command line via .wiby.json file](./images/wiby-close-pr-cli.png)
+
+The close-pr command does delete the branch that was used to create the pull request.
