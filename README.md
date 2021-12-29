@@ -194,7 +194,8 @@ It is to be noted that this example only uses one dependent object in the depend
 many dependents may be cleaned in a real world scenario.
 
 ### Example 3 Wiby close-pr
-When tests have been run successfully by wiby you can close the raised PRs with the wiby close pr command. The 
+When tests have been run successfully by wiby you can close the raised PRs with the wiby close pr command. The same 
+pre-requisite of having a GITHUB_TOKEN applies.
 
 - ensure that GITHUB_TOKEN is exported
 - run wiby close-pr
@@ -208,3 +209,33 @@ Only those tests that have passed successfully will have their PRs closed.
 ![Wiby close-pr command line via .wiby.json file](./images/wiby-close-pr-cli.png)
 
 The close-pr command does delete the branch that was used to create the pull request.
+
+### Example 4 Wiby validate
+The although you can pass command line arguments to wiby the *.wiby.json* file is envisioned as the primary automation
+configuration file. The *.wiby.json* file has a particular schema which is enforced. To validate your *.wiby.json* file
+run the *wiby validate* command in the directory with your *.wiby.json* file.
+
+The validation is based upon the schema.
+
+```shell
+wiby validate
+```
+This will validate the .wiby.json file. Or the command
+
+```shell
+wiby validate --config other-config.json
+```
+Will validate a file of another name for the schema below.
+
+```json
+   "dependents": [
+    {
+      "repository": "https://github.com/some/repo
+      "pullRequest": true
+    }
+  ]
+```
+The repository field must be a valid URI with protocols 
+- https
+- git
+- git+https
