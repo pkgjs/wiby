@@ -68,6 +68,12 @@ Example:
 - Create a new release by running `npx semantic-release`.
 ## Examples
 
+- [wiby test](#example-1)
+- [wiby clean](#example-2)
+- [wiby close-pr](#example-3)
+- [wiby validate](#example-4)
+- [wiby result](#example-5)
+
 The following is the most simple use case for *wiby test*
 
 The dependent npm package has the following package.json file
@@ -104,7 +110,7 @@ If WIBY were configured in the dependencies **@gvhinks/example-dependency-id-a**
 dependency would raise a Pull Request agaist the "example-dependent-id-a" when the WIBY command was run within this
 repository.
 
-### Example 1, simply dependent breakage check run locally
+### <a id="example-1"></a>Example 1 wiby test, simply dependent breakage check run locally
 Given a dependent, example-dependent-id-a, and its dependency example-dependency-id-a the following steps are required
 to raise a notification against the dependent of changes in the dependency.
 
@@ -156,7 +162,7 @@ This raises a PR against the dependent as specified in the ".wiby.json" file
 It is to be noted that this example only uses one dependent object in the dependents array. The intent is that 
 many dependents may be tested in a real world scenario.
 
-### Example 2 *Wiby Clean*
+### <a id="example-2"></a>Example 2 *Wiby Clean*
 
 The *Wiby Test* command results in a PR being raised on the dependent package. The opposite of raising a PR would be to
 delete a PR that has been previously raised by *Wiby*. The *wiby clean* command carries out this action. It removes a 
@@ -193,7 +199,7 @@ When *wiby clean* is run. The parent dependency's PR, in this case example-depen
 It is to be noted that this example only uses one dependent object in the dependents array. The intent is that
 many dependents may be cleaned in a real world scenario.
 
-### Example 3 Wiby close-pr
+### <a id="example-3"></a>Example 3 Wiby close-pr
 When tests have been run successfully by wiby you can close the raised PRs with the wiby close pr command. The same 
 pre-requisite of having a GITHUB_TOKEN applies.
 
@@ -210,7 +216,7 @@ Only those tests that have passed successfully will have their PRs closed.
 
 The close-pr command does delete the branch that was used to create the pull request.
 
-### Example 4 Wiby validate
+### <a id="example-4"></a>Example 4 Wiby validate
 The although you can pass command line arguments to wiby the *.wiby.json* file is envisioned as the primary automation
 configuration file. The *.wiby.json* file has a particular schema which is enforced. To validate your *.wiby.json* file
 run the *wiby validate* command in the directory with your *.wiby.json* file.
@@ -240,7 +246,7 @@ The repository field must be a valid URI with protocols
 - git
 - git+https
 
-### Example 5 Wiby Result
+### <a id="example-5"></a>Example 5 Wiby Result
 
 When a wiby test is run the resulting PR raised will trigger the automated testing in the dependent's CI system. The 
 status of the PR raised by wiby can be interrogated using the **wiby result** command. This will fetch the status of 
