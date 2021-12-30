@@ -11,6 +11,9 @@ This will answer the question, "will I break you?", not "did I break you?".
 
 The most basic notification of a change in a dependency will be a PR raised in the the dependent repository.
 
+Wiby provides 5 basic commands test, clean, close, validate & result. The tool is intended to provide maintainers with a
+mechanism to both test and inform dependents of possible future breakages.
+
 ### Terminology
 The term **depenedent** shall mean an npm package that consumes another npm package, called a **dependency**, directly
 or indirectly via a tree of reliance through the package.json file. The **wiby** program exists to create a notification to the *dependent*
