@@ -58,7 +58,7 @@ Example:
 
 [wiby_close_pr](./USAGE.md#wiby-test) Close a PR that was raised by Wiby and successfully run
 
-[wiby_validate](./USAGE.md#wiby-validate) ...
+[wiby_validate](./USAGE.md#wiby-validate) Test the validity of the json in the .wiby.json file
 
 [wiby result](./USAGE.md#wiby-result) Fetch the results of your tests
 
@@ -239,3 +239,22 @@ The repository field must be a valid URI with protocols
 - https
 - git
 - git+https
+
+### Example 5 Wiby Result
+
+When a wiby test is run the resulting PR raised will trigger the automated testing in the dependent's CI system. The 
+status of the PR raised by wiby can be interrogated using the **wiby result** command. This will fetch the status of 
+the PR back to the command line.
+
+- ensure that GITHUB_TOKEN is exported
+- run wiby close-pr
+
+Immediately the wiby test command is run the 
+
+![wiby result before PR completes tests](./images/wiby-result-queued.png)
+
+After the tests have been queued the results will show that the checks are null.
+
+![wiby result after PR tests complete](./images/wiby-result-success.png)
+
+After the tests have run the results will show that the checks are successful.
