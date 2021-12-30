@@ -77,9 +77,12 @@ Example:
 - [wiby validate](#example-4)
 - [wiby result](#example-5)
 
-The following is the most simple use case for *wiby test*
 
-The dependent npm package has the following package.json file
+In the examples the dependent npm package has the following package.json file. From this it is clear it has a dependency
+on an example called [example-dependency-id-a](https://github.com/ghinks/example-dependency-id-a). The examples given 
+will show how to configure wiby so that the dependency "example-dependency-id-a" will be able to inform the dependent, 
+[example-dependent-id-a](https://github.com/ghinks/example-dependent-id-a), of prospective issues.
+
 ```json
 {
   "name": "example-dependent-id-a",
@@ -114,8 +117,9 @@ dependency would raise a Pull Request agaist the "example-dependent-id-a" when t
 repository.
 
 ### <a id="example-1"></a>Example 1 wiby test, simply dependent breakage check run locally
-Given a dependent, example-dependent-id-a, and its dependency example-dependency-id-a the following steps are required
-to raise a notification against the dependent of changes in the dependency.
+The following is the most simple use case for *wiby test*. Given a dependent, example-dependent-id-a, and its dependency 
+example-dependency-id-a the following steps are required to raise a notification against the dependent of changes in the 
+dependency.
 
 - install wiby as a dependency of example-dependency-id-a
 - create the .wiby.json configuration file
