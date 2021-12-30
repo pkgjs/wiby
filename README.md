@@ -56,9 +56,9 @@ Example:
 
 [wiby clean](./USAGE.md#wiby-clean) Clean (delete) a PR raised by Wiby
 
-[wiby_close_pr](./USAGE.md#wiby-test) Close a PR that was raised by Wiby and successfully run
+[wiby close_pr](./USAGE.md#wiby-test) Close a PR that was raised by Wiby and successfully run
 
-[wiby_validate](./USAGE.md#wiby-validate) Test the validity of the json in the .wiby.json file
+[wiby validate](./USAGE.md#wiby-validate) Test the validity of the json in the .wiby.json file
 
 [wiby result](./USAGE.md#wiby-result) Fetch the results of your tests
 
