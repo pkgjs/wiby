@@ -13,7 +13,7 @@
     "action-wiby-test": "npm install --production && ./bin/wiby test",
     "action-wiby-result": "npm install --production && ./bin/wiby result",
     "lint": "standard",
-    "pretest": "npm run lint",
+    "pretest": "[ \"$NODE_LTS_LATEST\" != \"\" ] && [ \"$MATRIX_NODE_VERSION\" != \"$NODE_LTS_LATEST\" ] && echo 'Skipping linting' || npm run lint",
     "test": "npm run tests-only",
     "tests-only": "tap",
     "generate-docs": "./bin/generate-usage.js"
