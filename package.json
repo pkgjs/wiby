@@ -31,7 +31,7 @@
   "dependencies": {
     "@octokit/graphql": "^4.5.0",
     "@octokit/rest": "^18.0.0",
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "debug": "^4.3.1",
     "dotenv": "^10.0.0",
     "git-url-parse": "^11.1.2",
