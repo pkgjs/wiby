@@ -21,6 +21,8 @@ Options:
   --dry-run    Print the list of branches to be removed.
 ```
 
+## `wiby close-pr`
+
 
 ## `wiby github-workflow install`
 
