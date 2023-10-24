@@ -52,6 +52,6 @@
   },
   "support": true,
   "engines": {
-    "node": "^16 || ^14 || ^12"
+    "node": "^20.0.0"
   }
 }
