@@ -7,8 +7,12 @@ const gitFixture = require('./fixtures/git')
 
 const wiby = require('..')
 
+const semver = require('semver')
+const isGTE20 = semver.satisfies(process.versions.node, '>= 20')
+const isGTE22 = semver.satisfies(process.versions.node, '>= 22')
+
 const invalidConfigs = {
-  'fail-bad-json.json': 'Unexpected end of JSON input',
+  'fail-bad-json.json': isGTE20 ? `${path.resolve(path.join(__dirname, 'fixtures', 'config', 'fail-bad-json.json'))}: Expected ':' after property name in JSON at position 23${isGTE22 ? ' (line 2 column 1)' : ''}"` : 'Unexpected end of JSON input',
   'fail-unknown-root-key.json': '"not-allowed" is not allowed',
   'fail-unknown-dependent-key.json': '"dependents[0].sub-key-not-allowed" is not allowed',
   'fail-dependent-not-url.json': '"dependents[0].repository" must be a valid uri'
@@ -51,7 +55,7 @@ tap.test('config validation', async (tap) => {
       tap.test(file, (tap) => {
         tap.throws(() => {
           wiby.validate({ config: path.join(__dirname, 'fixtures', 'config', file) })
-        }, { message: expectedError })
+        }, expectedError)
         tap.end()
       })
     }
