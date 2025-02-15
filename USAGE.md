@@ -22,6 +22,25 @@ Options:
 ```
 
 
+## `wiby close-pr`
+
+
+
+Use this command to close the PRs raised against your dependents. wiby will go
+off to the dependent’s repo and close the PRs raised that trigger jobs
+`package.json` pointing to your latest version (with the new changes) triggering
+the dependent’s CI to run.
+
+```
+Options:
+
+  --dependent  URL of a dependent                                       [string]
+  --config     Path to the configuration file. By default it will try to load
+               the configuration from the first file it finds in the current
+               working directory: `.wiby.json`, `.wiby.js`              [string]
+```
+
+
 ## `wiby github-workflow install`
 
 
@@ -73,10 +92,13 @@ changes) triggering the dependent’s CI to run.
 ```
 Options:
 
-  --dependent  URL of a dependent                                       [string]
-  --config     Path to the configuration file. By default it will try to load
-               the configuration from the first file it finds in the current
-               working directory: `.wiby.json`, `.wiby.js`              [string]
+  --dependent           URL of a dependent                              [string]
+  --pull-request, --pr  Raise a draft PR in addition to creating a branch
+                                                                       [boolean]
+  --config              Path to the configuration file. By default it will try
+                        to load the configuration from the first file it finds
+                        in the current working directory: `.wiby.json`,
+                        `.wiby.js`                                      [string]
 ```
 
 
