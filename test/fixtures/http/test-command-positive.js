@@ -10,17 +10,26 @@ nock.disableNetConnect()
 function nockPkgjsWiby (nockInstance) {
   return nockInstance
     // get package json
-    .post('/graphql', body => !!body.query.match(/HEAD/g))
+    .post('/graphql', body => !!body.query.match(/\$branch/g))
     .times(3)
     .reply(200, {
       data: {
         repository: {
           object: {
-            text: JSON.stringify({
-              dependencies: {
-                wiby: '*'
-              }
-            })
+            tree: {
+              entries: [
+                {
+                  name: "package.json",
+                  object: {
+                    text: JSON.stringify({
+                      dependencies: {
+                        wiby: '*'
+                      }
+                    })
+                  }
+                }
+              ]
+            }
           }
         }
       }
@@ -55,7 +64,7 @@ function nockPkgjsWiby (nockInstance) {
 function nockRepo (nockInstance, repo) {
   return nockInstance
     // get dependent commit sha
-    .get(`/repos/wiby-test/${repo}/commits?per_page=1`)
+    .get(`/repos/wiby-test/${repo}/commits?sha=HEAD&per_page=1`)
     .reply(200, [
       {
         sha: 'fake_sha',
