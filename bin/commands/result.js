@@ -10,6 +10,10 @@ exports.builder = (yargs) => yargs
     type: 'string',
     conflicts: 'config'
   })
+  .option('sha', {
+    desc: 'Commit or branch that was chosen for testing',
+    type: 'string'
+  })
   .option('config', {
     desc: 'Path to the configuration file. By default it will try to load the configuration from the first file it finds in the current working directory: `.wiby.json`, `.wiby.js`',
     type: 'string'
@@ -18,7 +22,7 @@ exports.builder = (yargs) => yargs
 exports.handler = async (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent }]
+        dependents: [{ repository: params.dependent, sha: params.sha || 'HEAD' }]
       }
     : wiby.validate({ config: params.config })
 

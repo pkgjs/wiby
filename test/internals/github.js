@@ -40,4 +40,25 @@ tap.test('tests for lib/github.js', async (tap) => {
       github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO)
     )
   })
+
+  tap.test('getPackageJson() handles without files', async (tap) => {
+    nock('https://api.github.com')
+      .post('/graphql')
+      .reply(200, {
+        data: {
+          repository: {
+            object: {
+              tree: {
+                entries: null
+              }
+            }
+          }
+        }
+      })
+
+    tap.rejects(
+      github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO),
+      new Error('Could not find the package.json in the repository')
+    )
+  })
 })

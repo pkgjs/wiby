@@ -6,7 +6,7 @@ const github = require('../../lib/github')
 const CONFIG = require('../fixtures/config')
 
 tap.test('package.json can be fetched with a valid url', async tap => {
-  const packageJson = await github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO)
+  const packageJson = await github.getPackageJson(CONFIG.DEP_ORG, CONFIG.DEP_REPO, 'HEAD')
   tap.match(packageJson, { ...CONFIG.PKGJSON, dependencies: { [CONFIG.PKG_NAME_INTEGRATION]: '*' } })
 }, { skip: !process.env.GITHUB_TOKEN })
 

@@ -34,6 +34,19 @@ tap.test('test command', async (tap) => {
     tap.match(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-running-unit-tests/package.json')
   })
 
+  tap.test('test command should call test module with sha hash', async (tap) => {
+    gitFixture.init()
+
+    const result = childProcess.execSync(`${wibyCommand} test --dependent="https://github.com/wiby-test/fakeRepo" --sha="fake"`, {
+      env: {
+        ...process.env,
+        NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
+      }
+    }).toString()
+
+    tap.match(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-running-unit-tests/package.json')
+  })
+
   tap.test('test command should call test module with all deps from .wiby.json', async (tap) => {
     gitFixture.init()
 
