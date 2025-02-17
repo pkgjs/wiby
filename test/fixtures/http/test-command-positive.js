@@ -63,8 +63,21 @@ function nockPkgjsWiby (nockInstance) {
 
 function nockRepo (nockInstance, repo) {
   return nockInstance
-    // get dependent commit sha
+    // get dependent commit sha without branch Defined
     .get(`/repos/wiby-test/${repo}/commits?sha=HEAD&per_page=1`)
+    .filteringPath(/sha=[^&]*/g, "sha=HEAD")
+    .reply(200, [
+      {
+        sha: 'fake_sha',
+        commit: {
+          tree: {
+            sha: 'fake_sha'
+          }
+        }
+      }
+    ])
+    // get dependent commit sha with branch Defined
+    .get(`/repos/wiby-test/${repo}/commits?sha=fake&per_page=1`)
     .reply(200, [
       {
         sha: 'fake_sha',

@@ -18,7 +18,7 @@ exports.builder = (yargs) => yargs
   })
   .option('branch', {
     desc: 'Choose which branch will be tested',
-    type: 'boolean',
+    type: 'string',
     conflicts: 'config'
   })
   .option('config', {
