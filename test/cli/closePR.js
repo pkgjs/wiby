@@ -40,4 +40,14 @@ tap.test('closePRs command', async (t) => {
     }).toString()
     t.match(result, '1 PRs closed\n')
   })
+  t.test('close-pr with no result as PR was failing', async (t) => {
+    const result = childProcess.execSync(`${wibyCommand} close-pr`, {
+      env: {
+        ...process.env,
+        NODE_OPTIONS: `-r ${fixturesPath}/http/close-pr-command-no-positive.js`
+      }
+    }).toString()
+    console.log(`pattern was => ${result}`)
+    t.match(result, '0 PRs closed\n')
+  })
 })
