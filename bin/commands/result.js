@@ -22,7 +22,7 @@ exports.builder = (yargs) => yargs
 exports.handler = async (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent, branch: params?.branch || 'HEAD' }]
+        dependents: [{ repository: params.dependent, branch: params.branch || 'HEAD' }]
       }
     : wiby.validate({ config: params.config })
 
