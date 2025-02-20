@@ -36,17 +36,20 @@ tap.test('config validation', async (tap) => {
         {
           repository: 'https://github.com/wiby-test/partial',
           pullRequest: false,
-          sha: 'HEAD'
+          sha: 'HEAD',
+          mode: "pull-request"
         },
         {
           repository: 'git://github.com/wiby-test/fail',
           pullRequest: false,
-          sha: 'HEAD'
+          sha: 'HEAD',
+          mode: "pull-request"
         },
         {
           repository: 'git+https://github.com/wiby-test/pass',
           pullRequest: true,
-          sha: 'HEAD'
+          sha: 'HEAD',
+          mode: "pull-request"
         }
       ]
     })
