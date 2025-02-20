@@ -19,7 +19,7 @@ function nockPkgjsWiby (nockInstance) {
             tree: {
               entries: [
                 {
-                  name: "package.json",
+                  name: 'package.json',
                   object: {
                     text: JSON.stringify({
                       dependencies: {
@@ -65,7 +65,7 @@ function nockRepo (nockInstance, repo) {
   return nockInstance
     // get dependent commit sha without branch Defined
     .get(`/repos/wiby-test/${repo}/commits?sha=HEAD&per_page=1`)
-    .filteringPath(/sha=[^&]*/g, "sha=HEAD")
+    .filteringPath(/sha=[^&]*/g, 'sha=HEAD')
     .reply(200, [
       {
         sha: 'fake_sha',

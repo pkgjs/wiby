@@ -18,7 +18,7 @@ nock('https://api.github.com')
           tree: {
             entries: [
               {
-                name: "package.json",
+                name: 'package.json',
                 object: {
                   text: JSON.stringify({
                     dependencies: {

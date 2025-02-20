@@ -36,17 +36,17 @@ tap.test('config validation', async (tap) => {
         {
           repository: 'https://github.com/wiby-test/partial',
           pullRequest: false,
-          branch: "HEAD"
+          branch: 'HEAD'
         },
         {
           repository: 'git://github.com/wiby-test/fail',
           pullRequest: false,
-          branch: "HEAD"
+          branch: 'HEAD'
         },
         {
           repository: 'git+https://github.com/wiby-test/pass',
           pullRequest: true,
-          branch: "HEAD"
+          branch: 'HEAD'
         }
       ]
     })

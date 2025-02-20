@@ -12,7 +12,7 @@ exports.builder = (yargs) => yargs
   })
   .option('branch', {
     desc: 'Branch that was chosen for testing',
-    type: 'string',
+    type: 'string'
   })
   .option('config', {
     desc: 'Path to the configuration file. By default it will try to load the configuration from the first file it finds in the current working directory: `.wiby.json`, `.wiby.js`',

@@ -73,7 +73,7 @@ tap.test('wiby.test()', async (tap) => {
               tree: {
                 entries: [
                   {
-                    name: "package.json",
+                    name: 'package.json',
                     object: {
                       text: JSON.stringify({
                         dependencies: {
