@@ -16,11 +16,20 @@ nock('https://api.github.com')
     data: {
       repository: {
         object: {
-          text: JSON.stringify({
-            dependencies: {
-              wiby: '*'
-            }
-          })
+          tree: {
+            entries: [
+              {
+                name: 'package.json',
+                object: {
+                  text: JSON.stringify({
+                    dependencies: {
+                      wiby: '*'
+                    }
+                  })
+                }
+              }
+            ]
+          }
         }
       }
     }
