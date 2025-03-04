@@ -10,8 +10,8 @@ exports.builder = (yargs) => yargs
     type: 'string',
     conflicts: 'config'
   })
-  .option('branch', {
-    desc: 'Branch that was chosen for testing',
+  .option('sha', {
+    desc: 'Commit or branch that was chosen for testing',
     type: 'string'
   })
   .option('config', {
@@ -22,7 +22,7 @@ exports.builder = (yargs) => yargs
 exports.handler = async (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent, branch: params.branch || 'HEAD' }]
+        dependents: [{ repository: params.dependent, sha: params.sha || 'HEAD' }]
       }
     : wiby.validate({ config: params.config })
 

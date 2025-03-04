@@ -50,7 +50,7 @@ tap.test('result command', async (tap) => {
     }
   })
 
-  tap.test('result command should call result module with branch name', async (tap) => {
+  tap.test('result command should call result module with sha hash', async (tap) => {
     const expected = fs.readFileSync(
       path.join(__dirname, '..', 'fixtures', 'expected-outputs', 'result', 'result-output-single-dependant.md'),
       'utf-8'
@@ -58,7 +58,7 @@ tap.test('result command', async (tap) => {
       .trim()
 
     try {
-      childProcess.execSync(`${wibyCommand} result --dependent="https://github.com/wiby-test/fakeRepo" --branch="fake"`, {
+      childProcess.execSync(`${wibyCommand} result --dependent="https://github.com/wiby-test/fakeRepo" --sha="fake"`, {
         env: {
           ...process.env,
           NODE_OPTIONS: `-r ${fixturesPath}/http/result-command-positive-pass.js`

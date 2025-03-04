@@ -10,7 +10,7 @@ nock.disableNetConnect()
 function nockPkgjsWiby (nockInstance) {
   return nockInstance
     // get package json
-    .post('/graphql', body => !!body.query.match(/\$branch/g))
+    .post('/graphql', body => !!body.query.match(/\$sha/g))
     .times(3)
     .reply(200, {
       data: {

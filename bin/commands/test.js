@@ -16,8 +16,8 @@ exports.builder = (yargs) => yargs
     type: 'boolean',
     conflicts: 'config'
   })
-  .option('branch', {
-    desc: 'Choose which branch will be tested',
+  .option('sha', {
+    desc: 'Test against a specific commit or branch',
     type: 'string'
   })
   .option('config', {
@@ -28,7 +28,7 @@ exports.builder = (yargs) => yargs
 exports.handler = (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent, pullRequest: !!params['pull-request'], branch: params.branch || 'HEAD' }]
+        dependents: [{ repository: params.dependent, pullRequest: !!params['pull-request'], sha: params.sha || 'HEAD' }]
       }
     : wiby.validate({ config: params.config })
 
