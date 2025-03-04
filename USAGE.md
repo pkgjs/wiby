@@ -74,6 +74,7 @@ against the patch branch wiby had created.
 Options:
 
   --dependent  URL of a dependent                                       [string]
+  --sha        Commit or branch that was chosen for testing             [string]
   --config     Path to the configuration file. By default it will try to load
                the configuration from the first file it finds in the current
                working directory: `.wiby.json`, `.wiby.js`              [string]
@@ -95,6 +96,7 @@ Options:
   --dependent           URL of a dependent                              [string]
   --pull-request, --pr  Raise a draft PR in addition to creating a branch
                                                                        [boolean]
+  --sha                 Test against a specific commit or branch        [string]
   --config              Path to the configuration file. By default it will try
                         to load the configuration from the first file it finds
                         in the current working directory: `.wiby.json`,
