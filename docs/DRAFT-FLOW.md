@@ -8,7 +8,7 @@
    - `wiby` would also be able to run on a specific commit.
    - [ ] Missing branch commit handling: [issue #46](https://github.com/pkgjs/wiby/issues/46)
 1. Indicate that you want to start your dependent tests by running `wiby test` while on the commit/branch/tag you wish to test.
-   - [ ] It's also possible to specify this using `--commit=sha`: [issue #49](https://github.com/pkgjs/wiby/issues/49)
+   - [x] It's also possible to specify this using `--sha=hash`: [issue #49](https://github.com/pkgjs/wiby/issues/49)
    - [ ] `wiby` will look for an existing log file for this HEAD, and error if it finds one. This will stop `wiby test` being run multiple times. You can override this check with `wiby test --overwrite`: [issue #50](https://github.com/pkgjs/wiby/issues/50)
    - [x] You can also run `--dependent` to specify a single dependent to test
 1. By default, `wiby` will look for your defined list of dependents to test against in `wiby.json`.
