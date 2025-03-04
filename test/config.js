@@ -35,15 +35,18 @@ tap.test('config validation', async (tap) => {
       dependents: [
         {
           repository: 'https://github.com/wiby-test/partial',
-          pullRequest: false
+          pullRequest: false,
+          sha: 'HEAD'
         },
         {
           repository: 'git://github.com/wiby-test/fail',
-          pullRequest: false
+          pullRequest: false,
+          sha: 'HEAD'
         },
         {
           repository: 'git+https://github.com/wiby-test/pass',
-          pullRequest: true
+          pullRequest: true,
+          sha: 'HEAD'
         }
       ]
     })

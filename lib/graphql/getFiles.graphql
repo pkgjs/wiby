@@ -1,0 +1,18 @@
+query($owner: String!, $repo: String!, $sha: String!) {
+  repository(name: $repo, owner: $owner) {
+    object(expression: $sha) {
+      ... on Commit {
+        tree {
+          entries {
+            name
+            object {
+              ... on Blob {
+                text
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

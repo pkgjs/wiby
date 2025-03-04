@@ -34,11 +34,20 @@ tap.test('wiby.result()', async (tap) => {
         data: {
           repository: {
             object: {
-              text: JSON.stringify({
-                dependencies: {
-                  'other-package': '*'
-                }
-              })
+              tree: {
+                entries: [
+                  {
+                    name: 'package.json',
+                    object: {
+                      text: JSON.stringify({
+                        dependencies: {
+                          'other-package': '*'
+                        }
+                      })
+                    }
+                  }
+                ]
+              }
             }
           }
         }
