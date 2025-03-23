@@ -27,5 +27,7 @@ jobs:
 
   test:
     uses: pkgjs/action/.github/workflows/node-test.yaml@main
+    with:
+      upgrade-policy: all
     secrets:
       test-secrets: '{"GITHUB_TOKEN":"${{ secrets.GITHUB_TOKEN }}"}'
