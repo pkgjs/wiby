@@ -16,7 +16,20 @@ const PENDING_RESULT_EXIT_CODE = 64
 
 tap.test('result command', async (tap) => {
   tap.beforeEach(async () => {
+    process.env.GITHUB_TOKEN = 'ghp_123_abc'
     gitFixture.init()
+  })
+
+  tap.test('result command should fail when github token is not set', async (tap) => {
+    process.env.GITHUB_TOKEN = ''
+    gitFixture.init()
+
+    try {
+      childProcess.execSync(`${wibyCommand} result`).toString()
+      tap.fail()
+    } catch (err) {
+      tap.equal(true, err.message.includes('GITHUB_TOKEN is required'))
+    }
   })
 
   tap.test('result command should fail when config and dependent provided', async (tap) => {
