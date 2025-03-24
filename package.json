@@ -1,6 +1,6 @@
 {
   "name": "wiby",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Will I Break You?",
   "bin": {
     "wiby": "bin/wiby"
