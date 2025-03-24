@@ -12,6 +12,7 @@ const wiby = require('..')
 
 tap.test('wiby.result()', async (tap) => {
   tap.beforeEach(async () => {
+    process.env.GITHUB_TOKEN = 'ghp_123_abc'
     nock.disableNetConnect()
     gitFixture.init()
   })
