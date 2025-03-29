@@ -11,7 +11,20 @@ const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
 
 tap.test('clean command', async (tap) => {
   tap.beforeEach(async () => {
+    process.env.GITHUB_TOKEN = 'ghp_123_abc'
     gitFixture.init()
+  })
+
+  tap.test('clean command should fail when github token is not set', async (tap) => {
+    process.env.GITHUB_TOKEN = ''
+    gitFixture.init()
+
+    try {
+      childProcess.execSync(`${wibyCommand} clean`).toString()
+      tap.fail()
+    } catch (err) {
+      tap.equal(true, err.message.includes('GITHUB_TOKEN is required'))
+    }
   })
 
   tap.test('should delete test branch in all configured test modules', async (tap) => {

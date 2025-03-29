@@ -10,8 +10,21 @@ const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
 
 tap.test('closePRs command', async (t) => {
   t.beforeEach(async () => {
+    process.env.GITHUB_TOKEN = 'ghp_123_abc'
     nock.disableNetConnect()
     gitFixture.init()
+  })
+
+  tap.test('close-pr command should fail when github token is not set', async (tap) => {
+    process.env.GITHUB_TOKEN = ''
+    gitFixture.init()
+
+    try {
+      childProcess.execSync(`${wibyCommand} close-pr`).toString()
+      tap.fail()
+    } catch (err) {
+      tap.equal(true, err.message.includes('GITHUB_TOKEN is required'))
+    }
   })
 
   t.test('close-pr should fail if config and dependent provided', async (t) => {
