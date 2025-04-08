@@ -18,7 +18,8 @@ exports.builder = (yargs) => yargs
   })
   .option('sha', {
     desc: 'Test against a specific commit or branch',
-    type: 'string'})
+    type: 'string'
+  })
   .option('mode', {
     desc: 'Choose the mode in which the package will be tested',
     type: 'string',

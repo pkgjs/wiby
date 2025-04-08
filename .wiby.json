@@ -2,15 +2,18 @@
   "dependents": [
     {
       "repository": "https://github.com/wiby-test/partial",
-      "pullRequest": false
+      "pullRequest": false,
+      "mode": "download"
     },
     {
       "repository": "git://github.com/wiby-test/fail",
-      "pullRequest": false
+      "pullRequest": false,
+      "mode": "download"
     },
     {
       "repository": "git+https://github.com/wiby-test/pass",
-      "pullRequest": true
+      "pullRequest": true,
+      "mode": "download"
     }
   ]
 }
