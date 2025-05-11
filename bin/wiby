@@ -9,7 +9,7 @@ process.on('unhandledRejection', (err) => {
 
 require('dotenv').config()
 
-const chalk = require('chalk')
+const colors = require('colors/safe');
 const yargs = require('yargs')
 
 yargs
@@ -24,7 +24,7 @@ yargs
     }
 
     if (msg) {
-      console.error(chalk.red.bold(msg));
+      console.error(colors.red.bold(msg));
       console.error();
     }
 

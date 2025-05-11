@@ -12,6 +12,7 @@ const wiby = require('..')
 
 tap.test('wiby.result()', async (tap) => {
   tap.beforeEach(async () => {
+    process.env.GITHUB_TOKEN = 'ghp_123_abc'
     nock.disableNetConnect()
     gitFixture.init()
   })
@@ -34,11 +35,20 @@ tap.test('wiby.result()', async (tap) => {
         data: {
           repository: {
             object: {
-              text: JSON.stringify({
-                dependencies: {
-                  'other-package': '*'
-                }
-              })
+              tree: {
+                entries: [
+                  {
+                    name: 'package.json',
+                    object: {
+                      text: JSON.stringify({
+                        dependencies: {
+                          'other-package': '*'
+                        }
+                      })
+                    }
+                  }
+                ]
+              }
             }
           }
         }

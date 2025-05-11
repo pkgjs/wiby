@@ -24,6 +24,25 @@ Options:
 ## `wiby close-pr`
 
 
+## `wiby close-pr`
+
+
+
+Use this command to close the PRs raised against your dependents. wiby will go
+off to the dependent’s repo and close the PRs raised that trigger jobs
+`package.json` pointing to your latest version (with the new changes) triggering
+the dependent’s CI to run.
+
+```
+Options:
+
+  --dependent  URL of a dependent                                       [string]
+  --config     Path to the configuration file. By default it will try to load
+               the configuration from the first file it finds in the current
+               working directory: `.wiby.json`, `.wiby.js`              [string]
+```
+
+
 ## `wiby github-workflow install`
 
 
@@ -57,6 +76,7 @@ against the patch branch wiby had created.
 Options:
 
   --dependent  URL of a dependent                                       [string]
+  --sha        Commit or branch that was chosen for testing             [string]
   --config     Path to the configuration file. By default it will try to load
                the configuration from the first file it finds in the current
                working directory: `.wiby.json`, `.wiby.js`              [string]
@@ -75,10 +95,14 @@ changes) triggering the dependent’s CI to run.
 ```
 Options:
 
-  --dependent  URL of a dependent                                       [string]
-  --config     Path to the configuration file. By default it will try to load
-               the configuration from the first file it finds in the current
-               working directory: `.wiby.json`, `.wiby.js`              [string]
+  --dependent           URL of a dependent                              [string]
+  --pull-request, --pr  Raise a draft PR in addition to creating a branch
+                                                                       [boolean]
+  --sha                 Test against a specific commit or branch        [string]
+  --config              Path to the configuration file. By default it will try
+                        to load the configuration from the first file it finds
+                        in the current working directory: `.wiby.json`,
+                        `.wiby.js`                                      [string]
 ```
 
 

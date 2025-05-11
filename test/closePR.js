@@ -5,6 +5,10 @@ const gitFixture = require('./fixtures/git')
 const closePR = require('../lib/closePR')
 
 tap.test('close PR', (t) => {
+  t.beforeEach(async () => {
+    process.env.GITHUB_TOKEN = 'ghp_123_abc'
+  })
+
   t.test('checks on internal call to github', (t) => {
     const owner = 'pkgjs'
     const repo = 'wiby'

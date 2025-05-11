@@ -1,6 +1,6 @@
 {
   "name": "wiby",
-  "version": "0.0.0-development",
+  "version": "0.10.2",
   "description": "Will I Break You?",
   "bin": {
     "wiby": "bin/wiby"
@@ -13,7 +13,7 @@
     "action-wiby-test": "npm install --production && ./bin/wiby test",
     "action-wiby-result": "npm install --production && ./bin/wiby result",
     "lint": "standard",
-    "pretest": "npm run lint",
+    "pretest": "[ \"$NODE_LTS_LATEST\" != \"\" ] && [ \"$MATRIX_NODE_VERSION\" != \"$NODE_LTS_LATEST\" ] && echo 'Skipping linting' || npm run lint",
     "test": "npm run tests-only",
     "tests-only": "tap",
     "generate-docs": "./bin/generate-usage.js"
@@ -31,18 +31,19 @@
   "dependencies": {
     "@octokit/graphql": "^4.5.0",
     "@octokit/rest": "^18.0.0",
-    "chalk": "^4.1.0",
+    "colors": "1.4.0",
     "debug": "^4.3.1",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "git-url-parse": "^11.1.2",
     "joi": "^17.2.1",
-    "simple-git": "^2.35.1",
     "yargs": "^17.0.0"
   },
   "devDependencies": {
     "nock": "^13.0.3",
+    "semver": "^7.7.1",
+    "simple-git": "~3.15.0",
     "standard": "^16.0.0",
-    "tap": "^15.0.0",
+    "tap": "^16.0.0",
     "tmp": "^0.2.1"
   },
   "standard": {
@@ -52,6 +53,6 @@
   },
   "support": true,
   "engines": {
-    "node": "^16 || ^14 || ^12"
+    "node": "^16 || ^14 || ^12 || >=18"
   }
 }

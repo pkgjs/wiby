@@ -67,14 +67,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout PR Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.event.repository.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Prepare Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.WIBY_NODE_VERSION }}
 
@@ -142,14 +142,14 @@ jobs:
     steps:
 
       - name: Checkout PR Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.event.repository.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Prepare Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.WIBY_NODE_VERSION }}
 

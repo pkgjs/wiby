@@ -10,6 +10,22 @@ const wibyCommand = path.join(__dirname, '..', '..', 'bin', 'wiby')
 const fixturesPath = path.resolve(path.join(__dirname, '..', 'fixtures'))
 
 tap.test('test command', async (tap) => {
+  tap.beforeEach(async () => {
+    process.env.GITHUB_TOKEN = 'ghp_123_abc'
+  })
+
+  tap.test('test command should fail when github token is not set', async (tap) => {
+    process.env.GITHUB_TOKEN = ''
+    gitFixture.init()
+
+    try {
+      childProcess.execSync(`${wibyCommand} test`).toString()
+      tap.fail()
+    } catch (err) {
+      tap.equal(true, err.message.includes('GITHUB_TOKEN is required'))
+    }
+  })
+
   tap.test('test command should fail when config and dependent provided', async (tap) => {
     gitFixture.init()
 
@@ -25,6 +41,19 @@ tap.test('test command', async (tap) => {
     gitFixture.init()
 
     const result = childProcess.execSync(`${wibyCommand} test --dependent="https://github.com/wiby-test/fakeRepo"`, {
+      env: {
+        ...process.env,
+        NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
+      }
+    }).toString()
+
+    tap.match(result, 'Changes pushed to https://github.com/wiby-test/fakeRepo/blob/wiby-running-unit-tests/package.json')
+  })
+
+  tap.test('test command should call test module with sha hash', async (tap) => {
+    gitFixture.init()
+
+    const result = childProcess.execSync(`${wibyCommand} test --dependent="https://github.com/wiby-test/fakeRepo" --sha="fake"`, {
       env: {
         ...process.env,
         NODE_OPTIONS: `-r ${fixturesPath}/http/test-command-positive.js`
