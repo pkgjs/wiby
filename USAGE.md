@@ -21,8 +21,6 @@ Options:
   --dry-run    Print the list of branches to be removed.
 ```
 
-## `wiby close-pr`
-
 
 ## `wiby close-pr`
 
