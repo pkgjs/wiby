@@ -42,7 +42,7 @@
   "devDependencies": {
     "nock": "^13.0.3",
     "semver": "^7.7.1",
-    "standard": "^16.0.0",
+    "standard": "^17.0.0",
     "tap": "^16.0.0",
     "tmp": "^0.2.1"
   },
