@@ -20,6 +20,12 @@ exports.builder = (yargs) => yargs
     desc: 'Test against a specific commit or branch',
     type: 'string'
   })
+  .option('mode', {
+    desc: 'Choose the mode in which the package will be tested',
+    type: 'string',
+    choices: ['download', 'pull-request'],
+    default: 'pull-request'
+  })
   .option('config', {
     desc: 'Path to the configuration file. By default it will try to load the configuration from the first file it finds in the current working directory: `.wiby.json`, `.wiby.js`',
     type: 'string'
@@ -28,7 +34,7 @@ exports.builder = (yargs) => yargs
 exports.handler = (params) => {
   const config = params.dependent
     ? {
-        dependents: [{ repository: params.dependent, pullRequest: !!params['pull-request'], sha: params.sha || 'HEAD' }]
+        dependents: [{ repository: params.dependent, pullRequest: !!params['pull-request'], sha: params.sha || 'HEAD', mode: params.mode || 'pull-request' }]
       }
     : wiby.validate({ config: params.config })
 
