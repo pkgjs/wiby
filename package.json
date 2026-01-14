@@ -9,6 +9,12 @@
   "directories": {
     "test": "test"
   },
+  "files": [
+    "lib",
+    "bin",
+    ".github/workflows/wiby.yaml",
+    "package-support.json"
+  ],
   "scripts": {
     "action-wiby-test": "npm install --production && ./bin/wiby test",
     "action-wiby-result": "npm install --production && ./bin/wiby result",
