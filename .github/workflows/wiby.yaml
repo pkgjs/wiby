@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Get status
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         with:
           route: GET /repos/:repository/commits/:ref/check-runs
           repository: ${{ github.event.repository.full_name }}
@@ -53,7 +53,7 @@ jobs:
     steps:
 
       - name: Set "queued" status
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         with:
           route: POST /repos/:repository/check-runs
           repository: ${{ github.event.repository.full_name }}
@@ -91,7 +91,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WIBY_TOKEN }}
 
       - name: Handle errors
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         if: ${{ failure() }}
         with:
           route: POST /repos/:repository/check-runs
@@ -106,7 +106,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set "in_progress" status
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         with:
           route: POST /repos/:repository/check-runs
           repository: ${{ github.event.repository.full_name }}
@@ -121,7 +121,7 @@ jobs:
 
       - name: Clean up the trigger label
         if: ${{ always() }}
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         with:
           route: DELETE /repos/:repository/issues/:issue_number/labels/:label_name
           repository: ${{ github.event.repository.full_name }}
@@ -187,7 +187,7 @@ jobs:
         id: wiby_result
 
       - name: Handle errors
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         if: ${{ failure() }}
         with:
           route: POST /repos/:repository/check-runs
@@ -202,7 +202,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set status from result
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         if: ${{ steps.wiby_result.outputs.wiby_conclusion != '' }}
         with:
           route: POST /repos/:repository/check-runs
@@ -218,7 +218,7 @@ jobs:
 
       - name: Clean up the trigger label
         if: ${{ always() }}
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v2.4.0
         with:
           route: DELETE /repos/:repository/issues/:issue_number/labels/:label_name
           repository: ${{ github.event.repository.full_name }}
